@@ -18,8 +18,8 @@ import { Sale, Profile } from "@/types";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   DollarSign, TrendingUp, Users, Gamepad2, Wrench, CheckCircle2,
-  Star, ArrowUpRight,
-  Percent, Activity, Clock
+  Star, BarChart3, Settings, ArrowUpRight,
+  Target, Zap, Percent, Activity, Receipt, Clock
 } from "lucide-react";
 import { AttendanceToggle } from "@/components/AttendanceToggle";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -85,7 +85,7 @@ const OverviewRevenueChart = React.lazy(() => import('@/components/dashboard/ove
 
 const DashboardOverview = () => {
   const { user, role } = useAuth();
-  const { sales, clients, sessions: dataSessions, serviceRequests: dataServiceRequests, isLoading: isDataLoading } = useData();
+  const { sales, clients, products, sessions: dataSessions, serviceRequests: dataServiceRequests, isLoading: isDataLoading } = useData();
   const { t, language, dir } = useLanguage();
   const isRTL = dir === 'rtl';
   const { data: todayStats } = useTodayStats();

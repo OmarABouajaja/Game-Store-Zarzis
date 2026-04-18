@@ -319,7 +319,7 @@ Game Store Zarzis - Intelligence Business
                             <Skeleton className="h-8 w-full bg-white/5" />
                           ) : (
                             <p className="text-xl sm:text-2xl font-bold text-orange-600 truncate">
-                              {topProducts[0]?.name || t("common.cancel")}
+                              {topProducts[0]?.name || 'N/A'}
                             </p>
                           )}
                           <div className="flex items-center mt-1">

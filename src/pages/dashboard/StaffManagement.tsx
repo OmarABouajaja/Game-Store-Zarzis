@@ -34,7 +34,7 @@ interface StaffMember {
 }
 
 const StaffManagement = () => {
-  const { user, isOwner, session } = useAuth();
+  const { user, isOwner, session, refreshRole } = useAuth();
   const { t, language } = useLanguage();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<StaffMember | null>(null);
@@ -155,12 +155,24 @@ const StaffManagement = () => {
 
         if (error) throw error;
 
+        // Optimistically update local state so stats refresh instantly
+        setStaffMembers(prev =>
+          prev.map(m =>
+            m.id === editingUser.id ? { ...m, role: formData.role } : m
+          )
+        );
+
+        // If editing the current user's own role, refresh AuthContext immediately
+        if (editingUser.id === user?.id) {
+          await refreshRole();
+        }
+
         toast({
           title: t("staff.role_updated"),
           description: t("staff.role_updated_desc", { email: editingUser.email })
         });
 
-        // Refresh the list
+        // Refresh the list from DB to be safe
         await fetchStaffMembers();
 
       } else {

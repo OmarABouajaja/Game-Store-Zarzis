@@ -20,6 +20,7 @@ interface AuthContextType {
   clockOut: () => Promise<void>;
   isClockedIn: boolean;
   currentSessionStartTime: string | null;
+  refreshRole: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -427,6 +428,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setRole(null);
   };
 
+  const refreshRole = async () => {
+    if (!user) return;
+    const fetchedRole = await fetchUserRole(user.id);
+    if (fetchedRole) {
+      setRole(fetchedRole);
+      localStorage.setItem('user_role', fetchedRole);
+    }
+  };
+
   const contextValue = useMemo(() => ({
     user,
     session,
@@ -442,6 +452,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     clockOut,
     isClockedIn,
     currentSessionStartTime,
+    refreshRole,
   }), [user, session, role, isLoading, isClockedIn, currentSessionStartTime]);
 
   return (

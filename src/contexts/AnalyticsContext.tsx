@@ -47,9 +47,10 @@ export const AnalyticsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }, []);
 
     const summary = useMemo(() => {
+        // Business day: 7:00 AM to 6:59 AM next day
         const getLogicalBusinessDate = (date: Date) => {
             const logicalDate = new Date(date);
-            if (logicalDate.getHours() < 8) {
+            if (logicalDate.getHours() < 7) {
                 logicalDate.setDate(logicalDate.getDate() - 1);
             }
             return logicalDate;
@@ -66,24 +67,34 @@ export const AnalyticsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         const logicalNow = getLogicalBusinessDate(now);
         const todayStr = getLocalDayStr(logicalNow);
 
+        // Weekly: Sunday to Saturday of current week
+        const dayOfWeek = logicalNow.getDay(); // 0 = Sunday
+        const weekStart = new Date(logicalNow);
+        weekStart.setDate(logicalNow.getDate() - dayOfWeek);
+        weekStart.setHours(0, 0, 0, 0);
+        const weekEnd = new Date(weekStart);
+        weekEnd.setDate(weekStart.getDate() + 6);
+        weekEnd.setHours(23, 59, 59, 999);
+
+        // Monthly: Current calendar month
+        const monthStart = new Date(logicalNow.getFullYear(), logicalNow.getMonth(), 1);
+        const monthEnd = new Date(logicalNow.getFullYear(), logicalNow.getMonth() + 1, 0, 23, 59, 59, 999);
+
         // Filter data based on timeRange
         const filterByTime = (dateStr: string) => {
             const date = new Date(dateStr);
+            const logicalDate = getLogicalBusinessDate(date);
             if (timeRange === 'today') {
-                return getLocalDayStr(getLogicalBusinessDate(date)) === todayStr;
+                return getLocalDayStr(logicalDate) === todayStr;
             }
             if (timeRange === 'weekly') {
-                const lastWeek = new Date(logicalNow);
-                lastWeek.setDate(logicalNow.getDate() - 7);
-                return getLogicalBusinessDate(date) >= lastWeek;
+                return logicalDate >= weekStart && logicalDate <= weekEnd;
             }
             if (timeRange === 'monthly') {
-                const lastMonth = new Date(logicalNow);
-                lastMonth.setMonth(logicalNow.getMonth() - 1);
-                return getLogicalBusinessDate(date) >= lastMonth;
+                return logicalDate >= monthStart && logicalDate <= monthEnd;
             }
             if (timeRange === 'yearly') {
-                return getLogicalBusinessDate(date).getFullYear() === logicalNow.getFullYear();
+                return logicalDate.getFullYear() === logicalNow.getFullYear();
             }
             return true;
         };

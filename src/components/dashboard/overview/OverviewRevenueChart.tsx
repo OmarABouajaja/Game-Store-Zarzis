@@ -13,9 +13,10 @@ interface Transaction {
     amount: number;
 }
 
+// Business day: 7:00 AM to 6:59 AM next day
 function getLogicalBusinessDate(date: Date) {
     const logicalDate = new Date(date);
-    if (logicalDate.getHours() < 8) {
+    if (logicalDate.getHours() < 7) {
         logicalDate.setDate(logicalDate.getDate() - 1);
     }
     return logicalDate;
@@ -28,14 +29,13 @@ function getLocalDayStr(d: Date) {
     return `${year}-${month}-${day}`;
 }
 
-// Helper to process sales for today (hourly using Business Day 08:00 -> 07:00)
+// Jour: hourly from 7:00 AM to 6:59 AM next day (24 hours)
 function getTodayRevenue(transactions: Transaction[]) {
-    // Business day hours: 8 AM to 7 AM next day
     const hours = [
-        ...Array.from({ length: 16 }, (_, i) => i + 8), // 8 to 23
-        ...Array.from({ length: 8 }, (_, i) => i)       // 0 to 7
+        ...Array.from({ length: 17 }, (_, i) => i + 7), // 7 to 23
+        ...Array.from({ length: 7 }, (_, i) => i)        // 0 to 6
     ];
-    
+
     const now = new Date();
     const todayStr = getLocalDayStr(getLogicalBusinessDate(now));
 
@@ -56,31 +56,85 @@ function getTodayRevenue(transactions: Transaction[]) {
     });
 }
 
-// Helper to process sales for a daily range (Weekly or Monthly) using Business Days
-function getDailyRevenueRange(transactions: Transaction[], daysBack: number) {
+// Semaine: Sunday to Saturday of the current week
+function getWeeklyRevenue(transactions: Transaction[]) {
     const data = [];
     const now = new Date();
     const logicalToday = getLogicalBusinessDate(now);
 
-    for (let i = daysBack - 1; i >= 0; i--) {
-        const d = new Date(logicalToday);
-        d.setDate(logicalToday.getDate() - i);
+    // Find Sunday of the current week
+    const dayOfWeek = logicalToday.getDay(); // 0 = Sunday
+    const sunday = new Date(logicalToday);
+    sunday.setDate(logicalToday.getDate() - dayOfWeek);
+
+    for (let i = 0; i < 7; i++) {
+        const d = new Date(sunday);
+        d.setDate(sunday.getDate() + i);
         const dateStr = getLocalDayStr(d);
 
         const dayRevenue = transactions
             .filter(t => getLocalDayStr(getLogicalBusinessDate(t.date)) === dateStr)
             .reduce((sum, t) => sum + t.amount, 0);
 
-        // Format label based on range
         const displayLabel = d.toLocaleDateString('fr-FR', {
-            weekday: daysBack <= 7 ? 'short' : undefined,
-            day: 'numeric',
-            month: daysBack > 7 ? 'short' : undefined
+            weekday: 'short',
+            day: 'numeric'
         });
 
         data.push({
             label: displayLabel,
             revenue: Number(dayRevenue.toFixed(2))
+        });
+    }
+    return data;
+}
+
+// Mois: Current calendar month day by day
+function getMonthlyRevenue(transactions: Transaction[]) {
+    const data = [];
+    const now = new Date();
+    const logicalToday = getLogicalBusinessDate(now);
+    const year = logicalToday.getFullYear();
+    const month = logicalToday.getMonth();
+
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    for (let day = 1; day <= daysInMonth; day++) {
+        const d = new Date(year, month, day);
+        const dateStr = getLocalDayStr(d);
+
+        const dayRevenue = transactions
+            .filter(t => getLocalDayStr(getLogicalBusinessDate(t.date)) === dateStr)
+            .reduce((sum, t) => sum + t.amount, 0);
+
+        data.push({
+            label: day.toString(),
+            revenue: Number(dayRevenue.toFixed(2))
+        });
+    }
+    return data;
+}
+
+// Année: Each month of the current year
+function getYearlyRevenue(transactions: Transaction[]) {
+    const data = [];
+    const now = new Date();
+    const logicalToday = getLogicalBusinessDate(now);
+    const year = logicalToday.getFullYear();
+
+    const monthNames = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'];
+
+    for (let month = 0; month < 12; month++) {
+        const monthRevenue = transactions
+            .filter(t => {
+                const logicalDate = getLogicalBusinessDate(t.date);
+                return logicalDate.getFullYear() === year && logicalDate.getMonth() === month;
+            })
+            .reduce((sum, t) => sum + t.amount, 0);
+
+        data.push({
+            label: monthNames[month],
+            revenue: Number(monthRevenue.toFixed(2))
         });
     }
     return data;
@@ -98,36 +152,50 @@ const OverviewRevenueChart = ({ sales: propSales, timeRange, setTimeRange, isOwn
     const { t } = useLanguage();
     const { sales: contextSales, sessions, serviceRequests } = useData();
 
+    // Get current month name for the monthly chart title
+    const currentMonthName = useMemo(() => {
+        const now = new Date();
+        return now.toLocaleDateString('fr-FR', { month: 'long' });
+    }, []);
+
     const revenueData = useMemo(() => {
         if (isLoading) return [];
-        
+
         // Merge all revenue streams
-        // Fallback to propSales if context is empty
         const activeSales = contextSales?.length ? contextSales : (propSales || []);
-        
+
         const allTransactions: Transaction[] = [
-            ...(activeSales).map(s => ({ 
-                date: new Date(s.created_at), 
-                amount: Number(s.total_amount) 
+            ...(activeSales).map(s => ({
+                date: new Date(s.created_at),
+                amount: Number(s.total_amount)
             })),
             ...(sessions || [])
                 .filter(s => s.status === 'completed' && s.created_at)
-                .map(s => ({ 
-                    date: new Date(s.created_at!), 
-                    amount: Number(s.total_amount || 0) 
+                .map(s => ({
+                    date: new Date(s.created_at!),
+                    amount: Number(s.total_amount || 0)
                 })),
             ...(serviceRequests || [])
                 .filter(s => s.status === 'completed')
-                .map(s => ({ 
-                    date: new Date(s.created_at), 
-                    amount: Number(s.final_cost || s.quoted_price || 0) 
+                .map(s => ({
+                    date: new Date(s.created_at),
+                    amount: Number(s.final_cost || s.quoted_price || 0)
                 }))
         ];
 
         if (timeRange === 'today') return getTodayRevenue(allTransactions);
-        if (timeRange === 'weekly') return getDailyRevenueRange(allTransactions, 7);
-        return getDailyRevenueRange(allTransactions, 30);
+        if (timeRange === 'weekly') return getWeeklyRevenue(allTransactions);
+        if (timeRange === 'monthly') return getMonthlyRevenue(allTransactions);
+        return getYearlyRevenue(allTransactions);
     }, [contextSales, propSales, sessions, serviceRequests, timeRange, isLoading]);
+
+    const chartTitle = useMemo(() => {
+        if (timeRange === 'today') return t("dashboard.chart.daily_breakdown");
+        if (timeRange === 'weekly') return t("dashboard.chart.weekly_trend");
+        if (timeRange === 'yearly') return `${t("dashboard.chart.monthly_trend")} ${new Date().getFullYear()}`;
+        // Monthly: show the actual month name
+        return `${currentMonthName.charAt(0).toUpperCase() + currentMonthName.slice(1)}`;
+    }, [timeRange, t, currentMonthName]);
 
     if (isLoading) {
         return (
@@ -146,17 +214,15 @@ const OverviewRevenueChart = ({ sales: propSales, timeRange, setTimeRange, isOwn
             <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="flex items-center gap-2">
                     <BarChart3 className="w-5 h-5 text-primary" />
-                    {timeRange === 'today' ? t("dashboard.chart.daily_breakdown") :
-                        timeRange === 'weekly' ? t("dashboard.chart.weekly_trend") :
-                            t("dashboard.chart.monthly_trend")}
+                    {chartTitle}
                 </CardTitle>
                 {isOwner && (
                     <Tabs value={timeRange} onValueChange={(v: string) => setTimeRange(v as 'today' | 'weekly' | 'monthly' | 'yearly')}>
                         <TabsList className="bg-black/20 h-8">
                             <TabsTrigger value="today" className="text-xs h-7">{t("sales.today")}</TabsTrigger>
                             <TabsTrigger value="weekly" className="text-xs h-7">{t("common.weekday")}</TabsTrigger>
-                            <TabsTrigger value="monthly" className="text-xs h-7">{t("common.month") || 'Month'}</TabsTrigger>
-                            <TabsTrigger value="yearly" className="text-xs h-7">{t("common.year") || 'Year'}</TabsTrigger>
+                            <TabsTrigger value="monthly" className="text-xs h-7">{t("common.month")}</TabsTrigger>
+                            <TabsTrigger value="yearly" className="text-xs h-7">{t("common.year")}</TabsTrigger>
                         </TabsList>
                     </Tabs>
                 )}
@@ -169,9 +235,10 @@ const OverviewRevenueChart = ({ sales: propSales, timeRange, setTimeRange, isOwn
                             <XAxis
                                 dataKey="label"
                                 stroke="hsl(var(--muted-foreground))"
-                                fontSize={12}
+                                fontSize={timeRange === 'monthly' ? 10 : 12}
                                 tickLine={false}
                                 axisLine={false}
+                                interval={timeRange === 'monthly' ? 2 : timeRange === 'today' ? 2 : 0}
                             />
                             <YAxis
                                 stroke="hsl(var(--muted-foreground))"
@@ -196,7 +263,7 @@ const OverviewRevenueChart = ({ sales: propSales, timeRange, setTimeRange, isOwn
                                 dataKey="revenue"
                                 stroke="hsl(var(--primary))"
                                 strokeWidth={3}
-                                dot={{ fill: "hsl(var(--primary))", r: 4, strokeWidth: 2, stroke: "hsl(var(--background))" }}
+                                dot={timeRange === 'monthly' ? false : { fill: "hsl(var(--primary))", r: 4, strokeWidth: 2, stroke: "hsl(var(--background))" }}
                                 activeDot={{ r: 6, strokeWidth: 0, fill: "hsl(var(--primary))" }}
                             />
                         </LineChart>

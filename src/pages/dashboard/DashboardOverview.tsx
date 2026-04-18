@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useMemo, useEffect } from "react";
+import { motion } from "framer-motion";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import DashboardLayout from "@/components/DashboardLayout";
 import { useAuth } from "@/contexts/AuthContext";
@@ -11,38 +11,72 @@ import { useTodayStats } from "@/hooks/useStats";
 import { useConsoles } from "@/hooks/useConsoles";
 import { useServiceRequests } from "@/hooks/useServiceRequests";
 import { useActiveSessions } from "@/hooks/useGamingSessions";
-import { useExpenses } from "@/hooks/useExpenses";
 import { useAllActiveShifts } from "@/hooks/useStaffShifts";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
-import { Sale, StaffShift, Profile } from "@/types";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Sale, Profile } from "@/types";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   DollarSign, TrendingUp, Users, Gamepad2, Wrench, CheckCircle2,
-  Star, Gift, BarChart3, Settings, ArrowUpRight, ArrowDownRight,
-  Target, Zap, Award, Percent, Activity, Receipt, PieChart, Clock
+  Star, ArrowUpRight,
+  Percent, Activity, Clock
 } from "lucide-react";
 import { AttendanceToggle } from "@/components/AttendanceToggle";
 import { Skeleton } from "@/components/ui/skeleton";
 
 
-// Helper to get top products
-function getTopProducts(sales: Sale[]) {
-  const productCount: Record<string, number> = {};
+// Helper to get the top income source across ALL transaction types
+function getTopIncomeSource(
+  sales: Sale[],
+  sessions: { status: string; total_amount: number; created_at?: string }[],
+  services: { status: string; final_cost?: number; quoted_price?: number; created_at: string }[],
+  labels: { gaming: string; services: string; sales: string }
+) {
+  const counts: Record<string, { name: string; count: number; revenue: number }> = {};
 
+  // Count product sales (individual items if available)
+  let salesWithItems = 0;
   sales.forEach(sale => {
-    if (sale.sale_items) {
+    if (sale.sale_items && sale.sale_items.length > 0) {
+      salesWithItems++;
       sale.sale_items.forEach((item) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const name = (item as any).product_name || `Product ${item.product_id}`;
-        productCount[name] = (productCount[name] || 0) + (item.quantity || 1);
+        if (!counts[name]) counts[name] = { name, count: 0, revenue: 0 };
+        counts[name].count += (item.quantity || 1);
+        counts[name].revenue += Number(item.total_price || 0);
       });
     }
   });
 
-  return Object.entries(productCount)
-    .map(([name, count]) => ({ name, count }))
+  // Count sales without items as generic "Sales" category
+  const salesWithoutItems = sales.length - salesWithItems;
+  if (salesWithoutItems > 0) {
+    const genericSalesRevenue = sales
+      .filter(s => !s.sale_items || s.sale_items.length === 0)
+      .reduce((sum, s) => sum + Number(s.total_amount || 0), 0);
+    counts[labels.sales] = {
+      name: labels.sales,
+      count: salesWithoutItems,
+      revenue: genericSalesRevenue
+    };
+  }
+
+  // Count gaming sessions as a category
+  const completedSessions = sessions.filter(s => s.status === 'completed');
+  if (completedSessions.length > 0) {
+    const gamingRevenue = completedSessions.reduce((sum, s) => sum + Number(s.total_amount || 0), 0);
+    counts[labels.gaming] = { name: labels.gaming, count: completedSessions.length, revenue: gamingRevenue };
+  }
+
+  // Count services as a category
+  const completedServices = services.filter(r => r.status === 'completed');
+  if (completedServices.length > 0) {
+    const serviceRevenue = completedServices.reduce((sum, r) => sum + Number(r.final_cost || r.quoted_price || 0), 0);
+    counts[labels.services] = { name: labels.services, count: completedServices.length, revenue: serviceRevenue };
+  }
+
+  return Object.values(counts)
     .sort((a, b) => b.count - a.count)
     .slice(0, 5);
 }
@@ -51,7 +85,7 @@ const OverviewRevenueChart = React.lazy(() => import('@/components/dashboard/ove
 
 const DashboardOverview = () => {
   const { user, role } = useAuth();
-  const { sales, clients, products, isLoading: isDataLoading } = useData();
+  const { sales, clients, sessions: dataSessions, serviceRequests: dataServiceRequests, isLoading: isDataLoading } = useData();
   const { t, language, dir } = useLanguage();
   const isRTL = dir === 'rtl';
   const { data: todayStats } = useTodayStats();
@@ -61,30 +95,39 @@ const DashboardOverview = () => {
   const { summary, timeRange, setTimeRange, isLoading: isAnalyticsLoading } = useAnalytics();
   const { data: activeShiftsRaw } = useAllActiveShifts();
 
+  const isOwner = role === "owner";
+
+  // Workers can only see 'today' stats and chart
+  useEffect(() => {
+    if (!isOwner && timeRange !== 'today') {
+      setTimeRange('today');
+    }
+  }, [isOwner, timeRange, setTimeRange]);
+
   // Deduplicate active shifts by staff_id for display
   const activeShifts = useMemo(() => {
     if (!activeShiftsRaw) return [];
 
-    const uniqueStaffIds = new Set();
-    return activeShiftsRaw.filter((shift: StaffShift) => {
-      // Need to cast or fix hook type. For now suppressing since shifts structure is known but hook might trigger type mismatch
+    const uniqueStaffIds = new Set<string>();
+    return activeShiftsRaw.filter((shift: any) => {
       if (uniqueStaffIds.has(shift.staff_id)) return false;
       uniqueStaffIds.add(shift.staff_id);
       return true;
     });
   }, [activeShiftsRaw]);
 
-  const isOwner = role === "owner";
-
   // Calculate real-time stats (Keeping these as they are operational, not just financial)
   const availableConsoles = consoles?.filter(c => c.status === 'available').length || 0;
-  const activeConsoles = consoles?.filter(c => c.status === 'in_use').length || 0;
   const totalConsoles = consoles?.length || 0;
-  const pendingServices = serviceRequests?.filter(r => r.status === 'pending').length || 0;
+  const pendingServices = serviceRequests?.filter((r: any) => r.status === 'pending').length || 0;
 
-
-
-  const topProducts = useMemo(() => getTopProducts(sales || []), [sales]);
+  // Top income source across ALL transaction types
+  const topProducts = useMemo(() => getTopIncomeSource(
+    sales || [],
+    dataSessions || [],
+    dataServiceRequests || [],
+    { gaming: t("dashboard.gaming_revenue"), services: t("nav.services"), sales: t("sales.title") }
+  ), [sales, dataSessions, dataServiceRequests, t]);
 
   const handleShareRecap = () => {
     const now = new Date();
@@ -164,7 +207,7 @@ Game Store Zarzis - Intelligence Business
                   <div className="max-h-[250px] overflow-y-auto">
                     {activeShifts && activeShifts.length > 0 ? (
                       <div className="divide-y divide-white/5">
-                        {activeShifts.map((shift: StaffShift) => (
+                        {activeShifts.map((shift: any) => (
                           <div key={shift.id} className="p-3 flex items-center gap-3 hover:bg-white/5 transition-colors">
                             <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-[10px] font-bold text-primary uppercase">
                               {((shift.profile as Profile)?.full_name || (shift.profile as Profile)?.email || "?").substring(0, 2)}
@@ -324,7 +367,7 @@ Game Store Zarzis - Intelligence Business
                           )}
                           <div className="flex items-center mt-1">
                             <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-orange-500 me-1" />
-                            <span className="text-[10px] sm:text-xs text-orange-500 truncate">{isDataLoading ? "..." : (topProducts[0]?.count || 0)} {t("sales.quantity")}</span>
+                            <span className="text-[10px] sm:text-xs text-orange-500 truncate">{isDataLoading ? "..." : (topProducts[0]?.count || 0)} transactions</span>
                           </div>
                         </div>
                         <div className="p-2 sm:p-3 bg-orange-100 dark:bg-orange-500/20 rounded-full flex-shrink-0">

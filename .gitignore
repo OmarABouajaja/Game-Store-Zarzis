@@ -1,0 +1,150 @@
+# Dependencies
+node_modules
+/node_modules/
+/.pnp
+.pnp.js
+bower_components
+
+# Production builds
+dist
+dist-ssr
+build
+/build
+*.local
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Testing
+coverage
+.nyc_output
+*.coveragerc
+
+# IDEs and Editors
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+*.sublime-project
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.swp
+*~
+
+# Temporary files
+tmp
+temp
+*.tmp
+*.bak
+*.cache
+
+# Database
+*.sqlite
+*.sqlite3
+*.db
+
+# Python (backend)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+venv313/
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Supabase
+.supabase
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# TypeScript
+*.tsbuildinfo
+
+# Service worker
+sw.js.map
+
+# Misc
+.vercel
+.netlify
+.firebase
+.cache
+
+# Lock files (keep package-lock.json, remove others if needed)
+# Uncomment if you want to ignore lock files:
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# Generated documentation
+docs/generated/
+
+# Secrets and keys
+*.pem
+*.key
+*.p12
+secrets.json
+
+# macOS
+.AppleDouble
+.LSOverride
+
+# AI Assistants (prevent traces from being committed)
+.gemini/
+.agent/
+.cursor/
+.copilot/
+.github/copilot/

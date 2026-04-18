@@ -1,0 +1,227 @@
+{
+    "help.clients": {
+        "fr": "Gérez votre base de clients, consultez l'historique et échangez des points de fidélité.",
+        "en": "Manage your customer database, view history, and redeem loyalty points.",
+        "ar": "إدارة قاعدة بيانات العملاء، وعرض السجل، واستبدال نقاط الولاء."
+    },
+    "help.services": {
+        "fr": "Suivez toutes les réparations. Utilisez 'Nouvelle Demande' pour enregistrer un travail.",
+        "en": "Track all repair jobs and service requests. Use 'New Request' to log a job.",
+        "ar": "تتبع جميع أعمال الإصلاح. استخدم 'طلب جديد' لتسجيل وظيفة."
+    },
+    "help.sessions": {
+        "fr": "Gérez les sessions actives. Cliquez sur une console pour Démarrer/Terminer/Prolonger.",
+        "en": "Manage active sessions. Click a console to Start/End/Extend play time.",
+        "ar": "إدارة الجلسات النشطة. انقر فوق وحدة تحكم لبدء / إنهاء / تمديد وقت اللعب."
+    },
+    "help.settings": {
+        "fr": "Configurez les horaires, tarifs, programme de fidélité et préférences d'interface.",
+        "en": "Configure store hours, pricing, loyalty program, and interface preferences.",
+        "ar": "تكوين ساعات المتجر والتسعير وبرنامج الولاء وتفضيلات الواجهة."
+    },
+    "onboarding.client.welcome": {
+        "fr": "Bienvenue à Game Store Zarzis !",
+        "en": "Welcome to Game Store Zarzis!",
+        "ar": "مرحبًا بكم في Game Store Zarzis!"
+    },
+    "onboarding.client.subtitle": {
+        "fr": "Votre tableau de bord tout-en-un pour le centre de jeux.",
+        "en": "Your all-in-one gaming center dashboard.",
+        "ar": "لوحة تحكم مركز الألعاب الكل في واحد."
+    },
+    "onboarding.client.xp.title": {
+        "fr": "Suivez vos XP (Points)",
+        "en": "Track Your XP (Points)",
+        "ar": "تتبع نقاط الخبرة (XP)"
+    },
+    "onboarding.client.xp.desc": {
+        "fr": "Gagnez des points pour chaque heure jouée et chaque achat.",
+        "en": "Earn points for every hour played and every purchase you make.",
+        "ar": "اكسب نقاطًا مقابل كل ساعة لعب وكل عملية شراء."
+    },
+    "onboarding.client.rewards.title": {
+        "fr": "Débloquez des Récompenses Épiques",
+        "en": "Unlock Epic Rewards",
+        "ar": "افتح مكافآت ملحمية"
+    },
+    "onboarding.client.rewards.desc": {
+        "fr": "Échangez vos points contre du temps de jeu, des snacks ou des remises.",
+        "en": "Trade your points for free game time, snacks, or exclusive discounts.",
+        "ar": "استبدل نقاطك بوقت لعب مجاني أو وجبات خفيفة أو خصومات حصرية."
+    },
+    "onboarding.client.bonus.title": {
+        "fr": "Bonus de Niveau Supérieur",
+        "en": "Level Up Bonus",
+        "ar": "مكافأة المستوى التالي"
+    },
+    "onboarding.client.bonus.desc": {
+        "fr": "Jouez 5 sessions d'affilée pour débloquer automatiquement une partie GRATUITE !",
+        "en": "Play 5 sessions in a row to automatically unlock a FREE bonus game!",
+        "ar": "العب 5 جلسات متتالية لفتح لعبة مجانية تلقائيًا!"
+    },
+    "onboarding.client.getStarted": {
+        "fr": "Commencer",
+        "en": "Get Started",
+        "ar": "يبدأ"
+    },
+    "auth.forgotPassword": {
+        "fr": "Mot de passe oublié ?",
+        "en": "Forgot Password?",
+        "ar": "هل نسيت كلمة السر؟"
+    },
+    "auth.resetPassword": {
+        "fr": "Réinitialiser le mot de passe",
+        "en": "Reset Password",
+        "ar": "إعادة تعيين كلمة المرور"
+    },
+    "auth.resetPasswordTitle": {
+        "fr": "Réinitialisation du mot de passe",
+        "en": "Password Reset",
+        "ar": "إعادة تعيين كلمة المرور"
+    },
+    "auth.resetPasswordDesc": {
+        "fr": "Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.",
+        "en": "Enter your email address and we'll send you a link to reset your password.",
+        "ar": "أدخل عنوان بريدك الإلكتروني وسنرسل لك رابطًا لإعادة تعيين كلمة المرور الخاصة بك."
+    },
+    "auth.sendResetLink": {
+        "fr": "Envoyer le lien",
+        "en": "Send Reset Link",
+        "ar": "إرسال رابط إعادة التعيين"
+    },
+    "auth.backToLogin": {
+        "fr": "← Retour à la connexion",
+        "en": "← Back to Login",
+        "ar": "→ العودة إلى تسجيل الدخول"
+    },
+    "auth.resetEmailSent": {
+        "fr": "E-mail envoyé !",
+        "en": "Email Sent!",
+        "ar": "تم إرسال البريد الإلكتروني!"
+    },
+    "auth.resetEmailSentDesc": {
+        "fr": "Si un compte existe avec cet e-mail, vous recevrez un lien de réinitialisation dans quelques minutes. Vérifiez votre boîte de réception.",
+        "en": "If an account exists with this email, you'll receive a password reset link within a few minutes. Please check your inbox.",
+        "ar": "إذا كان هناك حساب بهذا البريد الإلكتروني، فستتلقى رابط إعادة تعيين كلمة المرور في غضون دقائق قليلة. يرجى التحقق من صندوق الوارد الخاص بك."
+    },
+    "auth.newPassword": {
+        "fr": "Nouveau mot de passe",
+        "en": "New Password",
+        "ar": "كلمة المرور الجديدة"
+    },
+    "auth.confirmNewPassword": {
+        "fr": "Confirmer le mot de passe",
+        "en": "Confirm Password",
+        "ar": "تأكيد كلمة المرور"
+    },
+    "auth.updatePassword": {
+        "fr": "Mettre à jour le mot de passe",
+        "en": "Update Password",
+        "ar": "تحديث كلمة المرور"
+    },
+    "auth.passwordUpdated": {
+        "fr": "Mot de passe mis à jour avec succès !",
+        "en": "Password updated successfully!",
+        "ar": "تم تحديث كلمة المرور بنجاح!"
+    },
+    "auth.passwordsMustMatch": {
+        "fr": "Les mots de passe doivent correspondre",
+        "en": "Passwords must match",
+        "ar": "يجب أن تتطابق كلمات المرور"
+    },
+    "auth.invalidEmail": {
+        "fr": "Adresse e-mail invalide",
+        "en": "Invalid email address",
+        "ar": "عنوان بريد إلكتروني غير صالح"
+    },
+    "auth.emailRequired": {
+        "fr": "L'e-mail est requis",
+        "en": "Email is required",
+        "ar": "البريد الإلكتروني مطلوب"
+    },
+    "auth.passwordMinLength": {
+        "fr": "Le mot de passe doit contenir au moins 6 caractères",
+        "en": "Password must be at least 6 characters",
+        "ar": "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل"
+    },
+    "auth.tooManyRequests": {
+        "fr": "Trop de tentatives. Veuillez réessayer dans quelques minutes.",
+        "en": "Too many requests. Please try again in a few minutes.",
+        "ar": "طلبات كثيرة جدا. يرجى المحاولة مرة أخرى في غضون دقائق قليلة."
+    },
+    "staff.processing": {
+        "fr": "Traitement en cours...",
+        "en": "Processing...",
+        "ar": "جار المعالجة..."
+    },
+    "auth.staffLogin": {
+        "fr": "Connexion Staff",
+        "en": "Staff Login",
+        "ar": "تسجيل دخول الموظف"
+    },
+    "auth.dashboardSubtitle": {
+        "fr": "Tableau de Bord Game Store Zarzis",
+        "en": "Game Store Zarzis Dashboard",
+        "ar": "لوحة تحكم Game Store Zarzis"
+    },
+    "auth.signingIn": {
+        "fr": "Connexion...",
+        "en": "Signing in...",
+        "ar": "جارٍ تسجيل الدخول..."
+    },
+    "auth.signIn": {
+        "fr": "Se connecter",
+        "en": "Sign In",
+        "ar": "تسجيل الدخول"
+    },
+    "auth.backToWebsite": {
+        "fr": "← Retour au site",
+        "en": "← Back to Website",
+        "ar": "← العودة للموقع"
+    },
+    "auth.email": {
+        "fr": "Email",
+        "en": "Email",
+        "ar": "البريد الإلكتروني"
+    },
+    "auth.password": {
+        "fr": "Mot de passe",
+        "en": "Password",
+        "ar": "كلمة المرور"
+    },
+    "auth.invalidEmailPassword": {
+        "fr": "Email ou mot de passe invalide",
+        "en": "Invalid email or password",
+        "ar": "بريد إلكتروني أو كلمة مرور غير صحيحة"
+    },
+    "auth.unexpectedError": {
+        "fr": "Une erreur inattendue s'est produite",
+        "en": "An unexpected error occurred",
+        "ar": "حدث خطأ غير متوقع"
+    },
+    "auth.enterNewPassword": {
+        "fr": "Entrez votre nouveau mot de passe ci-dessous",
+        "en": "Enter your new password below",
+        "ar": "أدخل كلمة المرور الجديدة أدناه"
+    },
+    "auth.updating": {
+        "fr": "Mise à jour...",
+        "en": "Updating...",
+        "ar": "جارٍ التحديث..."
+    },
+    "auth.canNowSignIn": {
+        "fr": "Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.",
+        "en": "You can now sign in with your new password.",
+        "ar": "يمكنك الآن تسجيل الدخول بكلمة المرور الجديدة."
+    },
+    "auth.invalidResetLink": {
+        "fr": "Lien invalide ou expiré",
+        "en": "Invalid or expired reset link",
+        "ar": "رابط غير صالح أو منتهي الصلاحية"
+    },
+    "auth.sessionExpired": {
+        "fr": "Session expirée ou invalide. Veuillez demander un nouveau lien.",
+        "en": "Session expired or invalid. Please request a new link.",
+        "ar": "جلسة منتهية أو غير صالحة. يرجى طلب رابط جديد."
+    }
+}

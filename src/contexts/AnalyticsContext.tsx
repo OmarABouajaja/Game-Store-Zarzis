@@ -30,13 +30,14 @@ export const AnalyticsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
     const loadExpenses = async () => {
         try {
+            // Use 'any' if 'expenses' isn't in the generated Supabase types
             const { data, error } = await supabase
-                .from(TABLES.EXPENSES)
+                .from(TABLES.EXPENSES as any)
                 .select('*')
                 .order('date', { ascending: false });
 
             if (error) throw error;
-            setExpenses(data || []);
+            setExpenses((data as any[]) || []);
         } catch (err) {
             console.error('Error loading expenses for analytics:', err);
         }

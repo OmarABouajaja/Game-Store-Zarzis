@@ -83,11 +83,21 @@ CREATE TABLE public.products (
     description_ar TEXT,
     category TEXT NOT NULL,
     price DECIMAL(10,3) NOT NULL,
-    cost_price DECIMAL(10,3),
+    cost_price DECIMAL(10,3) DEFAULT 0,
     stock_quantity INTEGER DEFAULT 0,
     points_earned INTEGER DEFAULT 0,
     points_price INTEGER,
     image_url TEXT,
+    
+    -- Extended features (Consumables, Digital, Cafe structure)
+    product_type TEXT DEFAULT 'physical', -- 'physical', 'consumable', 'digital'
+    subcategory TEXT,
+    is_quick_sale BOOLEAN DEFAULT false,
+    low_stock_threshold INTEGER DEFAULT 5,
+    digital_content TEXT,
+    is_digital_delivery BOOLEAN DEFAULT false,
+    
+    status TEXT DEFAULT 'active', -- 'active', 'out_of_stock', 'discontinued'
     is_active BOOLEAN DEFAULT true,
     created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
     updated_at TIMESTAMPTZ DEFAULT now() NOT NULL

@@ -52,8 +52,8 @@ const GamingLounge = () => {
     <section id="lounge" className="py-8 sm:py-12 md:py-16 lg:py-20 relative overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0 bg-gradient-to-r from-secondary/10 via-transparent to-primary/10" />
-      <div className="absolute top-0 right-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-secondary/20 rounded-full blur-[120px] md:blur-[150px]" />
-      <div className="absolute bottom-0 left-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-primary/20 rounded-full blur-[120px] md:blur-[150px]" />
+      <div className="absolute top-0 end-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-secondary/20 rounded-full blur-[120px] md:blur-[150px]" />
+      <div className="absolute bottom-0 start-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-primary/20 rounded-full blur-[120px] md:blur-[150px]" />
 
       <div className="container mx-auto px-3 sm:px-4 md:px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 md:gap-10 items-center">
@@ -135,7 +135,7 @@ const GamingLounge = () => {
                                <span className="opacity-50 uppercase text-[9px] font-bold tracking-wider mb-0.5 leading-none">
                                  {item.type === 'game' ? t('pricing.per_match') : t('pricing.per_hour')}
                                </span>
-                               <span className="font-medium text-sm sm:text-base group-hover:pl-1 transition-all duration-300">{item.label}</span>
+                               <span className="font-medium text-sm sm:text-base group-hover:ps-1 transition-all duration-300">{item.label}</span>
                              </div>
                              <span className={`font-display text-base sm:text-xl font-bold ${consoleType === 'ps5' ? 'text-primary' : 'text-blue-400'}`}>{item.price}</span>
                            </div>

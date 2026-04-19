@@ -615,7 +615,7 @@ const StoreSettings = () => {
               ) : (
                 <div className="space-y-6">
                   {/* Schedule Statistics */}
-                  <Card className="glass-card border-l-4 border-l-green-500">
+                  <Card className="glass-card border-s-4 border-s-green-500">
                     <CardContent className="p-4">
                       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
                         <div>
@@ -1220,7 +1220,7 @@ const StoreSettings = () => {
                       />
                     </div>
                     {localSettings.delivery_settings.rapid_post_enabled && (
-                      <div className="ps-4 border-l-2 border-primary/20">
+                      <div className="ps-4 border-s-2 border-primary/20">
                         <Label>{t('settings.delivery.cost_label')}</Label>
                         <Input
                           type="number"
@@ -1255,7 +1255,7 @@ const StoreSettings = () => {
                       />
                     </div>
                     {localSettings.delivery_settings.local_delivery_enabled && (
-                      <div className="ps-4 border-l-2 border-primary/20">
+                      <div className="ps-4 border-s-2 border-primary/20">
                         <Label>{t('settings.delivery.cost_label')}</Label>
                         <Input
                           type="number"
@@ -1301,7 +1301,7 @@ const StoreSettings = () => {
                       />
                     </div>
                     {localSettings.payment_methods_config?.d17?.enabled && (
-                      <div className="ps-4 border-l-2 border-primary/20 space-y-3 animate-in fade-in slide-in-from-top-2">
+                      <div className="ps-4 border-s-2 border-primary/20 space-y-3 animate-in fade-in slide-in-from-top-2">
                         <div className="space-y-2">
                           <Label>{t('settings.payments.d17.title')}</Label>
                           <Textarea
@@ -1337,7 +1337,7 @@ const StoreSettings = () => {
                       />
                     </div>
                     {localSettings.payment_methods_config?.bank_transfer?.enabled && (
-                      <div className="ps-4 border-l-2 border-primary/20 space-y-3 animate-in fade-in slide-in-from-top-2">
+                      <div className="ps-4 border-s-2 border-primary/20 space-y-3 animate-in fade-in slide-in-from-top-2">
                         <div className="space-y-2">
                           <Label>{t('settings.payments.bank.title')}</Label>
                           <Textarea
@@ -1707,7 +1707,7 @@ const StoreSettings = () => {
                       />
                     </div>
                     {localSettings.sms_enabled && (
-                      <div className="grid gap-4 ps-4 border-l-2 border-primary/20">
+                      <div className="grid gap-4 ps-4 border-s-2 border-primary/20">
                         <div className="grid gap-2">
                           <Label>Owner Phone Number</Label>
                           <Input

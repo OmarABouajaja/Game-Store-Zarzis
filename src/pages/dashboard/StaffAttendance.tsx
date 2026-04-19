@@ -222,7 +222,7 @@ const StaffAttendance = () => {
                                 </CardContent>
                             </Card>
 
-                            <Card className="glass-card border-l-4 border-l-primary bg-primary/5">
+                            <Card className="glass-card border-s-4 border-s-primary bg-primary/5">
                                 <CardContent className="p-6">
                                     <div className="flex items-center gap-4 mb-4">
                                         <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">

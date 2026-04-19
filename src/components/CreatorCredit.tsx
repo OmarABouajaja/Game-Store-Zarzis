@@ -43,7 +43,7 @@ export const CreatorCredit = ({ variant = "floating" }: CreatorCreditProps) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.8 }}
-            className={isStatic ? "flex justify-center py-4" : "fixed bottom-4 right-4 z-50"}
+            className={isStatic ? "flex justify-center py-4" : "fixed bottom-4 end-4 z-50"}
         >
             <AnimatePresence mode="wait">
                 {isExpanded ? (
@@ -84,7 +84,7 @@ export const CreatorCredit = ({ variant = "floating" }: CreatorCreditProps) => {
                         {!isStatic && (
                             <button
                                 onClick={toggleExpanded}
-                                className="absolute right-2 p-1.5 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-all duration-200"
+                                className="absolute end-2 p-1.5 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-all duration-200"
                                 title="Minimize"
                             >
                                 <X className="w-3.5 h-3.5" />
@@ -110,7 +110,7 @@ export const CreatorCredit = ({ variant = "floating" }: CreatorCreditProps) => {
                         <Code className="w-5 h-5 text-slate-300 group-hover:text-cyan-400 transition-colors duration-300" />
 
                         {/* Notification Dot */}
-                        <span className="absolute top-2.5 right-2.5 w-1.5 h-1.5 rounded-full bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.8)] animate-pulse" />
+                        <span className="absolute top-2.5 end-2.5 w-1.5 h-1.5 rounded-full bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.8)] animate-pulse" />
                     </motion.button>
                 )}
             </AnimatePresence>

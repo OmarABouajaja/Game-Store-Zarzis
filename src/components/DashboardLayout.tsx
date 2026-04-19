@@ -221,7 +221,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
         onClick={() => setMobileOpen(true)}
         className={cn(
           "md:hidden fixed top-4 z-[60] p-2 rounded-lg bg-card border border-border shadow-lg",
-          isRTL ? "right-4" : "left-4"
+          isRTL ? "end-4" : "start-4"
         )}
         aria-label="Open menu"
       >
@@ -246,13 +246,13 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           "fixed top-0 h-screen transition-all duration-500 ease-in-out z-[60] flex flex-col",
           // Glassmorphism + Border
           "bg-card/80 backdrop-blur-xl border-e border-border/50 shadow-2xl",
-          isRTL ? "right-0 border-s" : "left-0 border-e",
+          "start-0",
 
           // Layout behavior
           "flex", // Always flex, manage visibility via transform
           collapsed ? "md:w-20" : "md:w-64", // Desktop width
           // Mobile state
-          !mobileOpen && "-translate-x-full md:translate-x-0",
+          !mobileOpen && "-translate-x-full rtl:translate-x-full md:translate-x-0 rtl:md:translate-x-0",
           mobileOpen && "translate-x-0 w-72 shadow-2xl"
         )}
       >
@@ -316,7 +316,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
                       {/* Active Indicator Strip */}
                       {location.pathname === item.path && !collapsed && (
-                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-3/4 bg-primary rounded-e-full opacity-50" />
+                        <div className="absolute start-0 top-1/2 -translate-y-1/2 w-1 h-3/4 bg-primary rounded-e-full opacity-50" />
                       )}
                     </Link>
                   </TooltipTrigger>
@@ -408,9 +408,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
         id="main-content"
         className={cn(
           "flex-1 transition-all duration-500 ease-in-out min-h-screen",
-          isRTL
-            ? collapsed ? "md:mr-20" : "md:mr-64"
-            : collapsed ? "md:ml-20" : "md:ml-64"
+          collapsed ? "md:ms-20" : "md:ms-64"
         )}
       >
         {/* Top Navbar for Mobile / Breadcrumbs could go here */}

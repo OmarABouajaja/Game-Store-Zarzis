@@ -198,7 +198,7 @@ export const ClientHomeStats = () => {
                     {pointsEnabled && (
                         <motion.div variants={itemVariants}>
                             <Card className="glass-card overflow-hidden border-primary/20 relative group shadow-2xl hover:border-primary/40 transition-all duration-500 cursor-default">
-                                <div className="absolute -top-10 -right-10 p-12 opacity-5 group-hover:opacity-10 transition-all duration-700 bg-primary rounded-full blur-3xl" />
+                                <div className="absolute -top-10 -end-10 p-12 opacity-5 group-hover:opacity-10 transition-all duration-700 bg-primary rounded-full blur-3xl" />
                                 <CardContent className="p-4 sm:p-6 flex items-center justify-between">
                                     <div className="flex items-center gap-4">
                                         <motion.div
@@ -235,7 +235,7 @@ export const ClientHomeStats = () => {
                     {freeGamesEnabled && (
                         <motion.div variants={itemVariants}>
                             <Card className="glass-card border-blue-500/20 bg-blue-500/5 relative overflow-hidden group hover:border-blue-500/40 transition-all duration-500">
-                                <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
+                                <div className="absolute top-0 start-0 w-full h-0.5 bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
                                 <CardContent className="p-4 sm:p-6">
                                     <div className="flex items-center justify-between mb-3">
                                         <div className="flex items-center gap-2">
@@ -248,7 +248,7 @@ export const ClientHomeStats = () => {
                                     </div>
                                     <div className="relative h-2.5 bg-blue-500/10 rounded-full mb-3 overflow-hidden border border-blue-500/10">
                                         <motion.div
-                                            className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-600 to-blue-400 shadow-[0_0_10px_rgba(59,130,246,0.5)]"
+                                            className="absolute top-0 start-0 h-full bg-gradient-to-r from-blue-600 to-blue-400 shadow-[0_0_10px_rgba(59,130,246,0.5)]"
                                             initial={{ width: 0 }}
                                             animate={{ width: `${freeGameProgress}%` }}
                                             transition={{ duration: 1, ease: "easeOut" }}
@@ -493,7 +493,7 @@ export const ClientHomeStats = () => {
                                         <User className="w-4 h-4 text-primary" />
                                     </div>
                                 </div>
-                                <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-background animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)]" />
+                                <div className="absolute -bottom-0.5 -end-0.5 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-background animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)]" />
                             </div>
                             <div className="flex flex-col">
                                 <span className="text-[10px] font-black text-white/90 uppercase tracking-widest leading-none mb-0.5">

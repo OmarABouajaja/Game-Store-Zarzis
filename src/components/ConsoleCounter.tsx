@@ -18,7 +18,7 @@ const ConsoleCounter = () => {
   if (totalConsoles === 0) return null;
 
   return (
-    <div className={`fixed top-20 z-50 hidden md:block ${isRTL ? 'left-4' : 'right-4'}`}>
+    <div className={`fixed top-20 z-50 hidden md:block ${isRTL ? 'start-4' : 'end-4'}`}>
       <Card className="glass-card border-primary/30 shadow-[0_8px_24px_hsl(var(--primary)/0.2)]">
         <CardContent className="p-4">
           <div className="text-center space-y-3">

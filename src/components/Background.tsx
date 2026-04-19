@@ -30,8 +30,8 @@ const Background = () => {
             <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/85 to-background/95 z-0" />
 
             {/* Glow Orbs */}
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[100px] animate-pulse-glow" />
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-pink-500/10 rounded-full blur-[100px] animate-pulse-glow" style={{ animationDelay: '2s' }} />
+            <div className="absolute top-0 start-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[100px] animate-pulse-glow" />
+            <div className="absolute bottom-0 end-1/4 w-96 h-96 bg-pink-500/10 rounded-full blur-[100px] animate-pulse-glow" style={{ animationDelay: '2s' }} />
 
             {/* Floating Shapes */}
             {backgroundElements.map((el) => (

@@ -17,8 +17,8 @@ const NotFound = () => {
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Gradient orbs */}
-        <div className="absolute top-1/4 -left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 -right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse delay-1000" />
+        <div className="absolute top-1/4 -start-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 -end-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse delay-1000" />
 
         {/* Grid pattern */}
         <div
@@ -33,10 +33,10 @@ const NotFound = () => {
         />
 
         {/* Floating gaming icons */}
-        <div className="absolute top-20 left-[20%] opacity-10 animate-float">
+        <div className="absolute top-20 start-[20%] opacity-10 animate-float">
           <Gamepad2 className="w-16 h-16 text-primary" />
         </div>
-        <div className="absolute bottom-32 right-[15%] opacity-10 animate-float delay-700">
+        <div className="absolute bottom-32 end-[15%] opacity-10 animate-float delay-700">
           <Headphones className="w-12 h-12 text-accent" />
         </div>
       </div>

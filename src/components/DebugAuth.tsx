@@ -7,7 +7,7 @@ const DebugAuth = () => {
 
 
   return (
-    <Card className="fixed bottom-4 right-4 w-80 z-50 bg-red-50 border-red-200 shadow-2xl">
+    <Card className="fixed bottom-4 end-4 w-80 z-50 bg-red-50 border-red-200 shadow-2xl">
       <CardHeader className="pb-2">
         <CardTitle className="text-sm text-red-700">🔍 Auth Debug</CardTitle>
       </CardHeader>

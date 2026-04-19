@@ -490,7 +490,7 @@ const BlogManagement = () => {
                               <button
                                 type="button"
                                 onClick={clearImage}
-                                className="absolute top-2 right-2 p-1 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors"
+                                className="absolute top-2 end-2 p-1 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors"
                               >
                                 ✕
                               </button>
@@ -901,7 +901,7 @@ const BlogManagement = () => {
                         </div>
 
                         <TooltipProvider>
-                          <div className="flex gap-1 sm:ml-4 flex-shrink-0">
+                          <div className="flex gap-1 sm:ms-4 flex-shrink-0">
                             {/* 2-button group: Toggle publish/draft + Edit */}
                             <div className="flex rounded-md overflow-hidden border border-border">
                               <Tooltip>

@@ -32,8 +32,8 @@ const About = () => {
     <section id="about" className="py-8 sm:py-12 md:py-16 lg:py-20 xl:py-24 relative overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5" />
-      <div className="absolute top-0 right-0 w-[150px] sm:w-[250px] md:w-[350px] lg:w-[450px] h-[150px] sm:h-[250px] md:h-[350px] lg:h-[450px] bg-primary/10 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px] lg:blur-[150px]" />
-      <div className="absolute bottom-0 left-0 w-[150px] sm:w-[250px] md:w-[350px] lg:w-[450px] h-[150px] sm:h-[250px] md:h-[350px] lg:h-[450px] bg-secondary/10 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px] lg:blur-[150px]" />
+      <div className="absolute top-0 end-0 w-[150px] sm:w-[250px] md:w-[350px] lg:w-[450px] h-[150px] sm:h-[250px] md:h-[350px] lg:h-[450px] bg-primary/10 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px] lg:blur-[150px]" />
+      <div className="absolute bottom-0 start-0 w-[150px] sm:w-[250px] md:w-[350px] lg:w-[450px] h-[150px] sm:h-[250px] md:h-[350px] lg:h-[450px] bg-secondary/10 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px] lg:blur-[150px]" />
       <div className="container mx-auto px-3 sm:px-4 md:px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-10 items-center">
           {/* Visual Side */}
@@ -80,8 +80,8 @@ const About = () => {
               </div>
 
               {/* Decorative blurs */}
-              <div className="absolute -top-4 md:-top-6 -left-4 md:-left-6 w-24 md:w-32 h-24 md:h-32 bg-primary/10 rounded-full blur-2xl" />
-              <div className="absolute -bottom-4 md:-bottom-6 -right-4 md:-right-6 w-24 md:w-32 h-24 md:h-32 bg-secondary/10 rounded-full blur-2xl" />
+              <div className="absolute -top-4 md:-top-6 -start-4 md:-start-6 w-24 md:w-32 h-24 md:h-32 bg-primary/10 rounded-full blur-2xl" />
+              <div className="absolute -bottom-4 md:-bottom-6 -end-4 md:-end-6 w-24 md:w-32 h-24 md:h-32 bg-secondary/10 rounded-full blur-2xl" />
             </div>
           </div>
 

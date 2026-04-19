@@ -282,9 +282,9 @@ const ProductsManagement = () => {
                   <AnimatePresence>
                     {productType === 'digital' && (
                       <motion.div 
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
                         className="space-y-4 overflow-hidden"
                       >
                         <div>
@@ -315,9 +315,9 @@ const ProductsManagement = () => {
                   <AnimatePresence>
                     {productType === 'consumable' && (
                       <motion.div 
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
                         className="overflow-hidden"
                       >
                         <Label htmlFor="subcategory">{t('products.subcategory_label')}</Label>
@@ -348,9 +348,9 @@ const ProductsManagement = () => {
                   <AnimatePresence>
                     {productType === 'consumable' && (
                       <motion.div 
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
                         className="flex items-center justify-between p-3 border rounded-lg overflow-hidden"
                       >
                       <div>
@@ -394,7 +394,7 @@ const ProductsManagement = () => {
                     <Button type="submit" className="h-12 px-8 text-lg font-bold" disabled={form.formState.isSubmitting}>
                       {form.formState.isSubmitting ? (
                         <>
-                          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                          <Loader2 className="me-2 h-5 w-5 animate-spin" />
                           {t('products.saving')}
                         </>
                       ) : (

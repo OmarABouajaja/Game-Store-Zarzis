@@ -79,21 +79,21 @@ const PSBackground = () => {
 
       {/* Optimized light beams - reduced blur for better desktop performance */}
       <div
-        className="absolute -left-1/4 top-0 w-1/2 h-full bg-gradient-to-r from-primary/6 sm:from-primary/8 md:from-primary/10 via-primary/10 sm:via-primary/12 md:via-primary/14 to-transparent blur-lg sm:blur-xl md:blur-2xl"
+        className="absolute -start-1/4 top-0 w-1/2 h-full bg-gradient-to-r from-primary/6 sm:from-primary/8 md:from-primary/10 via-primary/10 sm:via-primary/12 md:via-primary/14 to-transparent blur-lg sm:blur-xl md:blur-2xl"
         style={{
           willChange: prefersReducedMotion ? 'auto' : 'transform',
           animation: prefersReducedMotion ? 'none' : 'float 12s ease-in-out infinite',
         }}
       />
       <div
-        className="absolute top-1/4 right-0 w-1/2 h-1/2 bg-gradient-to-l from-secondary/6 sm:from-secondary/8 md:from-secondary/10 via-accent/4 sm:via-accent/6 md:via-accent/8 to-transparent blur-lg sm:blur-xl md:blur-2xl"
+        className="absolute top-1/4 end-0 w-1/2 h-1/2 bg-gradient-to-l from-secondary/6 sm:from-secondary/8 md:from-secondary/10 via-accent/4 sm:via-accent/6 md:via-accent/8 to-transparent blur-lg sm:blur-xl md:blur-2xl"
         style={{
           willChange: prefersReducedMotion ? 'auto' : 'transform',
           animation: prefersReducedMotion ? 'none' : 'float 10s ease-in-out infinite',
         }}
       />
       <div
-        className="absolute bottom-0 left-1/3 w-1/3 h-1/2 bg-gradient-to-t from-accent/4 sm:from-accent/6 md:from-accent/8 via-primary/4 sm:via-primary/5 md:via-primary/6 to-transparent blur-lg sm:blur-xl md:blur-2xl"
+        className="absolute bottom-0 start-1/3 w-1/3 h-1/2 bg-gradient-to-t from-accent/4 sm:from-accent/6 md:from-accent/8 via-primary/4 sm:via-primary/5 md:via-primary/6 to-transparent blur-lg sm:blur-xl md:blur-2xl"
         style={{
           willChange: prefersReducedMotion ? 'auto' : 'transform',
           animation: prefersReducedMotion ? 'none' : 'float 14s ease-in-out infinite',
@@ -162,14 +162,14 @@ const PSBackground = () => {
 
       {/* Optimized background glow effects - reduced blur and size for desktop performance */}
       <div
-        className="absolute top-1/4 left-1/4 w-48 sm:w-64 md:w-72 lg:w-96 h-48 sm:h-64 md:h-72 lg:h-96 bg-primary/8 sm:bg-primary/12 md:bg-primary/15 rounded-full blur-[50px] sm:blur-[60px] md:blur-[70px] lg:blur-[80px]"
+        className="absolute top-1/4 start-1/4 w-48 sm:w-64 md:w-72 lg:w-96 h-48 sm:h-64 md:h-72 lg:h-96 bg-primary/8 sm:bg-primary/12 md:bg-primary/15 rounded-full blur-[50px] sm:blur-[60px] md:blur-[70px] lg:blur-[80px]"
         style={{
           animation: shouldAnimate ? 'pulse-glow 4s ease-in-out infinite' : 'none',
           willChange: shouldAnimate ? 'opacity' : 'auto',
         }}
       />
       <div
-        className="absolute bottom-1/4 right-1/4 w-48 sm:w-64 md:w-72 lg:w-96 h-48 sm:h-64 md:h-72 lg:h-96 bg-secondary/8 sm:bg-secondary/12 md:bg-secondary/15 rounded-full blur-[50px] sm:blur-[60px] md:blur-[70px] lg:blur-[80px]"
+        className="absolute bottom-1/4 end-1/4 w-48 sm:w-64 md:w-72 lg:w-96 h-48 sm:h-64 md:h-72 lg:h-96 bg-secondary/8 sm:bg-secondary/12 md:bg-secondary/15 rounded-full blur-[50px] sm:blur-[60px] md:blur-[70px] lg:blur-[80px]"
         style={{
           animation: shouldAnimate ? 'pulse-glow 4s ease-in-out 2s infinite' : 'none',
           willChange: shouldAnimate ? 'opacity' : 'auto',

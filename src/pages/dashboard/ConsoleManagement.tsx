@@ -306,7 +306,7 @@ const ConsoleManagement = () => {
                   <div className="space-y-2">
                     <label className="text-sm font-medium">{t('console.name_label')}</label>
                     <div className="relative">
-                      <Gamepad2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                      <Gamepad2 className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                       <Input
                         name="name"
                         placeholder="e.g. PS5 Station 1"

@@ -99,12 +99,12 @@ const ProductsShowcase = () => {
                       )}
                     </div>
                     {product.isOnSale && (
-                      <Badge className="absolute top-2 right-2 bg-accent text-accent-foreground">
+                      <Badge className="absolute top-2 end-2 bg-accent text-accent-foreground">
                         {t("products.sale")}
                       </Badge>
                     )}
                     {product.product_type === 'digital' && (
-                      <Badge className="absolute top-2 left-2 bg-blue-500 text-white border-none flex items-center gap-1">
+                      <Badge className="absolute top-2 start-2 bg-blue-500 text-white border-none flex items-center gap-1">
                         <Zap className="w-3 h-3 fill-current" />
                         Instant Delivery
                       </Badge>

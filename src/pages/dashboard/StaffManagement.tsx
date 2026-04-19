@@ -286,8 +286,8 @@ const StaffManagement = () => {
                 <DialogContent className="w-[95vw] sm:max-w-[500px] p-0 overflow-hidden border-none bg-transparent">
                   <div className="relative p-6 sm:p-8 glass-card border-white/20 dark:border-white/10 overflow-hidden">
                     {/* Decorative Background Elements */}
-                    <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/20 blur-[100px] rounded-full pointer-events-none" />
-                    <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-secondary/20 blur-[100px] rounded-full pointer-events-none" />
+                    <div className="absolute -top-24 -end-24 w-48 h-48 bg-primary/20 blur-[100px] rounded-full pointer-events-none" />
+                    <div className="absolute -bottom-24 -start-24 w-48 h-48 bg-secondary/20 blur-[100px] rounded-full pointer-events-none" />
 
                     <DialogHeader className="relative mb-6">
                       <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
@@ -304,7 +304,7 @@ const StaffManagement = () => {
                         <div className="space-y-2">
                           <Label htmlFor="email" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{t("staff.email_label")}</Label>
                           <div className="relative group/field">
-                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within/field:text-primary transition-all duration-300" />
+                            <Mail className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within/field:text-primary transition-all duration-300" />
                             <Input
                               id="email"
                               type="email"
@@ -323,7 +323,7 @@ const StaffManagement = () => {
                             <div className="space-y-2">
                               <Label htmlFor="full_name" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{t("staff.full_name_label")}</Label>
                               <div className="relative group/field">
-                                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within/field:text-primary transition-all duration-300" />
+                                <User className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within/field:text-primary transition-all duration-300" />
                                 <Input
                                   id="full_name"
                                   value={formData.full_name}
@@ -336,7 +336,7 @@ const StaffManagement = () => {
                             <div className="space-y-2">
                               <Label htmlFor="phone" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{t("staff.phone_label")}</Label>
                               <div className="relative group/field">
-                                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within/field:text-secondary transition-all duration-300" />
+                                <Phone className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within/field:text-secondary transition-all duration-300" />
                                 <Input
                                   id="phone"
                                   value={formData.phone}

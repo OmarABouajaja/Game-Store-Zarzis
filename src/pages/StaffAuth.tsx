@@ -10,6 +10,7 @@ import { Gamepad2, Lock, Mail, AlertCircle, Eye, EyeOff, CheckCircle2 } from "lu
 import PSBackground from "@/components/PSBackground";
 import { z } from "zod";
 import { toast } from "sonner";
+import SEO from "@/components/SEO";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -102,6 +103,7 @@ const StaffAuth = () => {
 
   return (
     <div className="min-h-screen bg-background relative flex items-center justify-center p-4">
+      <SEO title="Staff Login" description="Secure staff and owner login portal for Game Store Zarzis management." />
       <PSBackground />
 
       <div className="relative z-10 w-full max-w-md">
@@ -130,7 +132,7 @@ const StaffAuth = () => {
             <div className="space-y-2">
               <Label htmlFor="email">{t("auth.email")}</Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <Mail className="absolute start-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 <Input
                   id="email"
                   type="email"
@@ -146,7 +148,7 @@ const StaffAuth = () => {
             <div className="space-y-2">
               <Label htmlFor="password">{t("auth.password")}</Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <Lock className="absolute start-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
@@ -159,7 +161,7 @@ const StaffAuth = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  className="absolute end-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {showPassword ? (
                     <EyeOff className="w-4 h-4" />
@@ -252,7 +254,7 @@ const StaffAuth = () => {
                       {t("client.email_address")}
                     </Label>
                     <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground z-10" />
+                      <Mail className="absolute start-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground z-10" />
                       <Input
                         id="reset-email"
                         type="email"

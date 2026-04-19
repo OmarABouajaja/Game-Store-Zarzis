@@ -217,7 +217,7 @@ const ExpensesManagement = () => {
 
                     {/* Summary Cards - Dynamic based on active tab or global */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <Card className="glass-card border-l-4 border-l-red-500">
+                        <Card className="glass-card border-s-4 border-s-red-500">
                             <CardContent className="p-6">
                                 <div className="flex items-center gap-4">
                                     <div className="p-3 bg-red-100 rounded-full">
@@ -235,7 +235,7 @@ const ExpensesManagement = () => {
                             </CardContent>
                         </Card>
 
-                        <Card className="glass-card border-l-4 border-l-orange-500">
+                        <Card className="glass-card border-s-4 border-s-orange-500">
                             <CardContent className="p-6">
                                 <div className="flex items-center gap-4">
                                     <div className="p-3 bg-orange-100 rounded-full">
@@ -253,7 +253,7 @@ const ExpensesManagement = () => {
                             </CardContent>
                         </Card>
 
-                        <Card className="glass-card border-l-4 border-l-primary">
+                        <Card className="glass-card border-s-4 border-s-primary">
                             <CardContent className="p-6">
                                 <div className="flex items-center gap-4">
                                     <div className="p-3 bg-primary/10 rounded-full">

@@ -185,8 +185,8 @@ const Checkout = () => {
         return (
             <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 relative overflow-hidden">
                 {/* Background Glows */}
-                <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/20 rounded-full blur-[100px] animate-pulse" />
-                <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-accent/20 rounded-full blur-[100px] animate-pulse delay-1000" />
+                <div className="absolute top-1/4 start-1/4 w-64 h-64 bg-primary/20 rounded-full blur-[100px] animate-pulse" />
+                <div className="absolute bottom-1/4 end-1/4 w-64 h-64 bg-accent/20 rounded-full blur-[100px] animate-pulse delay-1000" />
 
                 <motion.div
                     initial={{ scale: 0.8, opacity: 0 }}
@@ -207,7 +207,7 @@ const Checkout = () => {
                         {[...Array(6)].map((_, i) => (
                             <motion.div
                                 key={i}
-                                className="absolute top-1/2 left-1/2 w-3 h-3 bg-accent rounded-full"
+                                className="absolute top-1/2 start-1/2 w-3 h-3 bg-accent rounded-full"
                                 animate={{
                                     x: [Math.cos(i * 60) * 80, Math.cos(i * 60 + 360) * 80],
                                     y: [Math.sin(i * 60) * 80, Math.sin(i * 60 + 360) * 80],
@@ -317,7 +317,7 @@ const Checkout = () => {
                         })}
                     </div>
                     {/* Connecting line */}
-                    <div className="absolute top-6 left-1/2 -translate-x-1/2 w-full max-w-md h-[1px] bg-border/30 -z-0">
+                    <div className="absolute top-6 start-1/2 -translate-x-1/2 w-full max-w-md h-[1px] bg-border/30 -z-0">
                         <motion.div
                             initial={false}
                             animate={{
@@ -458,7 +458,7 @@ const Checkout = () => {
                                                 <div className="space-y-2">
                                                     <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{t('contact.form.name')}</Label>
                                                     <div className="relative group">
-                                                        <User className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors`} />
+                                                        <User className={`absolute ${isRTL ? 'end-3' : 'start-3'} top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors`} />
                                                         <Input
                                                             className={`${isRTL ? 'pe-10' : 'ps-10'} h-12 bg-muted/20 border-border/50 focus:border-primary/50 focus:ring-primary/20 transition-all rounded-xl`}
                                                             placeholder={t('checkout.placeholder.name')}
@@ -470,7 +470,7 @@ const Checkout = () => {
                                                 <div className="space-y-2">
                                                     <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{t('contact.phone')}</Label>
                                                     <div className="relative group">
-                                                        <Phone className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors`} />
+                                                        <Phone className={`absolute ${isRTL ? 'end-3' : 'start-3'} top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors`} />
                                                         <Input
                                                             type="tel"
                                                             className={`${isRTL ? 'pe-10' : 'ps-10'} h-12 bg-muted/20 border-border/50 focus:border-primary/50 focus:ring-primary/20 transition-all rounded-xl`}
@@ -486,7 +486,7 @@ const Checkout = () => {
                                                         {hasDigitalItems && <span className="text-primary animate-pulse italic capitalize">{t('client.dashboard.redeem_error').split('!')[1].trim()}</span>}
                                                     </Label>
                                                     <div className="relative group">
-                                                        <Mail className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors`} />
+                                                        <Mail className={`absolute ${isRTL ? 'end-3' : 'start-3'} top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors`} />
                                                         <Input
                                                             className={`${isRTL ? 'pe-10' : 'ps-10'} h-12 bg-muted/20 border-border/50 focus:border-primary/50 focus:ring-primary/20 transition-all rounded-xl ${hasDigitalItems && !formData.email ? 'border-primary/50 ring-1 ring-primary/20' : ''}`}
                                                             placeholder={t('checkout.placeholder.email')}
@@ -584,14 +584,14 @@ const Checkout = () => {
 
                                                 {formData.deliveryMethod !== 'pickup' && (
                                                     <motion.div
-                                                        initial={{ height: 0, opacity: 0 }}
-                                                        animate={{ height: "auto", opacity: 1 }}
+                                                        initial={{ y: -10, opacity: 0 }}
+                                                        animate={{ y: 0, opacity: 1 }}
                                                         className="space-y-4 pt-6 border-t mt-6 overflow-hidden"
                                                     >
                                                         <div className="space-y-2">
                                                             <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{t('checkout.details.address')}</Label>
                                                             <div className="relative group">
-                                                                <MapPin className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-3 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors`} />
+                                                                <MapPin className={`absolute ${isRTL ? 'end-3' : 'start-3'} top-3 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors`} />
                                                                 <textarea
                                                                     rows={3}
                                                                     className={`w-full flex min-h-[80px] rounded-xl border border-border/50 bg-muted/20 px-3 py-2 ${isRTL ? 'pe-10' : 'ps-10'} text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary/50 disabled:cursor-not-allowed disabled:opacity-50 transition-all`}
@@ -656,7 +656,7 @@ const Checkout = () => {
                                                             </div>
                                                             <span className="text-[10px] text-muted-foreground font-medium">{m.desc}</span>
                                                             {!m.comingSoon && <RadioGroupItem value={m.id} id={m.id} className="sr-only" />}
-                                                            {m.comingSoon && <Badge className="absolute top-2 right-2 scale-75 uppercase">{t('checkout.payment.soon')}</Badge>}
+                                                            {m.comingSoon && <Badge className="absolute top-2 end-2 scale-75 uppercase">{t('checkout.payment.soon')}</Badge>}
                                                         </Label>
                                                     ))}
                                                 </RadioGroup>
@@ -665,9 +665,9 @@ const Checkout = () => {
                                                 <AnimatePresence>
                                                     {formData.paymentMethod !== 'cash' && (
                                                         <motion.div
-                                                            initial={{ height: 0, opacity: 0 }}
-                                                            animate={{ height: "auto", opacity: 1 }}
-                                                            exit={{ height: 0, opacity: 0 }}
+                                                            initial={{ y: -10, opacity: 0 }}
+                                                            animate={{ y: 0, opacity: 1 }}
+                                                            exit={{ y: -10, opacity: 0 }}
                                                             className="mt-8 overflow-hidden space-y-6"
                                                         >
                                                             <div className="p-6 rounded-2xl bg-primary/5 border border-primary/20 space-y-4">
@@ -741,7 +741,7 @@ const Checkout = () => {
                     {/* Right Column: Order Summary (Sidebar) */}
                     <div className="lg:col-span-1">
                         <Card className="glass-card shadow-2xl border-border/30 sticky top-28 overflow-hidden">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-3xl" />
+                            <div className="absolute top-0 end-0 w-32 h-32 bg-primary/5 rounded-full -me-16 -mt-16 blur-3xl" />
                             <CardHeader className="pb-4 relative z-10">
                                 <CardTitle className="text-lg uppercase tracking-tight">{t('checkout.summary.title')}</CardTitle>
                             </CardHeader>
@@ -839,7 +839,7 @@ const Checkout = () => {
             </div>
 
             {/* Mobile Fixed Bottom Action Bar */}
-            <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 p-4 bg-background/80 backdrop-blur-lg border-t border-primary/20 animate-in slide-in-from-bottom-full duration-500">
+            <div className="lg:hidden fixed bottom-0 start-0 end-0 z-50 p-4 bg-background/80 backdrop-blur-lg border-t border-primary/20 animate-in slide-in-from-bottom-full duration-500">
                 <div className="flex items-center justify-between gap-4 max-w-md mx-auto">
                     <div className="flex flex-col">
                         <span className="text-[10px] uppercase text-muted-foreground font-bold tracking-wider">{t('checkout.summary.total_payable')}</span>

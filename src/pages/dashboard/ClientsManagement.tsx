@@ -197,7 +197,7 @@ const ClientsManagement = () => {
 
           {/* Search */}
           <div className="relative max-w-xl">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+            <Search className="absolute start-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <Input
               placeholder={t("client.search_placeholder")}
               value={searchTerm}
@@ -328,7 +328,7 @@ const ClientsManagement = () => {
                   <div className="space-y-2">
                     <Label className="text-sm font-medium text-white/70">{t("client.full_name")}</Label>
                     <div className="relative">
-                      <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50 z-10" />
+                      <Users className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50 z-10" />
                       <Input
                         value={name}
                         onChange={(e) => setName(e.target.value)}
@@ -347,7 +347,7 @@ const ClientsManagement = () => {
                   <div className="space-y-2">
                     <Label className="text-sm font-medium text-white/70">{t("client.phone_number")} *</Label>
                     <div className="relative">
-                      <Plus className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50 z-10" />
+                      <Plus className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50 z-10" />
                       <Input
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}

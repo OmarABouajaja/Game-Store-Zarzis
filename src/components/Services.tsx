@@ -126,7 +126,7 @@ const Services = () => {
                       <service.icon className={`w-12 h-12 sm:w-16 sm:h-16 ${service.textClass} opacity-60 drop-shadow-2xl group-hover:scale-110 transition-transform duration-500`} />
                     </div>
                   )}
-                  {service.is_complex && <div className="absolute top-3 right-3 sm:top-4 sm:right-4">
+                  {service.is_complex && <div className="absolute top-3 end-3 sm:top-4 sm:end-4">
                     <Badge className="bg-secondary/90 hover:bg-secondary text-white border-none shadow-lg backdrop-blur-md px-3 py-1 text-[10px] sm:text-xs font-bold tracking-wider">
                       {t("services.expert_care")}
                     </Badge>

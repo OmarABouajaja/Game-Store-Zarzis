@@ -194,7 +194,7 @@ const ResetPassword = () => {
                         <div className="space-y-2">
                             <Label htmlFor="new-password">{t("auth.newPassword")}</Label>
                             <div className="relative">
-                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                                <Lock className="absolute start-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                                 <Input
                                     id="new-password"
                                     type={showPassword ? "text" : "password"}
@@ -208,7 +208,7 @@ const ResetPassword = () => {
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                                    className="absolute end-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                                 >
                                     {showPassword ? (
                                         <EyeOff className="w-4 h-4" />
@@ -222,7 +222,7 @@ const ResetPassword = () => {
                         <div className="space-y-2">
                             <Label htmlFor="confirm-password">{t("auth.confirmNewPassword")}</Label>
                             <div className="relative">
-                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                                <Lock className="absolute start-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                                 <Input
                                     id="confirm-password"
                                     type={showConfirmPassword ? "text" : "password"}
@@ -236,7 +236,7 @@ const ResetPassword = () => {
                                 <button
                                     type="button"
                                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                                    className="absolute end-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                                 >
                                     {showConfirmPassword ? (
                                         <EyeOff className="w-4 h-4" />

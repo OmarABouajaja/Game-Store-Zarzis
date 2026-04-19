@@ -685,14 +685,14 @@ const SessionsManagement = () => {
               </Button>
 
               <Button variant="outline" size="sm" className="border-primary/30 text-primary hover:bg-primary/10" onClick={() => setIsCafeMenuOpen(true)}>
-                <Coffee className="w-4 h-4 sm:mr-2" />
+                <Coffee className="w-4 h-4 sm:me-2" />
                 <span className="hidden sm:inline">{t('sessions.cafe_menu')}</span>
               </Button>
 
               <Sheet open={isQuickRefOpen} onOpenChange={setIsQuickRefOpen}>
                 <SheetTrigger asChild>
                   <Button variant="outline" size="sm" className="border-secondary/30 text-secondary hover:bg-secondary/10">
-                    <Zap className="w-4 h-4 sm:mr-2" />
+                    <Zap className="w-4 h-4 sm:me-2" />
                     <span className="hidden sm:inline">{t('sessions.pricing_shortcuts')}</span>
                   </Button>
                 </SheetTrigger>
@@ -787,7 +787,7 @@ const SessionsManagement = () => {
 
               return (
                 <Card key={type} className="glass-card border-none bg-gradient-to-br from-primary/5 to-secondary/5 overflow-hidden relative group">
-                  <div className="absolute top-0 right-0 p-8 bg-primary/10 blur-3xl rounded-full translate-x-1/2 -translate-y-1/2 group-hover:bg-primary/20 transition-all duration-700" />
+                  <div className="absolute top-0 end-0 p-8 bg-primary/10 blur-3xl rounded-full translate-x-1/2 -translate-y-1/2 group-hover:bg-primary/20 transition-all duration-700" />
                   <CardContent className="p-4 flex items-center justify-between relative z-10">
                     <div className="flex items-center gap-4">
                       <div className="w-12 h-12 rounded-xl bg-background/40 backdrop-blur-md border border-white/10 flex items-center justify-center shadow-lg">
@@ -892,14 +892,14 @@ const SessionsManagement = () => {
 
                     {/* Games Count Badge (Absolute Top Right) */}
                     {isActive && session && session.session_type === 'per_game' && (
-                      <div className="absolute top-2 right-2 z-20 flex items-center justify-center min-w-[24px] h-6 px-1.5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold shadow-lg border border-primary/50 animate-in zoom-in">
+                      <div className="absolute top-2 end-2 z-20 flex items-center justify-center min-w-[24px] h-6 px-1.5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold shadow-lg border border-primary/50 animate-in zoom-in">
                         {session.games_played || 1} <span className="text-[8px] ms-0.5 opacity-70">G</span>
                       </div>
                     )}
                   </div>
 
                   {isActive && session && (
-                    <div className="absolute bottom-2 left-2 right-2 py-2 px-4 bg-black/95 backdrop-blur-md rounded-full border border-white/20 flex items-center justify-around shadow-2xl z-30 animate-in slide-in-from-bottom-2">
+                    <div className="absolute bottom-2 start-2 end-2 py-2 px-4 bg-black/95 backdrop-blur-md rounded-full border border-white/20 flex items-center justify-around shadow-2xl z-30 animate-in slide-in-from-bottom-2">
                       <Button
                         size="icon"
                         variant="ghost"
@@ -964,7 +964,7 @@ const SessionsManagement = () => {
                         onClick={() => setGameNotes(shortcut.name)}
                       >
                         {shortcut.shortcut_key && (
-                          <span className="absolute top-1 right-1 text-[10px] font-mono bg-background border px-1 rounded opacity-70">
+                          <span className="absolute top-1 end-1 text-[10px] font-mono bg-background border px-1 rounded opacity-70">
                             {shortcut.shortcut_key}
                           </span>
                         )}
@@ -1007,7 +1007,7 @@ const SessionsManagement = () => {
                         onClick={() => setSelectedPricing(p.id)}
                       >
                         {selectedPricing === p.id && (
-                          <div className="absolute top-1 right-1">
+                          <div className="absolute top-1 end-1">
                             <Star className="w-3 h-3 text-primary fill-primary" />
                           </div>
                         )}
@@ -1356,7 +1356,7 @@ const SessionsManagement = () => {
                   <div className="bg-white text-black p-6 rounded-lg font-mono shadow-inner border border-gray-200 w-full mx-auto max-w-sm relative print-receipt-container">
                     {/* Simulated ZigZag Receipt Top/Bottom if desired, but rounded is fine */}
                     <button 
-                      className="no-print absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-800 hover:bg-gray-100 rounded-full transition-colors"
+                      className="no-print absolute top-4 end-4 p-2 text-gray-400 hover:text-gray-800 hover:bg-gray-100 rounded-full transition-colors"
                       onClick={() => window.print()}
                       title={t('sessions.print_receipt')}
                     >

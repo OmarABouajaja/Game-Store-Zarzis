@@ -50,7 +50,7 @@ const CacheStatus = ({ className = '' }: CacheStatusProps) => {
 
   return (
     <div
-      className={`fixed top-4 right-4 z-50 flex items-center gap-2 px-3 py-2 rounded-lg border backdrop-blur-md transition-all duration-300 animate-in slide-in-from-top-2 ${
+      className={`fixed top-4 end-4 z-50 flex items-center gap-2 px-3 py-2 rounded-lg border backdrop-blur-md transition-all duration-300 animate-in slide-in-from-top-2 ${
         bannerType === 'online'
           ? 'bg-green-500/10 border-green-500/20 text-green-400'
           : 'bg-red-500/10 border-red-500/20 text-red-400'

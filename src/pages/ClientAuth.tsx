@@ -15,6 +15,7 @@ import { Client } from '@/types';
 import { toast } from '@/hooks/use-toast';
 import { isValidEmail, isValidPhone, isValidName } from '@/utils/validation';
 import { cn } from "@/lib/utils";
+import SEO from '@/components/SEO';
 
 const rawUrl = import.meta.env.VITE_BACKEND_URL || 'https://bck.gamestorezarzis.com.tn';
 const API_URL = rawUrl.startsWith('http') ? rawUrl : `https://${rawUrl}`;
@@ -266,11 +267,12 @@ const ClientAuth = () => {
 
   return (
     <div className="min-h-screen grid lg:grid-cols-2 bg-background relative overflow-hidden">
+      <SEO title="Client Portal" description="Manage your loyalty points and bookings." />
       {/* Visual Side (Marketing/Branding) */}
       <div className="hidden lg:flex flex-col items-center justify-center p-12 bg-gradient-to-br from-primary/20 via-background to-accent/20 relative border-e border-white/5 overflow-hidden">
         {/* Animated background shapes */}
-        <div className="absolute top-1/4 -right-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[100px] animate-pulse" />
-        <div className="absolute bottom-1/4 -left-1/4 w-96 h-96 bg-accent/20 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/4 -end-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[100px] animate-pulse" />
+        <div className="absolute bottom-1/4 -start-1/4 w-96 h-96 bg-accent/20 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
 
         <div className="max-w-md w-full relative z-10 space-y-8">
           <div className="space-y-4 text-center lg:text-left">
@@ -363,7 +365,7 @@ const ClientAuth = () => {
                 <div
                   className={cn(
                     "absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-lg shadow-sm transition-all duration-300 ease-out",
-                    activeTab === 'login' ? "left-1 bg-primary text-primary-foreground shadow-primary/20" : "left-[calc(50%)] bg-accent text-accent-foreground shadow-accent/20"
+                    activeTab === 'login' ? "start-1 bg-primary text-primary-foreground shadow-primary/20" : "start-[calc(50%)] bg-accent text-accent-foreground shadow-accent/20"
                   )}
                 />
                 <button
@@ -400,7 +402,7 @@ const ClientAuth = () => {
                         <div className="relative group">
                           {smsEnabled ? (
                             <>
-                              <Smartphone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                              <Smartphone className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                               <Input
                                 type="tel"
                                 placeholder="29 290 065"
@@ -412,7 +414,7 @@ const ClientAuth = () => {
                             </>
                           ) : (
                             <>
-                              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                              <Mail className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                               <Input
                                 type="email"
                                 placeholder="gamer@email.com"
@@ -499,7 +501,7 @@ const ClientAuth = () => {
                           <div className="space-y-2">
                             <Label className="text-sm font-medium text-white/70">{t("client.email_address")}</Label>
                             <div className="relative group">
-                              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-accent transition-colors" />
+                              <Mail className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-accent transition-colors" />
                               <Input
                                 type="email"
                                 value={registerData.email}
@@ -513,7 +515,7 @@ const ClientAuth = () => {
                           <div className="space-y-2">
                             <Label className="text-sm font-medium text-white/70">{t("client.phone_number")}</Label>
                             <div className="relative group">
-                              <Smartphone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-accent transition-colors" />
+                              <Smartphone className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-accent transition-colors" />
                               <Input
                                 type="tel"
                                 placeholder="23 290 065"
@@ -530,7 +532,7 @@ const ClientAuth = () => {
                           <div className="space-y-2">
                             <Label className="text-sm font-medium text-white/70">{t("client.phone_number")}</Label>
                             <div className="relative group">
-                              <Smartphone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-accent transition-colors" />
+                              <Smartphone className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-accent transition-colors" />
                               <Input
                                 type="tel"
                                 placeholder="23 290 065"
@@ -544,7 +546,7 @@ const ClientAuth = () => {
                           <div className="space-y-2">
                             <Label className="text-sm font-medium text-white/70">{t("client.email_address")} ({t("common.optional") || 'Optional'})</Label>
                             <div className="relative group">
-                              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-accent transition-colors" />
+                              <Mail className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-accent transition-colors" />
                               <Input
                                 type="email"
                                 value={registerData.email}

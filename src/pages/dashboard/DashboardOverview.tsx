@@ -189,7 +189,7 @@ Game Store Zarzis - Intelligence Business
                     </span>
                     <span className="sm:hidden font-bold">{activeShifts?.length || 0}</span>
                     {activeShifts && activeShifts.length > 0 && (
-                      <span className={`absolute -top-1 ${isRTL ? '-left-1' : '-right-1'} w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]`} />
+                      <span className={`absolute -top-1 ${isRTL ? '-start-1' : '-end-1'} w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]`} />
                     )}
                   </Button>
                 </PopoverTrigger>
@@ -237,7 +237,7 @@ Game Store Zarzis - Intelligence Business
                 </Button>
               )}
               <Badge variant="outline" className="px-2 sm:px-3 py-1 text-xs sm:text-sm">
-                <Activity className="w-3 h-3 sm:w-4 sm:h-4 me-1 sm:mr-2" />
+                <Activity className="w-3 h-3 sm:w-4 sm:h-4 me-1 sm:me-2" />
                 <span className="hidden sm:inline">{t("dashboard.real_time")}</span>
                 <span className="sm:hidden">Live</span>
               </Badge>
@@ -253,7 +253,7 @@ Game Store Zarzis - Intelligence Business
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 }}
                 >
-                  <Card className={`glass-card glossy-reflection neon-cyan-glow ${isRTL ? 'border-r-4 border-r-green-500' : 'border-l-4 border-l-green-500'}`}>
+                  <Card className={`glass-card glossy-reflection neon-cyan-glow ${isRTL ? 'border-e-4 border-e-green-500' : 'border-s-4 border-s-green-500'}`}>
                     <CardContent className="p-4 sm:p-6">
                       <div className="flex items-center justify-between">
                         <div className="flex-1 min-w-0">
@@ -291,7 +291,7 @@ Game Store Zarzis - Intelligence Business
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
                 >
-                  <Card className={`glass-card glossy-reflection neon-magenta-glow ${isRTL ? 'border-r-4 border-r-blue-500' : 'border-l-4 border-l-blue-500'}`}>
+                  <Card className={`glass-card glossy-reflection neon-magenta-glow ${isRTL ? 'border-e-4 border-e-blue-500' : 'border-s-4 border-s-blue-500'}`}>
                     <CardContent className="p-4 sm:p-6">
                       <div className="flex items-center justify-between">
                         <div className="flex-1 min-w-0">
@@ -321,7 +321,7 @@ Game Store Zarzis - Intelligence Business
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
                 >
-                  <Card className={`glass-card glossy-reflection neon-purple-glow ${isRTL ? 'border-r-4 border-r-purple-500' : 'border-l-4 border-l-purple-500'}`}>
+                  <Card className={`glass-card glossy-reflection neon-purple-glow ${isRTL ? 'border-e-4 border-e-purple-500' : 'border-s-4 border-s-purple-500'}`}>
                     <CardContent className="p-4 sm:p-6">
                       <div className="flex items-center justify-between">
                         <div className="flex-1 min-w-0">
@@ -349,7 +349,7 @@ Game Store Zarzis - Intelligence Business
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
                 >
-                  <Card className={`glass-card glossy-reflection neon-magenta-glow ${isRTL ? 'border-r-4 border-r-orange-500' : 'border-l-4 border-l-orange-500'}`}>
+                  <Card className={`glass-card glossy-reflection neon-magenta-glow ${isRTL ? 'border-e-4 border-e-orange-500' : 'border-s-4 border-s-orange-500'}`}>
                     <CardContent className="p-4 sm:p-6">
                       <div className="flex items-center justify-between">
                         <div className="flex-1 min-w-0">
@@ -381,7 +381,7 @@ Game Store Zarzis - Intelligence Business
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 }}
                 >
-                  <Card className={`glass-card glossy-reflection neon-cyan-glow ${isRTL ? 'border-r-4 border-r-green-500' : 'border-l-4 border-l-green-500'}`}>
+                  <Card className={`glass-card glossy-reflection neon-cyan-glow ${isRTL ? 'border-e-4 border-e-green-500' : 'border-s-4 border-s-green-500'}`}>
                     <CardContent className="p-4 sm:p-6">
                       <div className="flex items-center justify-between">
                         <div className="flex-1 min-w-0">
@@ -407,7 +407,7 @@ Game Store Zarzis - Intelligence Business
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2 }}
                 >
-                  <Card className={`glass-card glossy-reflection neon-magenta-glow ${isRTL ? 'border-r-4 border-r-blue-500' : 'border-l-4 border-l-blue-500'}`}>
+                  <Card className={`glass-card glossy-reflection neon-magenta-glow ${isRTL ? 'border-e-4 border-e-blue-500' : 'border-s-4 border-s-blue-500'}`}>
                     <CardContent className="p-4 sm:p-6">
                       <div className="flex items-center justify-between">
                         <div className="flex-1 min-w-0">
@@ -433,7 +433,7 @@ Game Store Zarzis - Intelligence Business
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.3 }}
                 >
-                  <Card className={`glass-card glossy-reflection neon-purple-glow ${isRTL ? 'border-r-4 border-r-purple-500' : 'border-l-4 border-l-purple-500'}`}>
+                  <Card className={`glass-card glossy-reflection neon-purple-glow ${isRTL ? 'border-e-4 border-e-purple-500' : 'border-s-4 border-s-purple-500'}`}>
                     <CardContent className="p-4 sm:p-6">
                       <div className="flex items-center justify-between">
                         <div className="flex-1 min-w-0">
@@ -461,7 +461,7 @@ Game Store Zarzis - Intelligence Business
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.4 }}
                 >
-                  <Card className={`glass-card glossy-reflection neon-magenta-glow ${isRTL ? 'border-r-4 border-r-orange-500' : 'border-l-4 border-l-orange-500'}`}>
+                  <Card className={`glass-card glossy-reflection neon-magenta-glow ${isRTL ? 'border-e-4 border-e-orange-500' : 'border-s-4 border-s-orange-500'}`}>
                     <CardContent className="p-4 sm:p-6">
                       <div className="flex items-center justify-between">
                         <div className="flex-1 min-w-0">

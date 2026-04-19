@@ -137,7 +137,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
             const stationNum = session.console?.station_number || '?';
             toast({
               title: `⚠️ TIME UP: Station #${stationNum}`,
-              description: "Action required in Gaming Sessions",
+              description: t('dashboard.alarm_action'),
               variant: "destructive",
             });
             notifiedSessionsRef.current.add(session.id);
@@ -188,7 +188,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     { path: "/dashboard/sessions", icon: Gamepad2, label: t("sidebar.session_management") },
     { path: "/dashboard/services", icon: Wrench, label: t("sidebar.service_management") },
     { path: "/dashboard/sales", icon: ShoppingCart, label: t("sidebar.sales_management") },
-    { path: "/dashboard/orders", icon: Truck, label: "Orders" },
+    { path: "/dashboard/orders", icon: Truck, label: t("sidebar.orders") },
     { path: "/dashboard/clients", icon: Users, label: t("sidebar.client_management") },
     { path: "/user-guide", icon: Book, label: t("sidebar.user_guide") },
   ];

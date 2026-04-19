@@ -70,17 +70,17 @@ const BlogManagement = () => {
 
     // Validate required fields
     if (!formData.title.trim()) {
-      toast({ title: "Erreur de validation", description: "Le titre est obligatoire.", variant: "destructive" });
+      toast({ title: t("blog.toast.validation_error", "Erreur de validation"), description: t("blog.toast.title_required", "Le titre est obligatoire."), variant: "destructive" });
       return;
     }
 
     if (!formData.content.trim()) {
-      toast({ title: "Erreur de validation", description: "Le contenu est obligatoire.", variant: "destructive" });
+      toast({ title: t("blog.toast.validation_error", "Erreur de validation"), description: t("blog.toast.content_required", "Le contenu est obligatoire."), variant: "destructive" });
       return;
     }
 
     if (!user) {
-      toast({ title: "Erreur d'authentification", description: "Vous devez être connecté pour publier.", variant: "destructive" });
+      toast({ title: t("blog.toast.auth_error", "Erreur d'authentification"), description: t("blog.toast.login_required", "Vous devez être connecté pour publier."), variant: "destructive" });
       return;
     }
 
@@ -144,10 +144,10 @@ const BlogManagement = () => {
         // For updates, exclude fields that shouldn't be updated
         const { author_id, ...updateFields } = postData;
         await updatePost.mutateAsync({ id: editingPost.id, ...updateFields });
-        toast({ title: "✅ Article mis à jour", description: "L'article a été modifié avec succès." });
+        toast({ title: t("blog.toast.updated_title", "✅ Article mis à jour"), description: t("blog.toast.updated_desc", "L'article a été modifié avec succès.") });
       } else {
         await createPost.mutateAsync(postData);
-        toast({ title: "✅ Article créé", description: "Le nouvel article a été ajouté avec succès." });
+        toast({ title: t("blog.toast.created_title", "✅ Article créé"), description: t("blog.toast.created_desc", "Le nouvel article a été ajouté avec succès.") });
       }
 
       setIsDialogOpen(false);
@@ -189,7 +189,7 @@ const BlogManagement = () => {
       }
 
       toast({
-        title: "❌ Erreur",
+        title: t("blog.toast.error_title", "❌ Erreur"),
         description: errorMessage,
         variant: "destructive"
       });
@@ -197,14 +197,14 @@ const BlogManagement = () => {
   };
 
   const handleDelete = async (postId: string) => {
-    if (window.confirm("Êtes-vous sûr de vouloir supprimer cet article ? Cette action est irréversible.")) {
+    if (window.confirm(t("blog.alert.delete_confirm", "Êtes-vous sûr de vouloir supprimer cet article ? Cette action est irréversible."))) {
       try {
         await deletePost.mutateAsync(postId);
-        toast({ title: "🗑️ Article supprimé", description: "L'article a été supprimé avec succès." });
+        toast({ title: t("blog.toast.deleted_title", "🗑️ Article supprimé"), description: t("blog.toast.deleted_desc", "L'article a été supprimé avec succès.") });
       } catch (error) {
         toast({
-          title: "❌ Erreur",
-          description: "Impossible de supprimer l'article.",
+          title: t("blog.toast.error_title", "❌ Erreur"),
+          description: t("blog.toast.delete_failed", "Impossible de supprimer l'article."),
           variant: "destructive"
         });
       }
@@ -222,14 +222,14 @@ const BlogManagement = () => {
       if (error) throw error;
 
       toast({
-        title: "✅ Connexion DB OK",
-        description: "La base de données est accessible.",
+        title: t("blog.toast.db_ok_title", "✅ Connexion DB OK"),
+        description: t("blog.toast.db_ok_desc", "La base de données est accessible."),
       });
     } catch (error: any) {
       console.error("Database test error:", error);
       toast({
-        title: "❌ Erreur DB",
-        description: `Problème de connexion: ${error?.message}`,
+        title: t("blog.toast.db_error_title", "❌ Erreur DB"),
+        description: t("blog.toast.db_error_desc", `Problème de connexion: ${error?.message}`),
         variant: "destructive"
       });
     }

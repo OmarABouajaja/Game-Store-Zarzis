@@ -1228,6 +1228,115 @@ export const translations: Translations = {
   "console.status.in_use": { fr: "En Cours", en: "In Use", ar: "قيد الاستخدام" },
   "console.status.maintenance": { fr: "Maintenance", en: "Maintenance", ar: "صيانة" },
   "console.status.offline": { fr: "Hors Ligne", en: "Offline", ar: "غير متصل" },
+  "console.cannot_delete": { fr: "Impossible de supprimer la console", en: "Cannot Delete Console", ar: "لا يمكن حذف الجهاز" },
+  "console.cannot_delete_desc": { fr: "Cette console a un historique de sessions. Mettez-la en 'Hors Ligne' ou 'Maintenance' pour conserver les données financières.", en: "This console has session history. Please mark it as 'Offline' or 'Maintenance' instead to preserve financial records.", ar: "هذا الجهاز لديه سجل جلسات. يرجى وضعه في وضع 'غير متصل' أو 'صيانة' للحفاظ على السجلات المالية." },
+  "console.delete_tooltip": { fr: "Supprimer la console", en: "Delete Console", ar: "حذف الجهاز" },
+  "console.other_devices": { fr: "Autres Appareils", en: "Other Devices", ar: "أجهزة أخرى" },
+
+  // DashboardLayout
+  "dashboard.alarm_action": { fr: "Action requise dans les Sessions Gaming", en: "Action required in Gaming Sessions", ar: "إجراء مطلوب في جلسات الألعاب" },
+
+  // Products Access & Toasts
+  "products.access_denied": { fr: "Accès Refusé", en: "Access Denied", ar: "الوصول مرفوض" },
+  "products.owners_only": { fr: "Seuls les propriétaires peuvent gérer les produits.", en: "Only owners can manage products.", ar: "فقط المالكون يمكنهم إدارة المنتجات." },
+  "products.updated_toast": { fr: "✅ Produit mis à jour", en: "✅ Product updated", ar: "✅ تم تحديث المنتج" },
+  "products.updated_desc": { fr: "Les modifications ont été enregistrées.", en: "Changes have been saved.", ar: "تم حفظ التعديلات." },
+  "products.error_toast": { fr: "❌ Erreur", en: "❌ Error", ar: "❌ خطأ" },
+  "products.get_started": { fr: "pour commencer", en: "to get started", ar: "للبدء" },
+  "products.quick_sale_badge": { fr: "⚡ Vente Rapide", en: "⚡ Quick Sale", ar: "⚡ بيع سريع" },
+
+  // Sales
+  "sales.completed": { fr: "Vente effectuée !", en: "Sale completed!", ar: "تمت عملية البيع!" },
+
+  // Sessions
+  "sessions.quick_start_note": { fr: "Démarrage rapide via raccourci", en: "Quick Start via Shortcut", ar: "بدء سريع عبر الاختصار" },
+  "sessions.ended_toast": { fr: "Session terminée !", en: "Session ended!", ar: "انتهت الجلسة!" },
+  "sessions.default_rate_updated": { fr: "Tarif par défaut mis à jour", en: "Default rate updated", ar: "تم تحديث التعريفة الافتراضية" },
+  "sessions.error_generic": { fr: "Erreur", en: "Error", ar: "خطأ" },
+  "sessions.sound_muted_toast": { fr: "Son Coupé", en: "Sound Muted", ar: "الصوت مكتوم" },
+  "sessions.sound_enabled_toast": { fr: "Son Activé", en: "Sound Enabled", ar: "الصوت مفعل" },
+  "sessions.alarms_silent_toast": { fr: "Les alarmes seront silencieuses.", en: "Alarms will be silent.", ar: "ستكون التنبيهات صامتة." },
+  "sessions.alarms_active_toast": { fr: "Vous entendrez les alarmes.", en: "You will hear alarms for overdue sessions.", ar: "ستسمع التنبيهات للجلسات المتأخرة." },
+  "sessions.extend_tooltip": { fr: "Prolonger la Session", en: "Extend Session", ar: "تمديد الجلسة" },
+  "sessions.add_consumption_tooltip": { fr: "Ajouter Consommation", en: "Add Consumption", ar: "إضافة استهلاك" },
+  "sessions.end_tooltip": { fr: "Terminer la Session", en: "End Session", ar: "إنهاء الجلسة" },
+  "sessions.total_games_played": { fr: "Total de Jeux Joués", en: "Total Games Played", ar: "إجمالي الألعاب الملعوبة" },
+  "sessions.modified": { fr: "Modifié", en: "Modified", ar: "معدّل" },
+  "sessions.matches_suggestion": { fr: "Correspond à la suggestion", en: "Matches Suggestion", ar: "يطابق الاقتراح" },
+  "sessions.print_receipt": { fr: "Imprimer le Reçu", en: "Print Receipt", ar: "طباعة الإيصال" },
+  "sessions.gaming_session_label": { fr: "Session Gaming", en: "Gaming Session", ar: "جلسة ألعاب" },
+  "sessions.ending_btn": { fr: "Fin en cours...", en: "Ending...", ar: "جاري الإنهاء..." },
+  "sessions.loading_btn": { fr: "Chargement...", en: "Loading...", ar: "جاري التحميل..." },
+  "sessions.confirm_pay_btn": { fr: "CONFIRMER & PAYER", en: "CONFIRM & PAY", ar: "تأكيد ودفع" },
+  "sessions.review_payment_btn": { fr: "Revoir le Paiement", en: "Review Payment", ar: "مراجعة الدفع" },
+
+  // Expenses
+  "expenses.unknown_error": { fr: "Erreur inconnue survenue", en: "Unknown error occurred", ar: "حدث خطأ غير معروف" },
+  "expenses.validation_error": { fr: "Erreur de validation", en: "Validation Error", ar: "خطأ في التحقق" },
+  "expenses.invalid_input": { fr: "Veuillez entrer une description et un montant valide.", en: "Please enter a valid description and amount.", ar: "يرجى إدخال وصف ومبلغ صالحين." },
+  "expenses.auth_error": { fr: "Erreur d'authentification", en: "Auth Error", ar: "خطأ في المصادقة" },
+  "expenses.session_expired": { fr: "Session expirée. Veuillez vous reconnecter.", en: "Session expired. Please log in again.", ar: "انتهت الجلسة. يرجى تسجيل الدخول مرة أخرى." },
+  "expenses.operation_failed": { fr: "Opération échouée", en: "Operation failed", ar: "فشلت العملية" },
+  "expenses.error_toast": { fr: "❌ Erreur", en: "❌ Error", ar: "❌ خطأ" },
+
+  // Pricing Management
+  "pricing.name_label": { fr: "Nom", en: "Name", ar: "الاسم" },
+  "pricing.console_type_label": { fr: "Type de Console", en: "Console Type", ar: "نوع الجهاز" },
+  "pricing.pricing_type_label": { fr: "Type de Tarification", en: "Pricing Type", ar: "نوع التسعير" },
+  "pricing.hourly_rate": { fr: "Tarif Horaire", en: "Hourly Rate", ar: "تعريفة بالساعة" },
+  "pricing.per_game": { fr: "Par Match", en: "Per Game Match", ar: "لكل مباراة" },
+  "pricing.points_earned_label": { fr: "Points Gagnés", en: "Points Earned", ar: "النقاط المكتسبة" },
+
+  // Game Settings
+  "game_settings.game_name": { fr: "Nom du Jeu", en: "Game Name", ar: "اسم اللعبة" },
+  "game_settings.console_label": { fr: "Console", en: "Console", ar: "الجهاز" },
+  "game_settings.key_bind": { fr: "Raccourci Clavier", en: "Key Bind", ar: "اختصار المفتاح" },
+
+  // Blog Management
+  "blog.edit_post": { fr: "Modifier l'Article", en: "Edit Blog Post", ar: "تعديل المقال" },
+  "blog.create_post": { fr: "Créer un Nouvel Article", en: "Create New Blog Post", ar: "إنشاء مقال جديد" },
+  "blog.error_toast": { fr: "❌ Erreur", en: "❌ Error", ar: "❌ خطأ" },
+  "blog.delete_failed": { fr: "Impossible de supprimer l'article.", en: "Failed to delete article.", ar: "فشل حذف المقال." },
+  "blog.db_ok": { fr: "✅ Connexion DB OK", en: "✅ DB Connection OK", ar: "✅ اتصال قاعدة البيانات ناجح" },
+  "blog.db_ok_desc": { fr: "La base de données est accessible.", en: "Database is accessible.", ar: "قاعدة البيانات متاحة." },
+  "blog.db_error": { fr: "❌ Erreur DB", en: "❌ DB Error", ar: "❌ خطأ قاعدة البيانات" },
+  "blog.link_copied": { fr: "🔗 Lien copié", en: "🔗 Link copied", ar: "🔗 تم نسخ الرابط" },
+  "blog.link_copied_desc": { fr: "Le lien du blog a été copié dans le presse-papiers.", en: "Blog link copied to clipboard.", ar: "تم نسخ رابط المدونة إلى الحافظة." },
+  "blog.copy_failed": { fr: "Impossible de copier le lien.", en: "Failed to copy link.", ar: "فشل نسخ الرابط." },
+  "blog.publish_failed": { fr: "Impossible de modifier le statut de publication.", en: "Failed to toggle publish status.", ar: "فشل تغيير حالة النشر." },
+  "blog.publish_now": { fr: "Publier maintenant", en: "Publish now", ar: "نشر الآن" },
+  "blog.set_draft": { fr: "Mettre en brouillon", en: "Set as draft", ar: "تحويل إلى مسودة" },
+  "blog.share": { fr: "Partager", en: "Share", ar: "مشاركة" },
+  "blog.data_url_error": { fr: "Les URLs de données ne sont pas acceptées. Utilisez une URL d'image externe.", en: "Data URLs are not accepted. Use an external image URL.", ar: "روابط البيانات غير مقبولة. استخدم رابط صورة خارجي." },
+  "blog.invalid_url": { fr: "URL invalide. Vérifiez le format de l'URL.", en: "Invalid URL. Check the URL format.", ar: "رابط غير صالح. تحقق من تنسيق الرابط." },
+  "blog.all_langs_required": { fr: "Toutes les versions linguistiques sont requises", en: "All language versions are required", ar: "جميع النسخ اللغوية مطلوبة" },
+  "blog.image_error": { fr: "URL d'image invalide ou inaccessible", en: "Invalid or inaccessible image URL", ar: "رابط صورة غير صالح أو يتعذر الوصول إليه" },
+  "blog.image_load_error": { fr: "Erreur de chargement de l'image", en: "Image loading error", ar: "خطأ في تحميل الصورة" },
+  "blog.upload_disabled": { fr: "Téléversement d'images désactivé pour optimiser l'espace base de données. Utilisez une URL externe.", en: "Image upload disabled to optimize database space. Use an external URL.", ar: "تحميل الصور معطل لتحسين مساحة قاعدة البيانات. استخدم رابطاً خارجياً." },
+  "blog.permissions_error": { fr: "Permissions insuffisantes. Vérifiez vos droits d'accès.", en: "Insufficient permissions. Check your access rights.", ar: "صلاحيات غير كافية. تحقق من حقوق الوصول." },
+  "blog.duplicate_error": { fr: "Un article avec ces données existe déjà.", en: "An article with this data already exists.", ar: "يوجد مقال بنفس البيانات بالفعل." },
+  "blog.reference_error": { fr: "Erreur de référence. Vérifiez les données liées.", en: "Reference error. Check related data.", ar: "خطأ في المرجع. تحقق من البيانات المرتبطة." },
+
+  // Staff Management
+  "staff.default_name": { fr: "Membre du Personnel", en: "Staff Member", ar: "عضو في الفريق" },
+  "staff.error_toast": { fr: "❌ Erreur", en: "❌ Error", ar: "❌ خطأ" },
+  "staff.name_unavailable": { fr: "Nom non disponible", en: "Name unavailable", ar: "الاسم غير متوفر" },
+
+  // Store Settings
+  "settings.operating_hours_fallback": { fr: "Horaires d'Ouverture", en: "Operating Hours", ar: "ساعات العمل" },
+  "settings.recipient_phone": { fr: "Numéro de Téléphone du Destinataire", en: "Recipient Phone Number", ar: "رقم هاتف المستلم" },
+  "settings.owner_phone": { fr: "Numéro de Téléphone du Propriétaire", en: "Owner Phone Number", ar: "رقم هاتف المالك" },
+  "settings.restoring": { fr: "Restauration...", en: "Restoring...", ar: "جاري الاستعادة..." },
+  "settings.select_backup": { fr: "Sélectionner un Fichier de Sauvegarde", en: "Select Backup File", ar: "اختر ملف النسخ الاحتياطي" },
+
+  // Clients
+  "clients.points_redemption": { fr: "Échange de points", en: "Points redemption", ar: "استبدال النقاط" },
+
+  // Services
+  "services.error_loading": { fr: "Erreur de Chargement des Données", en: "Error Loading Data", ar: "خطأ في تحميل البيانات" },
+
+  "common.copied": { fr: "Copié !", en: "Copied!", ar: "تم النسخ!" },
+  "common.digital_copied_desc": { fr: "Code numérique copié dans le presse-papiers.", en: "Digital code copied to clipboard.", ar: "تم نسخ الرمز الرقمي إلى الحافظة." },
 
   ...helpTranslations
 };

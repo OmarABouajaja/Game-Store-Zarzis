@@ -176,7 +176,7 @@ const SessionsManagement = () => {
               pricing_id: applicablePricing.id,
               session_type: applicablePricing.price_type,
               staff_id: user?.id || '',
-              notes: "Quick Start via Shortcut"
+              notes: t('sessions.quick_start_note')
             });
           } catch (err: unknown) {
             const message = err instanceof Error ? err.message : "Start Failed";
@@ -532,7 +532,7 @@ const SessionsManagement = () => {
 
       setPointsEarned(0);
       toast({
-        title: "Session ended!",
+        title: t('sessions.ended_toast'),
         description: `Gaming: ${gamingTotal.toFixed(3)} + Items: ${consumptionTotal.toFixed(3)} = ${grandTotal.toFixed(3)} DT`
       });
       setIsEndDialogOpen(false);
@@ -623,12 +623,12 @@ const SessionsManagement = () => {
     try {
       await updateSetting.mutateAsync({ key, value: pricingId });
       toast({
-        title: "Tarif par défaut mis à jour",
+        title: t('sessions.default_rate_updated'),
         description: `Nouveau raccourci configuré pour ${consoleType}.`,
       });
     } catch (error: any) {
       toast({
-        title: "Erreur",
+        title: t('sessions.error_generic'),
         description: error.message,
         variant: "destructive"
       });
@@ -648,8 +648,8 @@ const SessionsManagement = () => {
     setIsSoundMuted(newState);
     localStorage.setItem('sound_muted', String(newState));
     toast({
-      title: newState ? "Sound Muted" : "Sound Enabled",
-      description: newState ? "Alarms will be silent." : "You will hear alarms for overdue sessions."
+      title: newState ? t('sessions.sound_muted_toast') : t('sessions.sound_enabled_toast'),
+      description: newState ? t('sessions.alarms_silent_toast') : t('sessions.alarms_active_toast')
     });
   };
 
@@ -905,7 +905,7 @@ const SessionsManagement = () => {
                         variant="ghost"
                         className="h-12 w-12 rounded-full text-primary hover:bg-primary/20 hover:text-primary transition-colors"
                         onClick={(e) => { e.stopPropagation(); openExtendDialog(session); }}
-                        title="Extend Session"
+                        title={t('sessions.extend_tooltip')}
                       >
                         <Plus className="w-6 h-6" />
                       </Button>
@@ -921,7 +921,7 @@ const SessionsManagement = () => {
                           setSelectedSessionForConsumption(session);
                           setIsConsumptionDialogOpen(true);
                         }}
-                        title="Add Consumption"
+                        title={t('sessions.add_consumption_tooltip')}
                       >
                         <Utensils className="w-5 h-5" />
                       </Button>
@@ -933,7 +933,7 @@ const SessionsManagement = () => {
                         variant="ghost"
                         className="h-12 w-12 rounded-full text-destructive hover:bg-destructive/20 hover:text-destructive transition-colors"
                         onClick={(e) => { e.stopPropagation(); openEndDialog(session); }}
-                        title="End Session"
+                        title={t('sessions.end_tooltip')}
                       >
                         <Square className="w-5 h-5 fill-current" />
                       </Button>
@@ -1202,7 +1202,7 @@ const SessionsManagement = () => {
                     {/* Counter Control */}
                     <div>
                       <Label className="flex justify-between items-center">
-                        <span>Total Games Played</span>
+                        <span>{t('sessions.total_games_played')}</span>
                         <Badge variant={gamesInSession !== (() => {
                           const startTime = new Date(selectedSession.start_time).getTime();
                           const now = new Date().getTime();
@@ -1216,7 +1216,7 @@ const SessionsManagement = () => {
                             const elapsedMinutes = (now - startTime) / 60000;
                             const tarifDuration = selectedSession.pricing?.game_duration_minutes || 0;
                             return tarifDuration > 0 ? Math.ceil(elapsedMinutes / tarifDuration) : 1;
-                          })() ? "Modified" : "Matches Suggestion"}
+                          })() ? t('sessions.modified') : t('sessions.matches_suggestion')}
                         </Badge>
                       </Label>
 
@@ -1358,7 +1358,7 @@ const SessionsManagement = () => {
                     <button 
                       className="no-print absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-800 hover:bg-gray-100 rounded-full transition-colors"
                       onClick={() => window.print()}
-                      title="Print Receipt"
+                      title={t('sessions.print_receipt')}
                     >
                       <Printer size={18} />
                     </button>
@@ -1387,7 +1387,7 @@ const SessionsManagement = () => {
                     <div className="space-y-2 mb-4 text-sm">
                       <div className="flex justify-between items-start font-semibold">
                         <div className="flex flex-col">
-                          <span>Gaming Session</span>
+                          <span>{t('sessions.gaming_session_label')}</span>
                           <span className="text-gray-500 text-xs font-normal">
                              {selectedSession.session_type === 'hourly' ? `Duration: ${getSessionDuration(selectedSession.start_time)}` : `Matches: ${gamesInSession}`}
                           </span>
@@ -1441,7 +1441,7 @@ const SessionsManagement = () => {
                     disabled={endSession.isPending || (isCreatingClient && (!newClientName || !newClientPhone)) || isConsumptionsLoading}
                   >
                     {(endSession.isPending || isConsumptionsLoading) ? <Loader2 className="animate-spin w-5 h-5 me-2" /> : endSessionStep === 'confirm' ? <Square className="w-5 h-5 me-2" /> : <Play className="w-5 h-5 me-2" />}
-                    {endSession.isPending ? "Ending..." : isConsumptionsLoading ? "Loading..." : endSessionStep === 'confirm' ? "CONFIRM & PAY" : "Review Payment"}
+                    {endSession.isPending ? t('sessions.ending_btn') : isConsumptionsLoading ? t('sessions.loading_btn') : endSessionStep === 'confirm' ? t('sessions.confirm_pay_btn') : t('sessions.review_payment_btn')}
                   </Button>
                 </div>
               </div>

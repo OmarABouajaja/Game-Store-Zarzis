@@ -13,7 +13,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
     AlertDialog,
@@ -27,10 +27,10 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
-import { Trash2, Search, ArrowLeft, ArrowRight, FileText, User, Calendar, ShoppingBag, Gamepad2, Clock } from "lucide-react";
+import { Trash2, ArrowLeft, ArrowRight, FileText, User, ShoppingBag, Gamepad2 } from "lucide-react";
 import { format } from "date-fns";
 import { HelpTooltip } from "@/components/ui/help-tooltip";
-import { Sale, GameSession } from "@/types";
+
 
 // Define a unified transaction type
 type Transaction = {
@@ -43,7 +43,7 @@ type Transaction = {
     clientName: string;
     staffName: string;
     paymentMethod: string;
-    raw: Sale | GameSession; // Keep original object for actions like delete
+    raw: any; // Supabase join results don't match base types exactly
 };
 
 const TransactionsHistory = () => {
@@ -103,7 +103,7 @@ const TransactionsHistory = () => {
                 clientName: sale.client?.name || '-',
                 staffName: (sale as any).staff?.full_name || t('transactions.unknown_staff'),
                 paymentMethod: sale.payment_method || 'cash',
-                raw: sale
+                raw: sale as any
             }));
 
             // Normalize Sessions
@@ -114,11 +114,11 @@ const TransactionsHistory = () => {
                 date: session.end_time || session.created_at,
                 amount: Number(session.total_amount),
                 description: t('transactions.gaming_session'),
-                details: `${Math.round(session.duration_minutes || 0)} mins`,
+                details: `${Math.round((session as any).duration_minutes || 0)} mins`,
                 clientName: (session as any).client?.name || t('transactions.walk_in'),
                 staffName: (session as any).staff?.full_name || t('transactions.unknown_staff'),
                 paymentMethod: 'cash', // Sessions default to cash usually, or check logic
-                raw: session
+                raw: session as any
             }));
 
             // Merge and Sort

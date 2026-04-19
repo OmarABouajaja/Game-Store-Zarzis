@@ -49,7 +49,7 @@ const ExpensesManagement = () => {
     const [activeTab, setActiveTab] = useState("daily");
 
     if (role !== "owner") {
-        return <div>Access Denied</div>;
+        return <div>{t('products.access_denied')}</div>;
     }
 
     if (isError) {
@@ -57,14 +57,14 @@ const ExpensesManagement = () => {
             <ProtectedRoute>
                 <DashboardLayout>
                     <div className="p-8 text-center text-destructive">
-                        <h2 className="text-xl font-bold mb-2">Error Loading Expenses</h2>
-                        <p>{(error as Error)?.message || "Unknown error occurred"}</p>
+                        <h2 className="text-xl font-bold mb-2">{t('services.error_loading')}</h2>
+                        <p>{(error as Error)?.message || t('expenses.unknown_error')}</p>
                         <Button
                             variant="outline"
                             className="mt-4"
                             onClick={() => window.location.reload()}
                         >
-                            Retry
+                            {t('common.retry')}
                         </Button>
                     </div>
                 </DashboardLayout>
@@ -101,8 +101,8 @@ const ExpensesManagement = () => {
         
         if (!formData.description || isNaN(amountNum) || amountNum <= 0) {
             toast({ 
-                title: "Validation Error", 
-                description: t('common.invalid_amount') || "Veuillez entrer une description et un montant valide.", 
+                title: t('expenses.validation_error'), 
+                description: t('expenses.invalid_input'), 
                 variant: "destructive" 
             });
             return;
@@ -110,8 +110,8 @@ const ExpensesManagement = () => {
 
         if (!user?.id) {
             toast({ 
-                title: "Auth Error", 
-                description: "Session expirée. Veuillez vous reconnecter.", 
+                title: t('expenses.auth_error'), 
+                description: t('expenses.session_expired'), 
                 variant: "destructive" 
             });
             return;
@@ -138,8 +138,8 @@ const ExpensesManagement = () => {
         } catch (error: any) {
             console.error("Expense operation error:", error);
             toast({ 
-                title: "❌ Error", 
-                description: error?.message || "Operation failed", 
+                title: t('expenses.error_toast'), 
+                description: error?.message || t('expenses.operation_failed'), 
                 variant: "destructive" 
             });
         }

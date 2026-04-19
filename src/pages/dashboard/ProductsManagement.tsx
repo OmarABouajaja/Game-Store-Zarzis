@@ -78,8 +78,8 @@ const ProductsManagement = () => {
         <DashboardLayout>
           <div className="flex items-center justify-center min-h-[400px]">
             <div className="text-center">
-              <h2 className="text-2xl font-bold mb-2">Access Denied</h2>
-              <p className="text-muted-foreground">Only owners can manage products.</p>
+              <h2 className="text-2xl font-bold mb-2">{t('products.access_denied')}</h2>
+              <p className="text-muted-foreground">{t('products.owners_only')}</p>
             </div>
           </div>
         </DashboardLayout>
@@ -115,13 +115,13 @@ const ProductsManagement = () => {
           id: editingProduct.id,
           ...productData
         });
-        toast({ title: "✅ Produit mis à jour", description: "Les modifications ont été enregistrées." });
+        toast({ title: t('products.updated_toast'), description: t('products.updated_desc') });
       } else {
         await createProduct.mutateAsync({
           ...productData,
           created_at: new Date().toISOString()
         } as Omit<Product, "id">);
-        toast({ title: "✅ Produit créé", description: "Le nouveau produit a été ajouté au catalogue." });
+        toast({ title: t('products.success_create'), description: t('products.updated_desc') });
       }
 
       setIsDialogOpen(false);
@@ -131,7 +131,7 @@ const ProductsManagement = () => {
       console.error("Error saving product:", error);
       const message = error instanceof Error ? error.message : "Impossible d'enregistrer le produit.";
       toast({
-        title: "❌ Erreur",
+        title: t('products.error_toast'),
         description: message,
         variant: "destructive"
       });
@@ -139,7 +139,7 @@ const ProductsManagement = () => {
   };
 
   const handleDelete = async (productId: string) => {
-    if (!window.confirm("Êtes-vous sûr de vouloir supprimer ce produit ?")) return;
+    if (!window.confirm(t('products.delete_confirm'))) return;
 
     try {
       await deleteProduct.mutateAsync(productId);
@@ -440,7 +440,7 @@ const ProductsManagement = () => {
               <div className="col-span-full text-center py-12">
                 <Package className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
                 <h3 className="text-lg font-medium mb-2">{t('products.no_products')}</h3>
-                <p className="text-muted-foreground mb-4">{t('products.add')} to get started</p>
+                <p className="text-muted-foreground mb-4">{t('products.add')} {t('products.get_started')}</p>
                 <Button onClick={() => setIsDialogOpen(true)}>
                   <Plus className="w-4 h-4 me-2" />
                   {t('products.add')}
@@ -475,7 +475,7 @@ const ProductsManagement = () => {
                         )}
                         {product.is_quick_sale && (
                           <Badge variant="secondary" className="mt-1 ms-1 bg-yellow-100 text-yellow-800 border-yellow-200">
-                            ⚡ Quick Sale
+                            {t('products.quick_sale_badge')}
                           </Badge>
                         )}
                       </div>

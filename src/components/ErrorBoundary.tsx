@@ -63,10 +63,10 @@ class ErrorBoundary extends Component<Props, State> {
 
             <div className="space-y-2">
               <h1 className="text-2xl font-bold text-foreground">
-                Oops! Something went wrong
+                Oops! Something went wrong / Oups ! / عذراً!
               </h1>
               <p className="text-muted-foreground">
-                We encountered an unexpected error. Please try again or contact support if the problem persists.
+                We encountered an unexpected error. / Nous avons rencontré une erreur inattendue. / واجهنا خطأ غير متوقع.
               </p>
             </div>
 
@@ -75,15 +75,15 @@ class ErrorBoundary extends Component<Props, State> {
             <div className="flex gap-3 justify-center">
               <Button onClick={this.handleRetry} variant="outline">
                 <RefreshCw className="w-4 h-4 me-2" />
-                Try Again
+                Try Again / Réessayer / حاول مجددا
               </Button>
               <Button onClick={this.handleReload}>
-                Reload Page
+                Reload Page / Recharger la page / إعادة تحميل
               </Button>
             </div>
 
             <div className="text-xs text-muted-foreground">
-              If this error persists, please contact Game Store Zarzis support.
+              If this error persists, please contact Game Store Zarzis support / Si le problème persiste, contactez le support / إذا استمرت المشكلة، يرجى الاتصال بالدعم
             </div>
           </div>
         </div>

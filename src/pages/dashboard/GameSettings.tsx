@@ -11,9 +11,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "@/hooks/use-toast";
 import { Gamepad2, Plus, Trash2, Edit2, GripVertical, Save } from "lucide-react";
 import { GameShortcut } from "@/types";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const GameSettings = () => {
     const { gameShortcuts, addGameShortcut, updateGameShortcut, deleteGameShortcut, isLoading } = useData();
+    const { t } = useLanguage();
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const [isEditing, setIsEditing] = useState<string | null>(null);
 
@@ -38,7 +40,7 @@ const GameSettings = () => {
             toast({ title: "Shortcut created" });
         } catch (err: unknown) {
             const message = err instanceof Error ? err.message : "Failed to create shortcut";
-            toast({ title: "Error", description: message, variant: "destructive" });
+            toast({ title: t('common.error'), description: message, variant: "destructive" });
         }
     };
 
@@ -50,18 +52,18 @@ const GameSettings = () => {
             toast({ title: "Shortcut updated" });
         } catch (err: unknown) {
             const message = err instanceof Error ? err.message : "Failed to update shortcut";
-            toast({ title: "Error", description: message, variant: "destructive" });
+            toast({ title: t('common.error'), description: message, variant: "destructive" });
         }
     };
 
     const handleDelete = async (id: string) => {
-        if (!window.confirm("Are you sure you want to delete this shortcut?")) return;
+        if (!window.confirm(t('products.delete_confirm'))) return;
         try {
             await deleteGameShortcut(id);
             toast({ title: "Shortcut deleted" });
         } catch (err: unknown) {
             const message = err instanceof Error ? err.message : "Failed to delete shortcut";
-            toast({ title: "Error", description: message, variant: "destructive" });
+            toast({ title: t('common.error'), description: message, variant: "destructive" });
         }
     };
 
@@ -111,7 +113,7 @@ const GameSettings = () => {
                                 </DialogHeader>
                                 <div className="space-y-4 py-4">
                                     <div className="space-y-2">
-                                        <Label>Game Name</Label>
+                                        <Label>{t('game_settings.game_name')}</Label>
                                         <Input
                                             placeholder="e.g. EA Sports FC 24"
                                             value={formData.name}
@@ -120,7 +122,7 @@ const GameSettings = () => {
                                     </div>
                                     <div className="grid grid-cols-3 gap-4">
                                         <div className="space-y-2">
-                                            <Label>Console</Label>
+                                            <Label>{t('game_settings.console_label')}</Label>
                                             <Select value={formData.console_type} onValueChange={v => setFormData({ ...formData, console_type: v })}>
                                                 <SelectTrigger>
                                                     <SelectValue placeholder="Select type" />
@@ -140,7 +142,7 @@ const GameSettings = () => {
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Key Bind</Label>
+                                            <Label>{t('game_settings.key_bind')}</Label>
                                             <Input
                                                 placeholder="1-9, A-Z"
                                                 value={formData.shortcut_key}

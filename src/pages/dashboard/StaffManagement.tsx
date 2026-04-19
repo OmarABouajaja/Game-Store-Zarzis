@@ -88,7 +88,7 @@ const StaffManagement = () => {
           email: formData.email,
           password: tempPassword,
           role: formData.role,
-          full_name: formData.full_name || "Staff Member",
+          full_name: formData.full_name || t("staff.default_name"),
           phone: formData.phone,
           skip_email: skipEmail,
           lang: language
@@ -142,9 +142,9 @@ const StaffManagement = () => {
 
     } catch (error: unknown) {
       console.error("Staff management error:", error);
-      const message = error instanceof Error ? error.message : "Une erreur s'est produite lors de la création du compte.";
+      const message = error instanceof Error ? error.message : t("staff.error_toast");
       toast({
-        title: "❌ Erreur",
+        title: t("staff.error_toast"),
         description: message,
         variant: "destructive"
       });
@@ -204,9 +204,9 @@ const StaffManagement = () => {
 
     } catch (error: unknown) {
       console.error("Delete staff error:", error);
-      const message = error instanceof Error ? error.message : "Impossible de supprimer le membre du personnel.";
+      const message = error instanceof Error ? error.message : t("staff.error_toast");
       toast({
-        title: "❌ Erreur",
+        title: t("staff.error_toast"),
         description: message,
         variant: "destructive"
       });
@@ -651,7 +651,7 @@ const StaffManagement = () => {
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-1">
                               <h3 className="font-bold text-base sm:text-lg tracking-tight">
-                                {member.full_name && member.full_name !== "Nom non disponible"
+                                {member.full_name && member.full_name !== t("staff.name_unavailable")
                                   ? member.full_name
                                   : member.email}
                               </h3>
@@ -692,7 +692,7 @@ const StaffManagement = () => {
                               </span>
                             </div>
                             <div className="flex items-center flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground mt-1">
-                              {(member.full_name && member.full_name !== "Nom non disponible") && (
+                              {(member.full_name && member.full_name !== t("staff.name_unavailable")) && (
                                 <div className="flex items-center gap-1">
                                   <Mail className="w-3 h-3 opacity-60" />
                                   <span>{member.email}</span>
@@ -704,7 +704,7 @@ const StaffManagement = () => {
                                   <span>{member.phone}</span>
                                 </div>
                               )}
-                              {(!member.full_name || member.full_name === "Nom non disponible") && (
+                              {(!member.full_name || member.full_name === t("staff.name_unavailable")) && (
                                 <span>{t("staff.profiles_not_supported")}</span>
                               )}
                             </div>

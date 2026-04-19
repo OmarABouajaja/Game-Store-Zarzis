@@ -57,8 +57,8 @@ const PricingManagement = () => {
         <DashboardLayout>
           <div className="flex items-center justify-center min-h-[400px]">
             <div className="text-center">
-              <h2 className="text-2xl font-bold mb-2">Access Denied</h2>
-              <p className="text-muted-foreground">Only owners can manage pricing.</p>
+              <h2 className="text-2xl font-bold mb-2">{t('products.access_denied')}</h2>
+              <p className="text-muted-foreground">{t('products.owners_only')}</p>
             </div>
           </div>
         </DashboardLayout>
@@ -75,7 +75,7 @@ const PricingManagement = () => {
     if (!editingPricing) return;
     try {
       if (!editingPricing.name) {
-        toast({ title: "Validation Error", description: "Name is required", variant: "destructive" });
+        toast({ title: t('expenses.validation_error'), description: t('pricing.name_required'), variant: "destructive" });
         return;
       }
 
@@ -83,19 +83,19 @@ const PricingManagement = () => {
         ...editingPricing,
       });
 
-      toast({ title: "✅ Success", description: "Pricing configuration updated." });
+      toast({ title: "✅", description: t('pricing.updated_success') });
       setIsEditDialogOpen(false);
       setEditingPricing(null);
     } catch (error) {
       console.error("Error updating pricing:", error);
-      toast({ title: "❌ Error", description: "Failed to update pricing", variant: "destructive" });
+      toast({ title: t('products.error_toast'), description: t('pricing.update_failed'), variant: "destructive" });
     }
   };
 
   const handleCreatePricing = async () => {
     try {
       if (!newPricing.name) {
-        toast({ title: "Validation Error", description: "Name is required", variant: "destructive" });
+        toast({ title: t('expenses.validation_error'), description: t('pricing.name_required'), variant: "destructive" });
         return;
       }
 
@@ -103,7 +103,7 @@ const PricingManagement = () => {
         ...newPricing
       });
 
-      toast({ title: "Active", description: "New pricing added successfully." });
+      toast({ title: "✅", description: t('pricing.created_success') });
       setIsCallbacksOpen(false);
       setNewPricing({
         name: "",
@@ -121,7 +121,7 @@ const PricingManagement = () => {
 
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Error creating pricing";
-      toast({ title: "Error", description: message, variant: "destructive" });
+      toast({ title: t('common.error'), description: message, variant: "destructive" });
     }
   }
 
@@ -130,10 +130,10 @@ const PricingManagement = () => {
 
     try {
       await deletePricing.mutateAsync(id);
-      toast({ title: "Deleted", description: "Pricing removed." });
+      toast({ title: "✅", description: t('pricing.deleted_success') });
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Error deleting pricing";
-      toast({ title: "Error", description: message, variant: "destructive" });
+      toast({ title: t('common.error'), description: message, variant: "destructive" });
     }
   }
   const PricingCard = ({ price }: { price: Pricing }) => (
@@ -211,7 +211,7 @@ const PricingManagement = () => {
               <DialogTrigger asChild>
                 <Button>
                   <Plus className="w-4 h-4 me-2" />
-                  Add New Pricing
+                  {t('pricing.add_new')}
                 </Button>
               </DialogTrigger>
               <DialogContent className="w-[95vw] sm:max-w-md max-h-[90vh] overflow-y-auto rounded-xl sm:rounded-lg">
@@ -221,11 +221,11 @@ const PricingManagement = () => {
                 <div className="space-y-4 py-2">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label>Name</Label>
+                      <Label>{t('pricing.name_label')}</Label>
                       <Input value={newPricing.name} onChange={e => setNewPricing({ ...newPricing, name: e.target.value })} placeholder="e.g., FIFA 25 Match" />
                     </div>
                     <div className="space-y-2">
-                      <Label>Console Type</Label>
+                      <Label>{t('pricing.console_type_label')}</Label>
                       <Select value={newPricing.console_type} onValueChange={v => setNewPricing({ ...newPricing, console_type: v })}>
                         <SelectTrigger><SelectValue /></SelectTrigger>
                         <SelectContent>
@@ -243,8 +243,8 @@ const PricingManagement = () => {
                       <Select value={newPricing.price_type} onValueChange={v => setNewPricing({ ...newPricing, price_type: v })}>
                         <SelectTrigger><SelectValue /></SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="hourly">Hourly Rate</SelectItem>
-                          <SelectItem value="per_game">Per Game Match</SelectItem>
+                          <SelectItem value="hourly">{t('pricing.hourly_rate')}</SelectItem>
+                          <SelectItem value="per_game">{t('pricing.per_game')}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -288,7 +288,7 @@ const PricingManagement = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Points Earned</Label>
+                    <Label>{t('pricing.points_earned_label')}</Label>
                     <Input type="number" value={newPricing.points_earned} onChange={e => setNewPricing({ ...newPricing, points_earned: parseInt(e.target.value) })} />
                   </div>
                 </div>
@@ -331,8 +331,8 @@ const PricingManagement = () => {
                         <Select value={editingPricing.price_type} onValueChange={v => setEditingPricing({ ...editingPricing, price_type: v })}>
                           <SelectTrigger><SelectValue /></SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="hourly">Hourly Rate</SelectItem>
-                            <SelectItem value="per_game">Per Game Match</SelectItem>
+                            <SelectItem value="hourly">{t('pricing.hourly_rate')}</SelectItem>
+                            <SelectItem value="per_game">{t('pricing.per_game')}</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -370,7 +370,7 @@ const PricingManagement = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label>Points Earned</Label>
+                      <Label>{t('pricing.points_earned_label')}</Label>
                       <Input type="number" value={editingPricing.points_earned} onChange={e => setEditingPricing({ ...editingPricing, points_earned: parseInt(e.target.value) })} />
                     </div>
                   </div>

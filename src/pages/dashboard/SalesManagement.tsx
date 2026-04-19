@@ -120,7 +120,7 @@ const SalesManagement = () => {
       }
 
       toast({
-        title: "Sale completed!",
+        title: t('sales.completed'),
         description: `${selectedProduct.name} x${quantity} = ${total.toFixed(3)} DT${pointsUsed > 0 ? ` (${pointsUsed} points used)` : ''}`
       });
 

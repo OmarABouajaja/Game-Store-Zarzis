@@ -98,13 +98,13 @@ const ConsoleManagement = () => {
       // Check for Foreign Key Violation (Postgres Error 23503)
       if (err?.message?.includes("foreign key constraint") || err?.code === '23503' || JSON.stringify(err).includes("23503")) {
         toast({
-          title: "Cannot Delete Console",
-          description: "This console has session history. Please mark it as 'Offline' or 'Maintenance' instead to preserve financial records.",
+          title: t('console.cannot_delete'),
+          description: t('console.cannot_delete_desc'),
           variant: "destructive",
           duration: 5000
         });
       } else {
-        toast({ title: "Error", description: "Failed to delete console. Try marking it as 'Offline'.", variant: "destructive" });
+        toast({ title: t('common.error'), description: t('console.failed_update'), variant: "destructive" });
       }
     }
   };
@@ -227,7 +227,7 @@ const ConsoleManagement = () => {
                       e.stopPropagation();
                       handleDeleteConsole(console.id);
                     }}
-                    title="Delete Console"
+                    title={t('console.delete_tooltip')}
                   >
                     <Trash2 className="w-4 h-4" />
                   </Button>
@@ -560,7 +560,7 @@ const ConsoleManagement = () => {
 
             {otherConsoles.length > 0 && (
               <ConsoleGrid
-                title="Other Devices"
+                title={t('console.other_devices')}
                 consoles={otherConsoles}
                 icon={<Gamepad2 className="w-5 h-5 text-muted-foreground" />}
               />

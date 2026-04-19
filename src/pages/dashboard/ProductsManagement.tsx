@@ -458,26 +458,28 @@ const ProductsManagement = () => {
                           </div>
                         )}
                         <CardTitle className="text-lg">{product.name}</CardTitle>
-                        {product.category && (
-                          <Badge variant="secondary" className="mt-1 me-1">
-                            {product.category}
-                          </Badge>
-                        )}
-                        {product.product_type && product.product_type !== 'physical' && (
-                          <Badge variant="outline" className="mt-1 me-1">
-                            {product.product_type === 'consumable' ? t('products.type_consumable_badge') : t('products.type_digital_badge')}
-                          </Badge>
-                        )}
-                        {product.subcategory && (
-                          <Badge variant="outline" className="mt-1">
-                            {product.subcategory}
-                          </Badge>
-                        )}
-                        {product.is_quick_sale && (
-                          <Badge variant="secondary" className="mt-1 ms-1 bg-yellow-100 text-yellow-800 border-yellow-200">
-                            {t('products.quick_sale_badge')}
-                          </Badge>
-                        )}
+                        <div className="flex flex-wrap gap-1 mt-2">
+                          {product.category && (
+                            <Badge variant="secondary">
+                              {product.category}
+                            </Badge>
+                          )}
+                          {product.product_type && product.product_type !== 'physical' && (
+                            <Badge variant="outline">
+                              {product.product_type === 'consumable' ? t('products.type_consumable_badge') : t('products.type_digital_badge')}
+                            </Badge>
+                          )}
+                          {product.subcategory && (
+                            <Badge variant="outline">
+                              {product.subcategory}
+                            </Badge>
+                          )}
+                          {product.is_quick_sale && (
+                            <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 border-yellow-200">
+                              {t('products.quick_sale_badge')}
+                            </Badge>
+                          )}
+                        </div>
                       </div>
                       <div className="flex gap-1">
                         <Button
@@ -520,12 +522,12 @@ const ProductsManagement = () => {
                         {product.description}
                       </p>
                     )}
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <DollarSign className="w-4 h-4 text-primary" />
-                        <span className="font-medium">{product.price.toFixed(3)} DT</span>
+                    <div className="flex flex-wrap items-center justify-between gap-2 mt-auto">
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <DollarSign className="w-4 h-4 text-primary shrink-0" />
+                        <span className="font-medium truncate">{product.price.toFixed(3)} DT</span>
                       </div>
-                      <Badge variant={product.stock_quantity > 0 ? "default" : "destructive"}>
+                      <Badge className="shrink-0" variant={product.stock_quantity > 0 ? "default" : "destructive"}>
                         {product.stock_quantity} {product.stock_quantity > 0 ? t('products.in_stock') : t('products.out_stock')}
                       </Badge>
                     </div>

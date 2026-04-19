@@ -104,7 +104,7 @@ const StoreSettings = () => {
   // Robust Client-Side Backup
   const handleFullBackup = async () => {
     try {
-      toast({ title: t('settings.toast.backup_started', "Backup Started"), description: t('settings.toast.backup_fetch', "Fetching data from secure database...") });
+      toast({ title: t('settings.toast.backup_started'), description: t('settings.toast.backup_fetch') });
 
       const tables = ['clients', 'products', 'sales', 'gaming_sessions', 'expenses', 'services_catalog', 'orders'];
       const backupData: Record<string, unknown> = { timestamp: new Date().toISOString(), version: '1.0' };
@@ -124,21 +124,21 @@ const StoreSettings = () => {
       a.click();
       window.URL.revokeObjectURL(url);
 
-      toast({ title: t('settings.toast.backup_complete', "Backup Complete"), description: t('settings.toast.backup_secured', "Your data has been secured successfully.") });
+      toast({ title: t('settings.toast.backup_complete'), description: t('settings.toast.backup_secured') });
     } catch (e) {
       console.error("Backup failed:", e);
-      toast({ title: t('settings.toast.backup_failed', "Backup Failed"), description: t('settings.toast.backup_err', "Could not fetch all data."), variant: "destructive" });
+      toast({ title: t('settings.toast.backup_failed'), description: t('settings.toast.backup_err'), variant: "destructive" });
     }
   };
 
 
   const handleExportCSV = async (type: 'sales' | 'clients' | 'products') => {
     try {
-      toast({ title: t('settings.toast.export_started', "Export Started"), description: t('settings.toast.export_fetch', `Fetching ${type} data...`) });
+      toast({ title: t('settings.toast.export_started'), description: t('settings.toast.export_fetch') });
       const { data, error } = await supabase.from(type).select('*');
       if (error) throw error;
       if (!data || !data.length) {
-        toast({ title: t('settings.toast.no_data', "No Data"), description: t('settings.toast.no_data_desc', "Nothing to export."), variant: "destructive" });
+        toast({ title: t('settings.toast.no_data'), description: t('settings.toast.no_data_desc'), variant: "destructive" });
         return;
       }
 
@@ -159,10 +159,10 @@ const StoreSettings = () => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      toast({ title: t('settings.toast.export_complete', "Export Complete"), description: t('settings.toast.csv_ready', "Your CSV file is ready.") });
+      toast({ title: t('settings.toast.export_complete'), description: t('settings.toast.csv_ready') });
     } catch (e) {
       console.error("Export error:", e);
-      toast({ title: t('settings.toast.export_failed', "Export Failed"), description: t('settings.toast.export_err', "Could not fetch data."), variant: "destructive" });
+      toast({ title: t('settings.toast.export_failed'), description: t('settings.toast.export_err'), variant: "destructive" });
     }
   };
 
@@ -196,11 +196,11 @@ const StoreSettings = () => {
           }
         }
 
-        toast({ title: t('settings.toast.restore_complete', "Restore Complete"), description: t('settings.toast.restore_success', "Data has been successfully imported.") });
+        toast({ title: t('settings.toast.restore_complete'), description: t('settings.toast.restore_success') });
         setTimeout(() => window.location.reload(), 1500); // Reload to reflect changes
       } catch (err) {
         console.error("Restore failed:", err);
-        toast({ title: t('settings.toast.restore_failed', "Restore Failed"), description: t('settings.toast.restore_err', "Invalid backup file or network error."), variant: "destructive" });
+        toast({ title: t('settings.toast.restore_failed'), description: t('settings.toast.restore_err'), variant: "destructive" });
       } finally {
         setIsRestoring(false);
       }
@@ -517,7 +517,7 @@ const StoreSettings = () => {
           </div>
 
           <Tabs defaultValue="hours" className="space-y-4">
-            <TabsList className="grid w-full grid-cols-3 h-auto p-1">
+            <TabsList className="flex flex-wrap w-full h-auto p-1 gap-1">
               <TabsTrigger value="hours" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2 px-2 sm:px-3 text-xs sm:text-sm">
                 <Clock className="w-4 h-4" />
                 <span className="truncate">{t('settings.tabs.hours')}</span>
@@ -1841,7 +1841,7 @@ const StoreSettings = () => {
                                 method: 'DELETE',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ days_to_keep: days, tables: ["sales", "gaming_sessions", "expenses"] })
-                              }).then(r => r.ok ? toast({ title: t("settings.toast.done", "Done") }) : toast({ title: t("settings.toast.error", "Error"), variant: "destructive" }));
+                              }).then(r => r.ok ? toast({ title: t("settings.toast.done") }) : toast({ title: t("settings.toast.error"), variant: "destructive" }));
                             }
                           }}
                         >

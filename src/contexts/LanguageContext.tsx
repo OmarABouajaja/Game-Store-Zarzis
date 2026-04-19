@@ -1357,6 +1357,8 @@ export const translations: Translations = {
   "a11y.open_tiktok": { fr: "Ouvrir notre page TikTok", en: "Open our TikTok page", ar: "افتح صفحتنا على تيك توك" },
   "a11y.open_facebook": { fr: "Ouvrir notre page Facebook", en: "Open our Facebook page", ar: "افتح صفحتنا على فيسبوك" },
 
+
+
   ...helpTranslations
 };
 

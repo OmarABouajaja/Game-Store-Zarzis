@@ -144,11 +144,11 @@ const PricingManagement = () => {
             <CardTitle className="text-lg">{price.name}</CardTitle>
             {price.price_type === 'per_game' && <Badge variant="outline" className="text-xs">Game</Badge>}
           </div>
-          <div className="flex gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <Badge variant={price.console_type === 'ps5' ? 'default' : 'secondary'}>
               {price.console_type?.toUpperCase()}
             </Badge>
-            <Button size="sm" variant="destructive" className="h-6 w-6 p-0" onClick={() => handleDeletePricing(price.id, price.name)}>
+            <Button size="sm" variant="destructive" className="h-6 w-6 p-0 shrink-0" onClick={() => handleDeletePricing(price.id, price.name)}>
               <Trash2 className="w-3 h-3" />
             </Button>
           </div>

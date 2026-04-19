@@ -262,15 +262,15 @@ export const QuickSaleMenu = ({ isOpen, onOpenChange, clientId, sessionId }: Qui
                                                         <Button
                                                             size="sm"
                                                             variant="default"
-                                                            className="w-full h-8 text-xs"
+                                                            className="w-full h-8 text-xs px-1"
                                                             disabled={(product.stock_quantity || product.stock || 0) === 0}
                                                             onClick={(e) => {
                                                                 e.stopPropagation();
                                                                 addToCart(product);
                                                             }}
                                                         >
-                                                            <Plus className="w-3 h-3 me-1" />
-                                                            {t('quicksale.add')}
+                                                            <Plus className="w-3 h-3 me-1 shrink-0" />
+                                                            <span className="truncate">{t('quicksale.add')}</span>
                                                         </Button>
                                                     </div>
                                                 </CardContent>

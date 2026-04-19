@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import DashboardLayout from "@/components/DashboardLayout";
 import { useAuth } from "@/contexts/AuthContext";
@@ -7,23 +7,23 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-    Plus, Edit, Trash2, Calendar, Receipt,
+    Plus, Trash2, Calendar, Receipt,
     TrendingDown, CreditCard, Wallet, Pencil
 } from "lucide-react";
 import {
     Dialog, DialogContent, DialogHeader, DialogTitle,
-    DialogFooter, DialogTrigger
+    DialogFooter
 } from "@/components/ui/dialog";
 import {
     Select, SelectContent, SelectItem,
     SelectTrigger, SelectValue
 } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useExpenses, useCreateExpense, useUpdateExpense, useDeleteExpense } from "@/hooks/useExpenses";
 import { useExpensesAutomation } from "@/hooks/useExpensesAutomation";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { format } from "date-fns";
+
 import { Skeleton } from "@/components/ui/skeleton";
 
 const ExpensesManagement = () => {

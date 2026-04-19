@@ -25,7 +25,7 @@ export const useCreateOrder = () => {
                     payment_status: 'pending',
                     status: 'pending',
                     notes: orderData.notes || null
-                })
+                } as any)
                 .select()
                 .single();
 
@@ -48,7 +48,7 @@ export const useOrders = () => {
                 .order("created_at", { ascending: false });
 
             if (error) throw error;
-            return data as Order[];
+            return data as unknown as Order[];
         },
     });
 };

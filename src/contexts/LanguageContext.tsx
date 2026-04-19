@@ -1338,6 +1338,25 @@ export const translations: Translations = {
   "common.copied": { fr: "Copié !", en: "Copied!", ar: "تم النسخ!" },
   "common.digital_copied_desc": { fr: "Code numérique copié dans le presse-papiers.", en: "Digital code copied to clipboard.", ar: "تم نسخ الرمز الرقمي إلى الحافظة." },
 
+  // Footer Links
+  "footer.terms": { fr: "Conditions Générales", en: "Terms of Service", ar: "شروط الخدمة" },
+  "footer.delivery": { fr: "Conditions de Livraison", en: "Delivery Conditions", ar: "شروط التوصيل" },
+
+  // Services Category Filters
+  "services.filter.all": { fr: "Tous", en: "All", ar: "الكل" },
+  "services.filter.phone": { fr: "Smartphone", en: "Smartphone", ar: "هاتف" },
+  "services.filter.console": { fr: "Consoles", en: "Consoles", ar: "أجهزة" },
+  "services.filter.controller": { fr: "Manettes", en: "Controllers", ar: "أذرع تحكم" },
+  "services.filter.pc": { fr: "Ordinateurs", en: "Computers", ar: "حاسوب" },
+  "services.filter.accounts": { fr: "Comptes", en: "Accounts", ar: "حسابات" },
+
+  // Accessibility
+  "a11y.book_session": { fr: "Réserver une session via WhatsApp", en: "Book a session via WhatsApp", ar: "حجز جلسة عبر واتساب" },
+  "a11y.get_repair_quote": { fr: "Demander un devis de réparation via WhatsApp", en: "Get a repair quote via WhatsApp", ar: "طلب عرض سعر إصلاح عبر واتساب" },
+  "a11y.open_instagram": { fr: "Ouvrir notre page Instagram", en: "Open our Instagram page", ar: "افتح صفحتنا على إنستغرام" },
+  "a11y.open_tiktok": { fr: "Ouvrir notre page TikTok", en: "Open our TikTok page", ar: "افتح صفحتنا على تيك توك" },
+  "a11y.open_facebook": { fr: "Ouvrir notre page Facebook", en: "Open our Facebook page", ar: "افتح صفحتنا على فيسبوك" },
+
   ...helpTranslations
 };
 

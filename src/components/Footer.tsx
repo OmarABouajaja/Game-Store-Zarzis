@@ -14,7 +14,7 @@ const Footer = () => {
           {/* Logo Section */}
           <div className="flex items-center gap-2 md:gap-3">
             <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-gradient-to-br from-primary/70 via-primary/60 to-accent/70 flex items-center justify-center overflow-hidden border-2 border-primary shadow-[0_0_25px_hsl(var(--primary)/0.6),0_0_40px_hsl(var(--primary)/0.3)]">
-              <img src="/gamestorelogocmp.png" alt="Game Store logo" className="w-6 h-6 md:w-7 md:h-7 object-contain brightness-125 contrast-125 drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" width="28" height="28" loading="lazy" decoding="async" />
+              <img src="/gamestorelogocmp.png" alt="Game Store Zarzis" className="w-6 h-6 md:w-7 md:h-7 object-contain brightness-125 contrast-125 drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" width="28" height="28" loading="lazy" decoding="async" />
             </div>
             <div className="flex flex-col">
               <span
@@ -44,10 +44,10 @@ const Footer = () => {
               {t("nav.contact")}
             </a>
             <Link to="/terms" className="text-muted-foreground hover:text-primary transition-colors text-xs md:text-sm hover:underline">
-              Terms
+              {t("footer.terms")}
             </Link>
             <Link to="/delivery" className="text-muted-foreground hover:text-primary transition-colors text-xs md:text-sm hover:underline">
-              Delivery
+              {t("footer.delivery")}
             </Link>
           </div>
 

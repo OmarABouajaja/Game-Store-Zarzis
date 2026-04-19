@@ -95,6 +95,7 @@ const Hero = () => {
               href="https://wa.me/21629290065?text=Bonjour%2C%20je%20souhaite%20r%C3%A9server%20une%20session%20gaming."
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={t("a11y.book_session")}
               className="inline-flex items-center justify-center gap-2.5 whitespace-nowrap rounded-xl text-base sm:text-lg font-bold h-12 sm:h-14 px-6 sm:px-8 bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_0_20px_hsl(var(--primary)/0.5)] transition-all duration-300 w-full sm:w-auto min-w-[180px] hover:scale-[1.03] touch-manipulation active:scale-[0.97]"
             >
               <Gamepad2 className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -104,6 +105,7 @@ const Hero = () => {
               href="https://wa.me/21629290065?text=Bonjour%2C%20je%20souhaite%20demander%20un%20devis%20pour%20une%20r%C3%A9paration."
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={t("a11y.get_repair_quote")}
               className="inline-flex items-center justify-center gap-2.5 whitespace-nowrap rounded-xl text-base sm:text-lg font-bold h-12 sm:h-14 px-6 sm:px-8 bg-muted/50 border-2 border-primary/50 text-foreground hover:bg-muted/70 hover:border-primary transition-all duration-300 w-full sm:w-auto min-w-[180px] hover:scale-[1.03] touch-manipulation active:scale-[0.97]"
             >
               <Wrench className="w-5 h-5 sm:w-6 sm:h-6" />

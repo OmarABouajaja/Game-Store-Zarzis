@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import DashboardLayout from "@/components/DashboardLayout";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/lib/supabase";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -29,6 +29,7 @@ const StaffManagement = () => {
   const { data: staffMembers = [], isLoading, refetch } = useStaffMembers();
   const updateStaffRole = useUpdateStaffRole();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     full_name: "",
@@ -83,7 +84,6 @@ const StaffManagement = () => {
 
       } else {
         const tempPassword = generatePassword();
-        const rawUrl = import.meta.env.VITE_BACKEND_URL || 'https://bck.gamestorezarzis.com.tn';
         const { email_sent: apiEmailSent } = await createStaffMember({
           email: formData.email,
           password: tempPassword,
@@ -132,7 +132,7 @@ const StaffManagement = () => {
         });
 
         // Refresh the list
-        await fetchStaffMembers();
+        await refetch();
       }
 
       setIsDialogOpen(false);
@@ -242,7 +242,7 @@ const StaffManagement = () => {
                 variant="outline"
                 onClick={async () => {
                   try {
-                    setIsLoading(true);
+                    setIsSyncing(true);
                     const rawUrl = import.meta.env.VITE_BACKEND_URL || 'https://bck.gamestorezarzis.com.tn';
                     const API_URL = rawUrl.startsWith('http') ? rawUrl : `https://${rawUrl}`;
                     const token = session?.access_token;
@@ -266,11 +266,11 @@ const StaffManagement = () => {
                   } catch (e) {
                     toast({ title: t("staff.sync_error"), description: t("staff.sync_error"), variant: "destructive" });
                   } finally {
-                    setIsLoading(false);
+                    setIsSyncing(false);
                   }
                 }}
               >
-                <RefreshCw className={`w-4 h-4 me-2 ${isLoading ? 'animate-spin' : ''}`} />
+                <RefreshCw className={`w-4 h-4 me-2 ${isSyncing ? 'animate-spin' : ''}`} />
                 {t("staff.sync_data")}
               </Button>
               <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>

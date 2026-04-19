@@ -1,28 +1,44 @@
--- Game Store Zarzis - Complete Database Schema & Seed Data
--- Last updated: 2026-01-20
+-- ==============================================================================
+-- Game Store Zarzis — Complete Database Setup (Unified)
+-- 
+-- This file combines:
+--   1. database/setup/database_schema.sql       (base schema + seed data)
+--   2. database/migrations/migration_product_extensions.sql
+--   3. database/migrations/migration_staff_profiles.sql
+--
+-- Run this ONCE against a fresh Supabase project to set up everything.
+-- Last consolidated: 2026-04-19
+-- ==============================================================================
+
 
 -- ==========================================
 -- 1. ENUMS
 -- ==========================================
-CREATE TYPE public.app_role AS ENUM ('owner', 'worker');
+DO $$ BEGIN
+  CREATE TYPE public.app_role AS ENUM ('owner', 'worker');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+
 
 -- ==========================================
 -- 2. TABLES
 -- ==========================================
 
--- profiles: Stores additional user information
-CREATE TABLE public.profiles (
+-- profiles: Stores additional user information (+ email from migration)
+CREATE TABLE IF NOT EXISTS public.profiles (
     id UUID REFERENCES auth.users ON DELETE CASCADE PRIMARY KEY,
     full_name TEXT NOT NULL,
+    email TEXT,
     avatar_url TEXT,
     phone TEXT,
     is_active BOOLEAN DEFAULT true,
     created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
     updated_at TIMESTAMPTZ DEFAULT now() NOT NULL
 );
+CREATE UNIQUE INDEX IF NOT EXISTS profiles_email_idx ON public.profiles (email);
 
 -- user_roles: Connects users to roles
-CREATE TABLE public.user_roles (
+CREATE TABLE IF NOT EXISTS public.user_roles (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     user_id UUID REFERENCES auth.users ON DELETE CASCADE NOT NULL UNIQUE,
     role public.app_role NOT NULL,
@@ -30,7 +46,7 @@ CREATE TABLE public.user_roles (
 );
 
 -- clients: Store customer information
-CREATE TABLE public.clients (
+CREATE TABLE IF NOT EXISTS public.clients (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     name TEXT NOT NULL,
     phone TEXT NOT NULL UNIQUE,
@@ -43,7 +59,7 @@ CREATE TABLE public.clients (
 );
 
 -- consoles: Stations available for gaming
-CREATE TABLE public.consoles (
+CREATE TABLE IF NOT EXISTS public.consoles (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     name TEXT NOT NULL,
     station_number INTEGER NOT NULL,
@@ -55,7 +71,7 @@ CREATE TABLE public.consoles (
 );
 
 -- pricing: Price list for different sessions
-CREATE TABLE public.pricing (
+CREATE TABLE IF NOT EXISTS public.pricing (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     name TEXT NOT NULL,
     name_fr TEXT,
@@ -72,8 +88,9 @@ CREATE TABLE public.pricing (
     updated_at TIMESTAMPTZ DEFAULT now() NOT NULL
 );
 
--- products: Physical items or consumables for sale
-CREATE TABLE public.products (
+-- products: Physical items, consumables, or digital goods for sale
+-- (Includes all columns from migration_product_extensions)
+CREATE TABLE IF NOT EXISTS public.products (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     name TEXT NOT NULL,
     name_fr TEXT,
@@ -88,15 +105,12 @@ CREATE TABLE public.products (
     points_earned INTEGER DEFAULT 0,
     points_price INTEGER,
     image_url TEXT,
-    
-    -- Extended features (Consumables, Digital, Cafe structure)
     product_type TEXT DEFAULT 'physical', -- 'physical', 'consumable', 'digital'
     subcategory TEXT,
     is_quick_sale BOOLEAN DEFAULT false,
     low_stock_threshold INTEGER DEFAULT 5,
     digital_content TEXT,
     is_digital_delivery BOOLEAN DEFAULT false,
-    
     status TEXT DEFAULT 'active', -- 'active', 'out_of_stock', 'discontinued'
     is_active BOOLEAN DEFAULT true,
     created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
@@ -104,7 +118,7 @@ CREATE TABLE public.products (
 );
 
 -- gaming_sessions: Records of playing sessions
-CREATE TABLE public.gaming_sessions (
+CREATE TABLE IF NOT EXISTS public.gaming_sessions (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     console_id UUID REFERENCES public.consoles NOT NULL,
     client_id UUID REFERENCES public.clients,
@@ -128,7 +142,7 @@ CREATE TABLE public.gaming_sessions (
 );
 
 -- sales: Specific product sale transactions
-CREATE TABLE public.sales (
+CREATE TABLE IF NOT EXISTS public.sales (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     product_id UUID REFERENCES public.products NOT NULL,
     client_id UUID REFERENCES public.clients,
@@ -144,7 +158,7 @@ CREATE TABLE public.sales (
 );
 
 -- expenses: Store costs tracking
-CREATE TABLE public.expenses (
+CREATE TABLE IF NOT EXISTS public.expenses (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     name TEXT NOT NULL,
     amount DECIMAL(10,3) NOT NULL,
@@ -156,7 +170,7 @@ CREATE TABLE public.expenses (
 );
 
 -- services_catalog: Catalog of repair/technical services
-CREATE TABLE public.services_catalog (
+CREATE TABLE IF NOT EXISTS public.services_catalog (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     name TEXT NOT NULL,
     name_fr TEXT,
@@ -168,6 +182,7 @@ CREATE TABLE public.services_catalog (
     price DECIMAL(10,3),
     is_complex BOOLEAN DEFAULT false,
     estimated_duration TEXT,
+    image_url TEXT,
     is_active BOOLEAN DEFAULT true,
     sort_order INTEGER DEFAULT 0,
     created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
@@ -175,7 +190,7 @@ CREATE TABLE public.services_catalog (
 );
 
 -- service_requests: Active and completed service jobs
-CREATE TABLE public.service_requests (
+CREATE TABLE IF NOT EXISTS public.service_requests (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     service_id UUID REFERENCES public.services_catalog NOT NULL,
     client_id UUID REFERENCES public.clients,
@@ -202,7 +217,7 @@ CREATE TABLE public.service_requests (
 );
 
 -- points_transactions: Log of point changes
-CREATE TABLE public.points_transactions (
+CREATE TABLE IF NOT EXISTS public.points_transactions (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     client_id UUID REFERENCES public.clients NOT NULL,
     transaction_type TEXT NOT NULL,
@@ -218,7 +233,7 @@ CREATE TABLE public.points_transactions (
 );
 
 -- staff_shifts: Attendance tracking
-CREATE TABLE public.staff_shifts (
+CREATE TABLE IF NOT EXISTS public.staff_shifts (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     staff_id UUID REFERENCES auth.users NOT NULL,
     check_in TIMESTAMPTZ DEFAULT now() NOT NULL,
@@ -228,7 +243,7 @@ CREATE TABLE public.staff_shifts (
 );
 
 -- blog_posts: Store news and marketing
-CREATE TABLE public.blog_posts (
+CREATE TABLE IF NOT EXISTS public.blog_posts (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     title TEXT NOT NULL,
     title_fr TEXT NOT NULL,
@@ -246,7 +261,7 @@ CREATE TABLE public.blog_posts (
 );
 
 -- store_settings: Global key-value configuration
-CREATE TABLE public.store_settings (
+CREATE TABLE IF NOT EXISTS public.store_settings (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     key TEXT NOT NULL UNIQUE,
     value JSONB NOT NULL,
@@ -255,30 +270,29 @@ CREATE TABLE public.store_settings (
 );
 
 -- orders: Online and physical orders for products/services
-CREATE TABLE public.orders (
+CREATE TABLE IF NOT EXISTS public.orders (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    user_id UUID REFERENCES auth.users, -- Optional for guest checkout
+    user_id UUID REFERENCES auth.users,
     client_name TEXT,
     client_phone TEXT,
     client_email TEXT,
     delivery_address TEXT,
-    items JSONB NOT NULL, -- Array of items with qty, price, etc.
+    items JSONB NOT NULL,
     subtotal DECIMAL(12,3),
     delivery_cost DECIMAL(12,3) DEFAULT 0,
     total_amount DECIMAL(12,3) NOT NULL,
     delivery_method TEXT NOT NULL, -- 'pickup', 'rapid_post', 'local_delivery'
     payment_method TEXT NOT NULL, -- 'cash', 'bank_transfer', 'd17', 'card'
     payment_reference TEXT,
-    payment_status TEXT DEFAULT 'pending', -- 'pending', 'paid', 'failed'
-    status TEXT DEFAULT 'pending' NOT NULL, -- 'pending', 'processing', 'completed', 'cancelled'
+    payment_status TEXT DEFAULT 'pending',
+    status TEXT DEFAULT 'pending' NOT NULL,
     notes TEXT,
     created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
     updated_at TIMESTAMPTZ DEFAULT now() NOT NULL
 );
 
-
 -- daily_stats: Cached stats for reporting
-CREATE TABLE public.daily_stats (
+CREATE TABLE IF NOT EXISTS public.daily_stats (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     date DATE NOT NULL UNIQUE,
     total_revenue DECIMAL(12,3) DEFAULT 0,
@@ -291,6 +305,7 @@ CREATE TABLE public.daily_stats (
     created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
     updated_at TIMESTAMPTZ DEFAULT now() NOT NULL
 );
+
 
 -- ==========================================
 -- 3. FUNCTIONS
@@ -328,43 +343,83 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- fn: handle_new_user - Auto-sync profile from auth.users on creation
+-- (From migration_staff_profiles)
+CREATE OR REPLACE FUNCTION public.handle_new_user() 
+RETURNS trigger 
+LANGUAGE plpgsql 
+SECURITY DEFINER SET search_path = public
+AS $$
+BEGIN
+  INSERT INTO public.profiles (id, full_name, email, created_at)
+  VALUES (
+    new.id, 
+    COALESCE(new.raw_user_meta_data->>'full_name', 'System User'),
+    new.email,
+    new.created_at
+  )
+  ON CONFLICT (id) DO UPDATE 
+  SET email = EXCLUDED.email;
+  
+  RETURN new;
+END;
+$$;
+
+-- Trigger: auto-sync profile on user creation/email change
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+CREATE TRIGGER on_auth_user_created
+  AFTER INSERT OR UPDATE OF email ON auth.users
+  FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+
+
 -- ==========================================
 -- 4. SEED DATA (CORE CONFIGURATION)
 -- ==========================================
 
--- Default Consoles
-INSERT INTO public.consoles (name, station_number, console_type, status) VALUES
-('PS5 Station 1', 1, 'ps5', 'available'),
-('PS5 Station 2', 2, 'ps5', 'available'),
-('PS5 Station 3', 3, 'ps5', 'available'),
-('PS5 Station 4', 4, 'ps5', 'available'),
-('PS4 Station 5', 5, 'ps4', 'available'),
-('PS4 Station 6', 6, 'ps4', 'available');
+-- Default Consoles (skip if already exist)
+INSERT INTO public.consoles (name, station_number, console_type, status)
+SELECT * FROM (VALUES
+  ('PS5 Station 1', 1, 'ps5', 'available'),
+  ('PS5 Station 2', 2, 'ps5', 'available'),
+  ('PS5 Station 3', 3, 'ps5', 'available'),
+  ('PS5 Station 4', 4, 'ps5', 'available'),
+  ('PS4 Station 5', 5, 'ps4', 'available'),
+  ('PS4 Station 6', 6, 'ps4', 'available')
+) AS v(name, station_number, console_type, status)
+WHERE NOT EXISTS (SELECT 1 FROM public.consoles LIMIT 1);
 
 -- Default Pricing (Hourly)
-INSERT INTO public.pricing (name, name_fr, name_ar, console_type, price_type, price, extra_time_price, points_earned, sort_order) VALUES
-('Standard PS5', 'Standard PS5', 'بلايستيشن 5 عادي', 'ps5', 'hourly', 5.000, 1.250, 5, 1),
-('VIP PS5', 'VIP PS5', 'بلايستيشن 5 خاص', 'ps5', 'hourly', 7.000, 1.750, 7, 2),
-('Standard PS4', 'Standard PS4', 'بلايستيشن 4 عادي', 'ps4', 'hourly', 3.000, 0.750, 3, 3);
+INSERT INTO public.pricing (name, name_fr, name_ar, console_type, price_type, price, extra_time_price, points_earned, sort_order)
+SELECT * FROM (VALUES
+  ('Standard PS5', 'Standard PS5', 'بلايستيشن 5 عادي', 'ps5', 'hourly', 5.000::DECIMAL, 1.250::DECIMAL, 5, 1),
+  ('VIP PS5', 'VIP PS5', 'بلايستيشن 5 خاص', 'ps5', 'hourly', 7.000::DECIMAL, 1.750::DECIMAL, 7, 2),
+  ('Standard PS4', 'Standard PS4', 'بلايستيشن 4 عادي', 'ps4', 'hourly', 3.000::DECIMAL, 0.750::DECIMAL, 3, 3)
+) AS v(name, name_fr, name_ar, console_type, price_type, price, extra_time_price, points_earned, sort_order)
+WHERE NOT EXISTS (SELECT 1 FROM public.pricing WHERE price_type = 'hourly' LIMIT 1);
 
 -- Default Pricing (Per Game)
-INSERT INTO public.pricing (name, name_fr, name_ar, console_type, price_type, price, game_duration_minutes, points_earned, sort_order) VALUES
-('PS5 Single Game', 'Match PS5', 'مقابلة بلايستيشن 5', 'ps5', 'fixed', 2.000, 15, 2, 4),
-('PS4 Single Game', 'Match PS4', 'مقابلة بلايستيشن 4', 'ps4', 'fixed', 1.000, 15, 1, 5);
+INSERT INTO public.pricing (name, name_fr, name_ar, console_type, price_type, price, game_duration_minutes, points_earned, sort_order)
+SELECT * FROM (VALUES
+  ('PS5 Single Game', 'Match PS5', 'مقابلة بلايستيشن 5', 'ps5', 'fixed', 2.000::DECIMAL, 15, 2, 4),
+  ('PS4 Single Game', 'Match PS4', 'مقابلة بلايستيشن 4', 'ps4', 'fixed', 1.000::DECIMAL, 15, 1, 5)
+) AS v(name, name_fr, name_ar, console_type, price_type, price, game_duration_minutes, points_earned, sort_order)
+WHERE NOT EXISTS (SELECT 1 FROM public.pricing WHERE price_type = 'fixed' LIMIT 1);
 
--- Default Store Settings
+-- Default Store Settings (upsert-safe)
 INSERT INTO public.store_settings (key, value) VALUES
-('opening_hours', '{"open": "08:00", "close": "02:00"}'),
-('free_game_threshold', '{"games_required": 10}'),
-('points_config', '{"points_per_dt": 1, "dt_per_point": 1}'),
-('auth_config', '{"enable_sms_verification": false}'),
-('theme_primary', '"185 100% 50%"'),
-('help_tooltips_enabled', 'true'),
-('points_system_enabled', 'true'),
-('free_games_enabled', 'true');
+  ('opening_hours', '{"open": "08:00", "close": "02:00"}'),
+  ('free_game_threshold', '{"games_required": 10}'),
+  ('points_config', '{"points_per_dt": 1, "dt_per_point": 1}'),
+  ('auth_config', '{"enable_sms_verification": false}'),
+  ('theme_primary', '"185 100% 50%"'),
+  ('help_tooltips_enabled', 'true'),
+  ('points_system_enabled', 'true'),
+  ('free_games_enabled', 'true')
+ON CONFLICT (key) DO NOTHING;
+
 
 -- ==========================================
--- 5. ACCESS POLICIES
+-- 5. ROW LEVEL SECURITY & POLICIES
 -- ==========================================
 ALTER TABLE public.user_roles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
@@ -384,21 +439,31 @@ ALTER TABLE public.store_settings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.daily_stats ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
 
--- Simple "everyone can read, staff can write" policies (Baseline)
+-- Public Read Access
 CREATE POLICY "Public Read" ON public.consoles FOR SELECT USING (true);
 CREATE POLICY "Public Read" ON public.pricing FOR SELECT USING (true);
 CREATE POLICY "Public Read" ON public.products FOR SELECT USING (true);
 CREATE POLICY "Public Read" ON public.services_catalog FOR SELECT USING (true);
 CREATE POLICY "Public Read" ON public.blog_posts FOR SELECT USING (is_published = true);
+CREATE POLICY "Public Read" ON public.store_settings FOR SELECT USING (true);
 
--- Staff Write Access
+-- Staff Write Access (owner or worker)
 CREATE POLICY "Staff Full Access" ON public.clients FOR ALL USING (public.is_staff(auth.uid()));
 CREATE POLICY "Staff Full Access" ON public.gaming_sessions FOR ALL USING (public.is_staff(auth.uid()));
 CREATE POLICY "Staff Full Access" ON public.sales FOR ALL USING (public.is_staff(auth.uid()));
 CREATE POLICY "Staff Full Access" ON public.service_requests FOR ALL USING (public.is_staff(auth.uid()));
 CREATE POLICY "Staff Full Access" ON public.orders FOR ALL USING (public.is_staff(auth.uid()));
+CREATE POLICY "Staff Full Access" ON public.points_transactions FOR ALL USING (public.is_staff(auth.uid()));
+CREATE POLICY "Staff Full Access" ON public.staff_shifts FOR ALL USING (public.is_staff(auth.uid()));
+CREATE POLICY "Staff Full Access" ON public.daily_stats FOR ALL USING (public.is_staff(auth.uid()));
+CREATE POLICY "Staff Full Access" ON public.consoles FOR ALL USING (public.is_staff(auth.uid()));
+CREATE POLICY "Staff Full Access" ON public.pricing FOR ALL USING (public.is_staff(auth.uid()));
+CREATE POLICY "Staff Full Access" ON public.products FOR ALL USING (public.is_staff(auth.uid()));
+CREATE POLICY "Staff Full Access" ON public.services_catalog FOR ALL USING (public.is_staff(auth.uid()));
+CREATE POLICY "Staff Full Access" ON public.blog_posts FOR ALL USING (public.is_staff(auth.uid()));
+CREATE POLICY "Staff Full Access" ON public.profiles FOR ALL USING (public.is_staff(auth.uid()));
 
--- Orders specific for clients: can read their own if user_id matches, anyone can place an order
+-- Orders: anyone can place, clients can view own
 CREATE POLICY "Enable insert for everyone" ON public.orders FOR INSERT WITH CHECK (true);
 CREATE POLICY "Clients can view own orders" ON public.orders FOR SELECT USING (auth.uid() = user_id);
 
@@ -406,3 +471,31 @@ CREATE POLICY "Clients can view own orders" ON public.orders FOR SELECT USING (a
 CREATE POLICY "Owner Full Access" ON public.expenses FOR ALL USING (public.has_role(auth.uid(), 'owner'));
 CREATE POLICY "Owner Full Access" ON public.store_settings FOR ALL USING (public.has_role(auth.uid(), 'owner'));
 CREATE POLICY "Owner Full Access" ON public.user_roles FOR ALL USING (public.has_role(auth.uid(), 'owner'));
+
+
+-- ==========================================
+-- 6. BACKFILL (safe to re-run)
+-- ==========================================
+
+-- Backfill emails from auth.users into profiles
+DO $$
+DECLARE
+  user_record RECORD;
+BEGIN
+  FOR user_record IN SELECT id, email FROM auth.users LOOP
+    UPDATE public.profiles p
+    SET email = user_record.email
+    WHERE p.id = user_record.id AND p.email IS NULL;
+  END LOOP;
+END;
+$$;
+
+-- Ensure product consistency
+UPDATE public.products SET product_type = 'physical' WHERE product_type IS NULL;
+UPDATE public.products SET is_quick_sale = false WHERE is_quick_sale IS NULL;
+UPDATE public.products SET cost_price = 0 WHERE cost_price IS NULL;
+
+
+-- ==========================================
+-- DONE. Your Game Store Zarzis database is ready.
+-- ==========================================

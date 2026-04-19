@@ -70,7 +70,7 @@ const Index = () => {
         description="Votre destination ultime pour le gaming et la réparation tech à Zarzis. Réparation iPhone, PC, consoles et zone gaming 4K."
       />
       <ConsoleCounter />
-      <div className="relative z-10">
+        <main id="main-content">
         <Navbar />
         <Hero />
         <ClientHomeStats />
@@ -148,7 +148,7 @@ const Index = () => {
             ]
           })
         }} />
-      </div>
+        </main>
     </div>
   );
 };

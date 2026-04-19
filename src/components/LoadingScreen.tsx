@@ -52,7 +52,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           <div className="absolute inset-0 bg-primary/20 rounded-full blur-2xl animate-pulse" />
           <div className="relative bg-gradient-to-br from-primary/30 to-accent/30 p-8 rounded-2xl border border-primary/50">
             <Gamepad2 
-              className="w-16 h-16 md:w-20 md:h-20 text-primary animate-float animate-rotate" 
+              className="w-16 h-16 md:w-20 md:h-20 text-primary animate-float" 
               style={{ 
                 filter: 'drop-shadow(0 0 20px hsl(var(--primary)))'
               }}

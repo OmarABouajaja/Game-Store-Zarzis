@@ -265,7 +265,7 @@ const ConsoleManagement = () => {
                 <DialogHeader>
                   <DialogTitle>{t("console.add_new_title")}</DialogTitle>
                   <DialogDescription>
-                    {t('console.add_desc', 'Create a new station for your store. Station numbers must be unique.')}
+                    {t('console.add_desc')}
                   </DialogDescription>
                 </DialogHeader>
                 <form
@@ -293,9 +293,9 @@ const ConsoleManagement = () => {
                       // Form reset is handled by Dialog closing/unmounting primarily, but explicit reset is safer if reused
                     } catch (err: unknown) {
                       console.error("Create console error:", err);
-                      const message = err instanceof Error ? err.message : t('console.create_failed', "Failed to create console.");
+                      const message = err instanceof Error ? err.message : t('console.create_failed');
                       toast({
-                        title: t('common.error', "Error"),
+                        title: t('common.error'),
                         description: message,
                         variant: "destructive"
                       });
@@ -304,7 +304,7 @@ const ConsoleManagement = () => {
                   className="space-y-4 py-4"
                 >
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">{t('console.name_label', 'Console Name')}</label>
+                    <label className="text-sm font-medium">{t('console.name_label')}</label>
                     <div className="relative">
                       <Gamepad2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                       <Input
@@ -318,10 +318,10 @@ const ConsoleManagement = () => {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <label className="text-sm font-medium">{t('console.type', 'Type')}</label>
+                      <label className="text-sm font-medium">{t('console.type')}</label>
                       <Select name="type" required defaultValue="ps5">
                         <SelectTrigger>
-                          <SelectValue placeholder={t('common.select', 'Select type')} />
+                          <SelectValue placeholder={t('common.select')} />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="ps5">PS5</SelectItem>
@@ -332,7 +332,7 @@ const ConsoleManagement = () => {
                       </Select>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-medium">{t('console.station_num', 'Station #')}</label>
+                      <label className="text-sm font-medium">{t('console.station_num')}</label>
                       <Input
                         name="station"
                         type="number"
@@ -344,21 +344,21 @@ const ConsoleManagement = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">{t('console.initial_status', 'Initial Status')}</label>
+                    <label className="text-sm font-medium">{t('console.initial_status')}</label>
                     <Select name="status" defaultValue="available">
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="available">{t('console.status.available', 'Available')}</SelectItem>
-                        <SelectItem value="maintenance">{t('console.status.maintenance', 'Maintenance')}</SelectItem>
-                        <SelectItem value="offline">{t('console.status.offline', 'Offline')}</SelectItem>
+                        <SelectItem value="available">{t('console.status.available')}</SelectItem>
+                        <SelectItem value="maintenance">{t('console.status.maintenance')}</SelectItem>
+                        <SelectItem value="offline">{t('console.status.offline')}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   <DialogFooter>
-                    <Button type="submit">{t('console.create_btn', 'Create Console')}</Button>
+                    <Button type="submit">{t('console.create_btn')}</Button>
                   </DialogFooter>
                 </form>
               </DialogContent>
@@ -372,12 +372,12 @@ const ConsoleManagement = () => {
           }}>
             <DialogContent className="w-[95vw] sm:max-w-[425px] max-h-[90vh] overflow-y-auto rounded-xl sm:rounded-lg">
               <DialogHeader>
-                <DialogTitle>{t('console.edit_title', 'Edit Console')}: {selectedConsole?.name}</DialogTitle>
+                <DialogTitle>{t('console.edit_title')}: {selectedConsole?.name}</DialogTitle>
               </DialogHeader>
               {selectedConsole && (
                 <form onSubmit={handleEditConsole} className="space-y-4">
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">{t('console.name_label', 'Name')}</label>
+                    <label className="text-sm font-medium">{t('console.name_label')}</label>
                     <Input
                       value={selectedConsole.name}
                       onChange={(e) => setSelectedConsole({ ...selectedConsole, name: e.target.value })}
@@ -386,7 +386,7 @@ const ConsoleManagement = () => {
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <label className="text-sm font-medium">{t('console.type', 'Type')}</label>
+                      <label className="text-sm font-medium">{t('console.type')}</label>
                       <Select
                         value={selectedConsole.console_type}
                         onValueChange={(v) => setSelectedConsole({ ...selectedConsole, console_type: v })}
@@ -401,7 +401,7 @@ const ConsoleManagement = () => {
                       </Select>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-medium">{t('console.station_num', 'Station #')}</label>
+                      <label className="text-sm font-medium">{t('console.station_num')}</label>
                       <Input
                         type="number"
                         value={selectedConsole.station_number}
@@ -413,22 +413,22 @@ const ConsoleManagement = () => {
 
 
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">{t('console.status_label', 'Status')}</label>
+                    <label className="text-sm font-medium">{t('console.status_label')}</label>
                     <Select
                       value={selectedConsole.status}
                       onValueChange={(v) => setSelectedConsole({ ...selectedConsole, status: v as Console['status'] })}
                     >
                       <SelectTrigger><SelectValue /></SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="available">{t('console.status.available', 'Available')}</SelectItem>
-                        <SelectItem value="in_use">{t('console.status.in_use', 'In Use')}</SelectItem>
-                        <SelectItem value="maintenance">{t('console.status.maintenance', 'Maintenance')}</SelectItem>
-                        <SelectItem value="offline">{t('console.status.offline', 'Offline')}</SelectItem>
+                        <SelectItem value="available">{t('console.status.available')}</SelectItem>
+                        <SelectItem value="in_use">{t('console.status.in_use')}</SelectItem>
+                        <SelectItem value="maintenance">{t('console.status.maintenance')}</SelectItem>
+                        <SelectItem value="offline">{t('console.status.offline')}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">{t('console.shortcut_key', 'Shortcut Key (Optional)')}</label>
+                    <label className="text-sm font-medium">{t('console.shortcut_key')}</label>
                     <Input
                       placeholder="1-9 or A-Z"
                       value={selectedConsole.shortcut_key || ''}
@@ -443,12 +443,12 @@ const ConsoleManagement = () => {
                       className="font-mono text-center text-lg"
                     />
                     <p className="text-xs text-muted-foreground">
-                      {t('console.shortcut_desc', 'Use 1-9 for the first 9 consoles, then A-Z for additional stations. Press this key anywhere in Sessions to quick-start.')}
+                      {t('console.shortcut_desc')}
                     </p>
                     {selectedConsole.shortcut_key && (
                       <div className="flex items-center gap-2 text-xs bg-primary/10 border border-primary/20 rounded p-2">
                         <Badge variant="outline" className="font-mono">{selectedConsole.shortcut_key}</Badge>
-                        <span className="text-muted-foreground">← {t('console.press_to_launch', 'Press this key to launch')} {selectedConsole.name}</span>
+                        <span className="text-muted-foreground">← {t('console.press_to_launch')} {selectedConsole.name}</span>
                       </div>
                     )}
                   </div>
@@ -457,7 +457,7 @@ const ConsoleManagement = () => {
                   <div className="flex items-start gap-2 p-3 bg-muted rounded-md mb-2">
                     <AlertTriangle className="w-4 h-4 text-warning mt-0.5" />
                     <p className="text-xs text-muted-foreground">
-                      {t('console.delete_warning_desc', 'Deleting a console will permanently remove all session history. To disable a console without losing history, set status to Offline.')}
+                      {t('console.delete_warning_desc')}
                     </p>
                   </div>
 
@@ -469,11 +469,11 @@ const ConsoleManagement = () => {
                       onClick={() => handleDeleteConsole(selectedConsole.id)}
                     >
                       <Trash2 className="w-4 h-4 me-2" />
-                      {t('common.delete', 'Delete')}
+                      {t('common.delete')}
                     </Button>
                     <div className="flex gap-2">
-                      <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>{t('common.cancel', 'Cancel')}</Button>
-                      <Button type="submit">{t('common.save', 'Save Changes')}</Button>
+                      <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>{t('common.cancel')}</Button>
+                      <Button type="submit">{t('common.save')}</Button>
                     </div>
                   </div>
                 </form>

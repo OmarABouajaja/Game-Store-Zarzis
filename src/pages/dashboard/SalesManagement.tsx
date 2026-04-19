@@ -3,7 +3,7 @@ import DashboardLayout from "@/components/DashboardLayout";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProducts } from "@/hooks/useProducts";
-import { useClients, useClientByPhone, useCreateClient } from "@/hooks/useClients";
+import { useClients, useCreateClient } from "@/hooks/useClients";
 import { useTodaySales, useCreateSale } from "@/hooks/useSales";
 import { useCreatePointsTransaction } from "@/hooks/usePointsTransactions";
 import { ClientSearch } from "@/components/dashboard/ClientSearch";
@@ -14,7 +14,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "@/hooks/use-toast";
-import { ShoppingCart, Plus, Package, Search, DollarSign, User, Star, CheckCircle } from "lucide-react";
+import { ShoppingCart, Package, Search, CheckCircle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -25,7 +25,7 @@ const SalesManagement = () => {
   const { t } = useLanguage();
 
   // Fetch actual products from database
-  const { data: products, isLoading } = useProducts();
+  const { data: products } = useProducts();
   const { data: todaySales } = useTodaySales();
 
   const [isSellDialogOpen, setIsSellDialogOpen] = useState(false);
@@ -70,7 +70,7 @@ const SalesManagement = () => {
     }
 
     try {
-      let clientId = selectedClientForSale?.id;
+      let clientId = selectedClientForSale?.id || null;
 
       // Create client if in creation mode
       if (isCreatingClient && newClientName && newClientPhone) {
@@ -147,15 +147,16 @@ const SalesManagement = () => {
 
   const filteredProducts = products?.filter((p) =>
     p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    p.name_fr.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (p.name_fr && p.name_fr.toLowerCase().includes(searchTerm.toLowerCase())) ||
     p.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const groupedProducts = filteredProducts?.reduce((acc, product) => {
+  const groupedProducts = filteredProducts?.reduce((acc: Record<string, typeof products>, product) => {
+    if (!product.category) return acc;
     if (!acc[product.category]) {
       acc[product.category] = [];
     }
-    acc[product.category].push(product);
+    acc[product.category]!.push(product);
     return acc;
   }, {} as Record<string, typeof products>);
 
@@ -256,7 +257,7 @@ const SalesManagement = () => {
         <Dialog open={isSellDialogOpen} onOpenChange={setIsSellDialogOpen}>
           <DialogContent className="w-[95vw] sm:max-w-[600px] max-h-[90vh] overflow-y-auto rounded-xl sm:rounded-lg">
             <DialogHeader>
-              <DialogTitle>{t('sales.sell_product', 'Sell Product')}</DialogTitle>
+              <DialogTitle>{t('sales.sell_product')}</DialogTitle>
             </DialogHeader>
             {selectedProduct && (
               <div className="space-y-4">
@@ -322,7 +323,7 @@ const SalesManagement = () => {
                       <div className="space-y-3 bg-muted/30 p-3 rounded-lg border mt-2">
                         <div className="flex items-center justify-between">
                           <Label className="text-xs font-semibold uppercase text-primary">New Client</Label>
-                          <Button variant="ghost" size="sm" className="h-6 text-xs" onClick={() => setIsCreatingClient(false)}>{t('common.cancel', 'Cancel')}</Button>
+                          <Button variant="ghost" size="sm" className="h-6 text-xs" onClick={() => setIsCreatingClient(false)}>{t('common.cancel')}</Button>
                         </div>
                         <div className="grid grid-cols-1 gap-2">
                           <Input
@@ -362,7 +363,7 @@ const SalesManagement = () => {
                     <CardContent className="p-4">
                       <h4 className="font-semibold mb-2">{t('sales.payment_summary')}</h4>
                       {(() => {
-                        const { total, pointsUsed, cashPaid } = calculateTotal();
+                        const { total, pointsUsed } = calculateTotal();
                         return (
                           <div className="space-y-1 text-sm">
                             <div className="flex justify-between">
@@ -410,19 +411,19 @@ const SalesManagement = () => {
         <Dialog open={isConfirmDialogOpen} onOpenChange={setIsConfirmDialogOpen}>
           <DialogContent className="w-[95vw] sm:max-w-md max-h-[90vh] overflow-y-auto rounded-xl sm:rounded-lg">
             <DialogHeader>
-              <DialogTitle>{t('sales.confirm_points', 'Confirm Points Purchase')}</DialogTitle>
+              <DialogTitle>{t('sales.confirm_points')}</DialogTitle>
             </DialogHeader>
             {selectedProduct && (
               <div className="space-y-4">
                 <div className="glass-card rounded-lg p-4">
                   <h4 className="font-semibold">{selectedProduct.name} x{quantity}</h4>
                   <p className="text-sm text-muted-foreground">
-                        {t('sales.client_info', 'Client')}: {selectedClientForSale?.name} ({selectedClientForSale?.phone})
+                        {t('sales.client_info')}: {selectedClientForSale?.name} ({selectedClientForSale?.phone})
                   </p>
                 </div>
 
                 {(() => {
-                  const { total, pointsUsed, cashPaid } = calculateTotal();
+                  const { pointsUsed, cashPaid } = calculateTotal();
                   return (
                     <div className="space-y-3">
                       <div className="flex items-center space-x-2">

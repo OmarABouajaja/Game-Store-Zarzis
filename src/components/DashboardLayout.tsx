@@ -1,7 +1,6 @@
 import React, { ReactNode, useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,7 +18,6 @@ import {
   ChevronRight,
   Receipt,
   Menu,
-  X,
   Truck,
   Calendar,
   Book,
@@ -70,14 +68,14 @@ interface DashboardLayoutProps {
 }
 
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
-  const { user, role, isOwner: authIsOwner, isStaff, isLoading, signOut } = useAuth();
+  const { user, role, isOwner: authIsOwner, isLoading, signOut } = useAuth();
   const { t, dir } = useLanguage();
   const isRTL = dir === 'rtl';
   const location = useLocation();
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [renderKey, setRenderKey] = useState(0);
+
 
   // Activate Realtime Subscription (Debounced)
   useSessionsSubscription();
@@ -85,8 +83,8 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
   // High-level alarm state
   const { data: activeSessions } = useActiveSessions();
-  const [mutedSessions, setMutedSessions] = useState<string[]>([]);
-  const [isGlobalMute, setIsGlobalMute] = useState(false);
+  const [mutedSessions] = useState<string[]>([]);
+  const [isGlobalMute] = useState(false);
   const notifiedSessionsRef = useRef<Set<string>>(new Set());
 
   // Use the isOwner status from AuthContext

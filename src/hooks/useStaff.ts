@@ -32,10 +32,10 @@ export function useStaffMembers() {
 
       // Bulk fetch profiles
       const userIds = userRoles.map((r) => r.user_id);
-      const { data: profiles, error: profilesError } = await supabase
+      const { data: profiles, error: profilesError } = (await supabase
         .from("profiles")
-        .select("id, full_name, email, created_at, is_active, phone")
-        .in("id", userIds);
+        .select("id, full_name, email, created_at, is_active, phone" as any)
+        .in("id", userIds)) as { data: any[], error: any };
 
       if (profilesError) console.error("Error fetching profiles:", profilesError);
       
@@ -66,7 +66,7 @@ export function useUpdateStaffRole() {
     mutationFn: async ({ userId, newRole }: { userId: string; newRole: string }) => {
       const { error } = await supabase
         .from("user_roles")
-        .update({ role: newRole })
+        .update({ role: newRole as "owner" | "worker" })
         .eq("user_id", userId);
       if (error) throw error;
     },

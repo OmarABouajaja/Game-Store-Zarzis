@@ -1,4 +1,4 @@
-import { Smartphone, Monitor, Gamepad, Settings, User, ShoppingCart, Wrench, Search, Filter } from "lucide-react";
+import { Smartphone, Monitor, Gamepad, Settings, User, ShoppingCart, Wrench, Filter } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useData } from "@/contexts/DataContext";
 import { memo, useState, useMemo } from "react";
@@ -13,12 +13,12 @@ const Services = () => {
   const [activeCategory, setActiveCategory] = useState<string>("all");
 
   const categories = [
-    { id: "all", label: "Tous", icon: Filter },
-    { id: "phone", label: "Smartphone", icon: Smartphone },
-    { id: "console", label: "Consoles", icon: Gamepad },
-    { id: "controller", label: "Manettes", icon: Settings },
-    { id: "pc", label: "Ordinateurs", icon: Monitor },
-    { id: "accounts", label: "Comptes", icon: User },
+    { id: "all", label: t("services.filter.all"), icon: Filter },
+    { id: "phone", label: t("services.filter.phone"), icon: Smartphone },
+    { id: "console", label: t("services.filter.console"), icon: Gamepad },
+    { id: "controller", label: t("services.filter.controller"), icon: Settings },
+    { id: "pc", label: t("services.filter.pc"), icon: Monitor },
+    { id: "accounts", label: t("services.filter.accounts"), icon: User },
   ];
 
   // Map service category to icons for fallback

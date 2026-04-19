@@ -557,15 +557,15 @@ Game Store Zarzis - Intelligence Business
                       <p className="text-xs font-bold uppercase text-muted-foreground tracking-wider">{t("dashboard.top_margin_categories")}</p>
                       <div className="flex items-center justify-between text-sm">
                         <span>{t("dashboard.active_sessions")}</span>
-                        <span className="font-bold text-green-500">~95% {t("dashboard.profit_margin")}</span>
+                        <span className="font-bold text-green-500">{(summary.profit.categoryMargins?.gaming || 0).toFixed(1)}% {t("dashboard.profit_margin")}</span>
                       </div>
                       <div className="flex items-center justify-between text-sm">
                         <span>{t("services.badge")}</span>
-                        <span className="font-bold text-blue-500">~70% {t("dashboard.profit_margin")}</span>
+                        <span className="font-bold text-blue-500">{(summary.profit.categoryMargins?.services || 0).toFixed(1)}% {t("dashboard.profit_margin")}</span>
                       </div>
                       <div className="flex items-center justify-between text-sm">
                         <span>{t("nav.sales")}</span>
-                        <span className="font-bold text-orange-500">~25% {t("dashboard.profit_margin")}</span>
+                        <span className="font-bold text-orange-500">{(summary.profit.categoryMargins?.sales || 0).toFixed(1)}% {t("dashboard.profit_margin")}</span>
                       </div>
                     </div>
                   </CardContent>

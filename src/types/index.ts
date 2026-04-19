@@ -361,6 +361,11 @@ export interface AnalyticsSummary {
     gross: number;
     net: number;
     margin: number;
+    categoryMargins?: {
+      gaming: number;
+      services: number;
+      sales: number;
+    };
   };
 }
 

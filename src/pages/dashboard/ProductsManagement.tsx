@@ -34,6 +34,7 @@ const ProductsManagement = () => {
     price: "",
     stock_quantity: "",
     category: "",
+    cost_price: "0",
     product_type: "physical" as 'physical' | 'consumable' | 'digital',
     subcategory: "",
     is_quick_sale: false,
@@ -88,7 +89,7 @@ const ProductsManagement = () => {
         description_fr: formData.description.trim() || null,
         description_ar: formData.description.trim() || null,
         points_earned: Math.floor(price),
-        cost_price: 0 // Default cost price to satisfy possible NOT NULL constraints
+        cost_price: parseFloat(formData.cost_price) || 0
       };
 
       if (editingProduct) {
@@ -109,6 +110,7 @@ const ProductsManagement = () => {
         description: "",
         price: "",
         stock_quantity: "",
+        cost_price: "0",
         category: "",
         product_type: "physical",
         subcategory: "",
@@ -159,7 +161,7 @@ const ProductsManagement = () => {
               <DialogTrigger asChild>
                 <Button onClick={() => {
                   setEditingProduct(null);
-                  setFormData({ name: "", description: "", price: "", stock_quantity: "", category: "", product_type: "physical", subcategory: "", is_quick_sale: false, image_url: "", digital_content: "", is_digital_delivery: false });
+                  setFormData({ name: "", description: "", price: "", stock_quantity: "", cost_price: "0", category: "", product_type: "physical", subcategory: "", is_quick_sale: false, image_url: "", digital_content: "", is_digital_delivery: false });
                 }}>
                   <Plus className="w-4 h-4 me-2" />
                   {t('products.add')}
@@ -195,7 +197,7 @@ const ProductsManagement = () => {
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="price">{t('products.price_label')}</Label>
+                      <Label htmlFor="price">{t('products.price_label')} (Sale)</Label>
                       <Input
                         id="price"
                         type="number"
@@ -204,6 +206,18 @@ const ProductsManagement = () => {
                         onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                         placeholder="0.000"
                         required
+                        className="text-base md:text-sm"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="cost_price">Prix d'Achat (Cost)</Label>
+                      <Input
+                        id="cost_price"
+                        type="number"
+                        step="0.001"
+                        value={formData.cost_price}
+                        onChange={(e) => setFormData({ ...formData, cost_price: e.target.value })}
+                        placeholder="0.000"
                         className="text-base md:text-sm"
                       />
                     </div>
@@ -445,6 +459,7 @@ const ProductsManagement = () => {
                               description: product.description || "",
                               price: product.price.toString(),
                               stock_quantity: product.stock_quantity.toString(),
+                              cost_price: (product.cost_price || 0).toString(),
                               category: product.category || "",
                               product_type: product.product_type || "physical",
                               subcategory: product.subcategory || "",

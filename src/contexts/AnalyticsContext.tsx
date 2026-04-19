@@ -133,6 +133,11 @@ export const AnalyticsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         const netProfit = grossProfit - totalExp;
         const margin = totalRev > 0 ? (netProfit / totalRev) * 100 : 0;
 
+        // Calculate specific margins to eliminate 'triangular' placeholders
+        const gamingMargin = gamingRev > 0 ? 100 : 0; // Pure service (no primary cost assigned yet)
+        const serviceMargin = serviceRev > 0 ? 100 : 0; // Service labor (parts separately computed if needed)
+        const salesMargin = salesRev > 0 ? ((salesRev - cogs) / salesRev) * 100 : 0;
+
         return {
             revenue: {
                 total: totalRev,
@@ -149,7 +154,12 @@ export const AnalyticsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
             profit: {
                 gross: grossProfit,
                 net: netProfit,
-                margin: margin
+                margin: margin,
+                categoryMargins: {
+                    gaming: gamingMargin,
+                    services: serviceMargin,
+                    sales: salesMargin
+                }
             }
         };
     }, [sales, sessions, serviceRequests, expenses, timeRange, products]);

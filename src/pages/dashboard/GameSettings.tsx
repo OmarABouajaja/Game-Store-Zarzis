@@ -105,9 +105,9 @@ const GameSettings = () => {
                                     Add Shortcut
                                 </Button>
                             </DialogTrigger>
-                            <DialogContent>
+                            <DialogContent className="w-[95vw] sm:max-w-md max-h-[90vh] overflow-y-auto rounded-xl sm:rounded-lg">
                                 <DialogHeader>
-                                    <DialogTitle>New Game Shortcut</DialogTitle>
+                                    <DialogTitle>{t('settings.new_shortcut', 'New Game Shortcut')}</DialogTitle>
                                 </DialogHeader>
                                 <div className="space-y-4 py-4">
                                     <div className="space-y-2">
@@ -151,8 +151,8 @@ const GameSettings = () => {
                                     </div>
                                 </div>
                                 <DialogFooter>
-                                    <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>Cancel</Button>
-                                    <Button variant="hero" onClick={handleCreate}>Create</Button>
+                                    <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>{t('common.cancel', 'Cancel')}</Button>
+                                    <Button variant="hero" onClick={handleCreate}>{t('common.create', 'Create')}</Button>
                                 </DialogFooter>
                             </DialogContent>
                         </Dialog>
@@ -202,7 +202,7 @@ const GameSettings = () => {
                                             {isEditing === shortcut.id ? (
                                                 <>
                                                     <Button size="icon" variant="ghost" onClick={() => setIsEditing(null)}>
-                                                        Cancel
+                                                        {t('common.cancel', 'Cancel')}
                                                     </Button>
                                                     <Button size="icon" variant="hero" onClick={() => handleUpdate(shortcut.id)}>
                                                         <Save className="w-4 h-4" />

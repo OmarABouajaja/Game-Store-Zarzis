@@ -167,7 +167,7 @@ const ProductsManagement = () => {
                   {t('products.add')}
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[500px]">
+              <DialogContent className="w-[95vw] sm:max-w-[500px] max-h-[90vh] overflow-y-auto rounded-xl sm:rounded-lg">
                 <DialogHeader>
                   <DialogTitle>
                     {editingProduct ? t('products.edit_title') : t('products.add_title')}
@@ -365,7 +365,7 @@ const ProductsManagement = () => {
                   </div>
                   <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)} className="h-12 px-6 text-base">
-                      Cancel
+                      {t('common.cancel', 'Cancel')}
                     </Button>
                     <Button type="submit" className="h-12 px-8 text-lg font-bold">
                       {editingProduct ? t('products.success_update') : t('products.success_create')}

@@ -152,7 +152,7 @@ const OrdersManagement = () => {
                                                             <Eye className="w-4 h-4" />
                                                         </Button>
                                                     </DialogTrigger>
-                                                    <DialogContent className="max-w-md">
+                                                    <DialogContent className="w-[95vw] sm:max-w-md max-h-[90vh] overflow-y-auto rounded-xl sm:rounded-lg">
                                                         <DialogHeader>
                                                             <DialogTitle>{t('orders.detail.title')} #{order.id.slice(0, 8)}</DialogTitle>
                                                         </DialogHeader>

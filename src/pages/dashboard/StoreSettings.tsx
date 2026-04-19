@@ -980,7 +980,7 @@ const StoreSettings = () => {
 
                   {/* Special Hours Dialog */}
                   <Dialog open={showSpecialHoursDialog} onOpenChange={setShowSpecialHoursDialog}>
-                    <DialogContent className="sm:max-w-md mx-4">
+                    <DialogContent className="w-[95vw] sm:max-w-md mx-4 max-h-[90vh] overflow-y-auto rounded-xl sm:rounded-lg">
                       <DialogHeader>
                         <DialogTitle className="flex items-center gap-2 text-base sm:text-lg">
                           <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-purple-500" />

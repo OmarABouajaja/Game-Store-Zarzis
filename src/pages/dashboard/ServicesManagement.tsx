@@ -500,7 +500,7 @@ const ServicesManagement = () => {
 
         {/* Dialogs remain mostly same but with better internal safety */}
         <Dialog open={isCatalogDialogOpen} onOpenChange={setIsCatalogDialogOpen}>
-          <DialogContent className="max-w-md">
+          <DialogContent className="w-[95vw] sm:max-w-md max-h-[90vh] overflow-y-auto rounded-xl sm:rounded-lg">
             <DialogHeader>
               <DialogTitle>{editingCatalogItem ? t('services.management.edit_template') : t('services.management.create_template')}</DialogTitle>
             </DialogHeader>
@@ -577,7 +577,7 @@ const ServicesManagement = () => {
 
         {/* Create Request Dialog */}
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-          <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+          <DialogContent className="w-[95vw] sm:max-w-lg max-h-[90vh] overflow-y-auto rounded-xl sm:rounded-lg">
             <DialogHeader>
               <DialogTitle>{t('services.management.new_request')}</DialogTitle>
             </DialogHeader>
@@ -680,7 +680,7 @@ const ServicesManagement = () => {
 
         {/* View/Update Details Dialog */}
         <Dialog open={!!selectedRequest} onOpenChange={() => setSelectedRequest(null)}>
-          <DialogContent className="max-w-lg">
+          <DialogContent className="w-[95vw] sm:max-w-lg max-h-[90vh] overflow-y-auto rounded-xl sm:rounded-lg">
             <DialogHeader>
               <DialogTitle>{t('services.management.request_details')}</DialogTitle>
             </DialogHeader>

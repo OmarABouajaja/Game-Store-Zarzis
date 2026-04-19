@@ -422,35 +422,35 @@ const ClientsManagement = () => {
 
         {/* Redeem Points Dialog */}
         <Dialog open={isRedeemDialogOpen} onOpenChange={setIsRedeemDialogOpen}>
-          <DialogContent>
+          <DialogContent className="w-[95vw] sm:max-w-md max-h-[90vh] overflow-y-auto rounded-xl sm:rounded-lg">
             <DialogHeader>
-              <DialogTitle>Redeem Points</DialogTitle>
+              <DialogTitle>{t('client.redeem_points', 'Redeem Points')}</DialogTitle>
             </DialogHeader>
             {selectedClient && (
               <div className="space-y-4">
                 <div className="glass-card rounded-lg p-4">
-                  <p className="text-sm text-muted-foreground">Client</p>
+                  <p className="text-sm text-muted-foreground">{t('client.client_label', 'Client')}</p>
                   <p className="font-semibold">{selectedClient.name}</p>
-                  <p className="text-sm text-muted-foreground">Current Balance: {selectedClient.points || 0} points</p>
+                  <p className="text-sm text-muted-foreground">{t('client.balance', 'Current Balance')}: {selectedClient.points || 0} pts</p>
                 </div>
 
                 <div>
-                  <Label>Points to Redeem</Label>
+                  <Label>{t('client.redeem_amount', 'Points to Redeem')}</Label>
                   <Input
                     type="number"
                     value={pointsToRedeem}
                     onChange={(e) => setPointsToRedeem(e.target.value)}
-                    placeholder="Enter points amount"
+                    placeholder="0"
                     max={selectedClient.points || 0}
                   />
                 </div>
 
                 <div>
-                  <Label>Description (optional)</Label>
+                  <Label>{t('client.description', 'Description (optional)')}</Label>
                   <Input
                     value={redeemDescription}
                     onChange={(e) => setRedeemDescription(e.target.value)}
-                    placeholder="e.g., Free game redemption"
+                    placeholder={t('client.redeem_desc_placeholder', 'e.g., Free game redemption')}
                   />
                 </div>
 
@@ -461,7 +461,7 @@ const ClientsManagement = () => {
                   disabled={redeemPoints.isPending || !pointsToRedeem}
                 >
                   <Gift className="w-4 h-4 me-2" />
-                  Redeem Points
+                  {t('client.redeem_points', 'Redeem Points')}
                 </Button>
               </div>
             )}
@@ -470,19 +470,19 @@ const ClientsManagement = () => {
 
         {/* Transaction History Dialog */}
         <Dialog open={isHistoryDialogOpen} onOpenChange={setIsHistoryDialogOpen}>
-          <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogContent className="w-[95vw] sm:max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl sm:rounded-lg">
             <DialogHeader>
-              <DialogTitle>Points Transaction History</DialogTitle>
+              <DialogTitle>{t('client.transaction_history', 'Points Transaction History')}</DialogTitle>
             </DialogHeader>
             {selectedClient && (
               <div className="space-y-4">
                 <div className="glass-card rounded-lg p-4 flex justify-between items-center">
                   <div>
-                    <p className="text-sm text-muted-foreground">Client</p>
+                    <p className="text-sm text-muted-foreground">{t('client.client_label', 'Client')}</p>
                     <p className="font-semibold">{selectedClient.name}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm text-muted-foreground">Current Balance</p>
+                    <p className="text-sm text-muted-foreground">{t('client.current_balance', 'Current Balance')}</p>
                     {/* Find fresh client data from the list to show live balance */}
                     <p className="font-bold text-xl text-primary">
                       {(clients?.find(c => c.id === selectedClient.id)?.points ?? selectedClient.points) || 0} pts
@@ -499,7 +499,7 @@ const ClientsManagement = () => {
                       : 'text-muted-foreground hover:text-foreground'
                       }`}
                   >
-                    All
+                    {t('common.all', 'All')}
                   </button>
                   <button
                     onClick={() => setHistoryFilter('earned')}
@@ -508,7 +508,7 @@ const ClientsManagement = () => {
                       : 'text-muted-foreground hover:text-foreground'
                       }`}
                   >
-                    Earned
+                    {t('client.earned', 'Earned')}
                   </button>
                   <button
                     onClick={() => setHistoryFilter('spent')}
@@ -517,7 +517,7 @@ const ClientsManagement = () => {
                       : 'text-muted-foreground hover:text-foreground'
                       }`}
                   >
-                    Redeemed
+                    {t('client.redeemed_status', 'Redeemed')}
                   </button>
                 </div>
 
@@ -571,7 +571,7 @@ const ClientsManagement = () => {
                   ) && (
                       <div className="text-center py-8 text-muted-foreground">
                         <History className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                        <p>No transactions found for &quot;{historyFilter}&quot;</p>
+                        <p>{t('client.no_transactions', 'No transactions found')}</p>
                       </div>
                     )}
                 </div>

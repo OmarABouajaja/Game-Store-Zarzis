@@ -363,7 +363,7 @@ const ExpensesManagement = () => {
                 </div>
 
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                    <DialogContent>
+                    <DialogContent className="w-[95vw] sm:max-w-md max-h-[90vh] overflow-y-auto rounded-xl sm:rounded-lg">
                         <DialogHeader>
                             <DialogTitle>{editingExpense ? t('expenses.edit_title') : t('expenses.add_title')}</DialogTitle>
                         </DialogHeader>

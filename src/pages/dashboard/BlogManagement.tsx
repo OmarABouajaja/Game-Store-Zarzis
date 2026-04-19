@@ -400,7 +400,7 @@ const BlogManagement = () => {
                     {t("blog.btn.new")}
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
+                <DialogContent className="w-[95vw] sm:max-w-[600px] max-h-[90vh] overflow-y-auto rounded-xl sm:rounded-lg">
                   <DialogHeader>
                     <DialogTitle>
                       {editingPost ? "Edit Blog Post" : "Create New Blog Post"}

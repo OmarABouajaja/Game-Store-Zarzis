@@ -254,9 +254,9 @@ const SalesManagement = () => {
 
         {/* Sell Product Dialog */}
         <Dialog open={isSellDialogOpen} onOpenChange={setIsSellDialogOpen}>
-          <DialogContent className="sm:max-w-[600px]">
+          <DialogContent className="w-[95vw] sm:max-w-[600px] max-h-[90vh] overflow-y-auto rounded-xl sm:rounded-lg">
             <DialogHeader>
-              <DialogTitle>Sell Product</DialogTitle>
+              <DialogTitle>{t('sales.sell_product', 'Sell Product')}</DialogTitle>
             </DialogHeader>
             {selectedProduct && (
               <div className="space-y-4">
@@ -322,7 +322,7 @@ const SalesManagement = () => {
                       <div className="space-y-3 bg-muted/30 p-3 rounded-lg border mt-2">
                         <div className="flex items-center justify-between">
                           <Label className="text-xs font-semibold uppercase text-primary">New Client</Label>
-                          <Button variant="ghost" size="sm" className="h-6 text-xs" onClick={() => setIsCreatingClient(false)}>Cancel</Button>
+                          <Button variant="ghost" size="sm" className="h-6 text-xs" onClick={() => setIsCreatingClient(false)}>{t('common.cancel', 'Cancel')}</Button>
                         </div>
                         <div className="grid grid-cols-1 gap-2">
                           <Input
@@ -408,9 +408,9 @@ const SalesManagement = () => {
 
         {/* Points Confirmation Dialog */}
         <Dialog open={isConfirmDialogOpen} onOpenChange={setIsConfirmDialogOpen}>
-          <DialogContent>
+          <DialogContent className="w-[95vw] sm:max-w-md max-h-[90vh] overflow-y-auto rounded-xl sm:rounded-lg">
             <DialogHeader>
-              <DialogTitle>Confirm Points Purchase</DialogTitle>
+              <DialogTitle>{t('sales.confirm_points', 'Confirm Points Purchase')}</DialogTitle>
             </DialogHeader>
             {selectedProduct && (
               <div className="space-y-4">

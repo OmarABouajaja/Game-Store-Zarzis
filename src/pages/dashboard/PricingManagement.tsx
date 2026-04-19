@@ -214,9 +214,9 @@ const PricingManagement = () => {
                   Add New Pricing
                 </Button>
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className="w-[95vw] sm:max-w-md max-h-[90vh] overflow-y-auto rounded-xl sm:rounded-lg">
                 <DialogHeader>
-                  <DialogTitle>Add New Pricing Configuration</DialogTitle>
+                  <DialogTitle>{t('pricing.add_new', 'Add New Pricing Configuration')}</DialogTitle>
                 </DialogHeader>
                 <div className="space-y-4 py-2">
                   <div className="grid grid-cols-2 gap-4">
@@ -293,17 +293,17 @@ const PricingManagement = () => {
                   </div>
                 </div>
                 <DialogFooter>
-                  <Button variant="outline" onClick={() => setIsCallbacksOpen(false)}>Cancel</Button>
-                  <Button onClick={handleCreatePricing} disabled={!newPricing.name || newPricing.price <= 0}>Create Pricing</Button>
+                  <Button variant="outline" onClick={() => setIsCallbacksOpen(false)}>{t('common.cancel', 'Cancel')}</Button>
+                  <Button onClick={handleCreatePricing} disabled={!newPricing.name || newPricing.price <= 0}>{t('pricing.create_btn', 'Create Pricing')}</Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
 
             {/* Edit Pricing Dialog */}
             <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-              <DialogContent>
+              <DialogContent className="w-[95vw] sm:max-w-md max-h-[90vh] overflow-y-auto rounded-xl sm:rounded-lg">
                 <DialogHeader>
-                  <DialogTitle>Edit Pricing Configuration</DialogTitle>
+                  <DialogTitle>{t('pricing.edit_title', 'Edit Pricing Configuration')}</DialogTitle>
                 </DialogHeader>
                 {editingPricing && (
                   <div className="space-y-4 py-2">
@@ -376,9 +376,9 @@ const PricingManagement = () => {
                   </div>
                 )}
                 <DialogFooter>
-                  <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>Cancel</Button>
+                  <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>{t('common.cancel', 'Cancel')}</Button>
                   <Button onClick={handleUpdatePricing} disabled={!editingPricing?.name || editingPricing?.price < 0}>
-                    Save Changes
+                    {t('common.save', 'Save Changes')}
                   </Button>
                 </DialogFooter>
               </DialogContent>

@@ -1110,7 +1110,7 @@ const SessionsManagement = () => {
         <Dialog open={isEndDialogOpen} onOpenChange={setIsEndDialogOpen}>
           <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-md w-[95vw] rounded-xl">
             <DialogHeader>
-              <DialogTitle>End Session</DialogTitle>
+              <DialogTitle>{t('sessions.end_session', 'End Session')}</DialogTitle>
             </DialogHeader>
             {selectedSession && (
               <div className="space-y-4">
@@ -1309,7 +1309,7 @@ const SessionsManagement = () => {
                     <div className="space-y-3 bg-muted/30 p-3 rounded-lg border animate-in fade-in slide-in-from-top-2">
                       <div className="flex items-center justify-between">
                         <Label className="text-xs font-semibold uppercase text-primary">New Client</Label>
-                        <Button variant="ghost" size="sm" className="h-6 text-xs" onClick={() => setIsCreatingClient(false)}>Cancel</Button>
+                        <Button variant="ghost" size="sm" className="h-6 text-xs" onClick={() => setIsCreatingClient(false)}>{t('common.cancel', 'Cancel')}</Button>
                       </div>
                       <div className="grid grid-cols-1 gap-2">
                         <Input

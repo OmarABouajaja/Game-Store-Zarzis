@@ -378,7 +378,7 @@ const StaffManagement = () => {
                     Inviter du Personnel
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[500px] p-0 overflow-hidden border-none bg-transparent">
+                <DialogContent className="w-[95vw] sm:max-w-[500px] p-0 overflow-hidden border-none bg-transparent">
                   <div className="relative p-6 sm:p-8 glass-card border-white/20 dark:border-white/10 overflow-hidden">
                     {/* Decorative Background Elements */}
                     <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/20 blur-[100px] rounded-full pointer-events-none" />

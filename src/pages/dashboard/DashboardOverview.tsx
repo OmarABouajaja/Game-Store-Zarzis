@@ -30,37 +30,32 @@ function getTopIncomeSource(
   sales: Sale[],
   sessions: { status: string; total_amount: number; created_at?: string }[],
   services: { status: string; final_cost?: number; quoted_price?: number; created_at: string }[],
-  labels: { gaming: string; services: string; sales: string }
+  products: { id: string; name: string; name_fr?: string }[],
+  labels: { gaming: string; services: string }
 ) {
   const counts: Record<string, { name: string; count: number; revenue: number }> = {};
 
-  // Count product sales (individual items if available)
-  let salesWithItems = 0;
+  // Each sale row in DB = one product sale (product_id, quantity, unit_price, total_amount)
   sales.forEach(sale => {
-    if (sale.sale_items && sale.sale_items.length > 0) {
-      salesWithItems++;
-      sale.sale_items.forEach((item) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const name = (item as any).product_name || `Product ${item.product_id}`;
-        if (!counts[name]) counts[name] = { name, count: 0, revenue: 0 };
-        counts[name].count += (item.quantity || 1);
-        counts[name].revenue += Number(item.total_price || 0);
-      });
-    }
-  });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const saleAny = sale as any;
+    const productId = saleAny.product_id;
+    const qty = saleAny.quantity || 1;
+    const amount = Number(sale.total_amount || 0);
 
-  // Count sales without items as generic "Sales" category
-  const salesWithoutItems = sales.length - salesWithItems;
-  if (salesWithoutItems > 0) {
-    const genericSalesRevenue = sales
-      .filter(s => !s.sale_items || s.sale_items.length === 0)
-      .reduce((sum, s) => sum + Number(s.total_amount || 0), 0);
-    counts[labels.sales] = {
-      name: labels.sales,
-      count: salesWithoutItems,
-      revenue: genericSalesRevenue
-    };
-  }
+    // Look up product name from products array
+    let productName: string;
+    if (productId) {
+      const product = products.find(p => p.id === productId);
+      productName = product?.name_fr || product?.name || `Produit`;
+    } else {
+      productName = 'Vente';
+    }
+
+    if (!counts[productName]) counts[productName] = { name: productName, count: 0, revenue: 0 };
+    counts[productName].count += qty;
+    counts[productName].revenue += amount;
+  });
 
   // Count gaming sessions as a category
   const completedSessions = sessions.filter(s => s.status === 'completed');
@@ -126,8 +121,9 @@ const DashboardOverview = () => {
     sales || [],
     dataSessions || [],
     dataServiceRequests || [],
-    { gaming: t("dashboard.gaming_revenue"), services: t("nav.services"), sales: t("sales.title") }
-  ), [sales, dataSessions, dataServiceRequests, t]);
+    products || [],
+    { gaming: t("dashboard.gaming_revenue"), services: t("nav.services") }
+  ), [sales, dataSessions, dataServiceRequests, products, t]);
 
   const handleShareRecap = () => {
     const now = new Date();

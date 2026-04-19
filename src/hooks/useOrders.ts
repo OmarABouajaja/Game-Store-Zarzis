@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
+import { useEffect } from "react";
 import { Order, OrderFormData } from "@/types";
 
 export const useCreateOrder = () => {
@@ -67,4 +68,35 @@ export const useUpdateOrderStatus = () => {
             queryClient.invalidateQueries({ queryKey: ["orders"] });
         },
     });
+};
+
+export const useOrdersSubscription = () => {
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    let debounceTimer: NodeJS.Timeout;
+
+    const channel = supabase
+      .channel("orders-realtime")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "orders",
+        },
+        () => {
+          clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(() => {
+            queryClient.invalidateQueries({ queryKey: ["orders"] });
+          }, 500);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+      clearTimeout(debounceTimer);
+    };
+  }, [queryClient]);
 };

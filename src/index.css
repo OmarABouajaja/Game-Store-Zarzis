@@ -346,23 +346,23 @@
   }
 
   .glass-card {
-    @apply bg-card/80 backdrop-blur-md border border-white/5;
-    background: var(--gradient-card);
-    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-    will-change: transform;
+    @apply bg-card/60 backdrop-blur-xl border border-white/10;
+    background: linear-gradient(135deg, hsl(222 47% 10% / 0.7) 0%, hsl(222 47% 4% / 0.9) 100%);
+    box-shadow: inset 0 1px 1px hsl(210 40% 98% / 0.1), 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    will-change: transform, box-shadow;
   }
 
   .glass-card:hover {
-    @apply border-primary/30;
-    box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.3), 0 0 10px hsl(var(--primary) / 0.1);
-    transform: translateY(-1px);
+    @apply border-primary/40;
+    box-shadow: inset 0 1px 1px hsl(210 40% 98% / 0.2), 0 12px 40px 0 rgba(0, 0, 0, 0.6), 0 0 15px hsl(var(--primary) / 0.15);
+    transform: translateY(-2px);
   }
 
   .glass-panel {
-    @apply bg-card/80 backdrop-blur-md border border-white/5;
-    background: var(--gradient-card);
-    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2);
+    @apply bg-card/60 backdrop-blur-xl border border-white/10;
+    background: linear-gradient(135deg, hsl(222 47% 10% / 0.7) 0%, hsl(222 47% 4% / 0.9) 100%);
+    box-shadow: inset 0 1px 1px hsl(210 40% 98% / 0.1), 0 8px 32px 0 rgba(0, 0, 0, 0.4);
   }
 
   .glossy-reflection {

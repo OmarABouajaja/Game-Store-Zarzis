@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import DashboardLayout from "@/components/DashboardLayout";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/lib/supabase";
 import {
     Table,
@@ -47,6 +48,7 @@ type Transaction = {
 
 const TransactionsHistory = () => {
     const { isOwner } = useAuth();
+    const { t } = useLanguage();
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(0);
@@ -96,10 +98,10 @@ const TransactionsHistory = () => {
                 type: 'sale',
                 date: sale.created_at,
                 amount: Number(sale.total_amount),
-                description: sale.product?.name_fr || 'Unknown Product',
+                description: (sale as any).product?.name_fr || t('transactions.unknown_product'),
                 details: `Qty: ${sale.quantity}`,
                 clientName: sale.client?.name || '-',
-                staffName: sale.staff?.full_name || 'Unknown',
+                staffName: (sale as any).staff?.full_name || t('transactions.unknown_staff'),
                 paymentMethod: sale.payment_method || 'cash',
                 raw: sale
             }));
@@ -111,10 +113,10 @@ const TransactionsHistory = () => {
                 // Use end_time as transaction date, fallback to created_at
                 date: session.end_time || session.created_at,
                 amount: Number(session.total_amount),
-                description: 'Gaming Session',
+                description: t('transactions.gaming_session'),
                 details: `${Math.round(session.duration_minutes || 0)} mins`,
-                clientName: session.client?.name || 'Walk-in',
-                staffName: session.staff?.full_name || 'Unknown',
+                clientName: (session as any).client?.name || t('transactions.walk_in'),
+                staffName: (session as any).staff?.full_name || t('transactions.unknown_staff'),
                 paymentMethod: 'cash', // Sessions default to cash usually, or check logic
                 raw: session
             }));
@@ -129,7 +131,7 @@ const TransactionsHistory = () => {
         } catch (err: unknown) {
             console.error("Error fetching transactions:", err);
             const errorMessage = err instanceof Error ? err.message : "An unknown error occurred";
-            toast({ title: "Error fetching data", description: errorMessage, variant: "destructive" });
+            toast({ title: t('transactions.title'), description: errorMessage, variant: "destructive" });
         } finally {
             setIsLoading(false);
         }
@@ -147,7 +149,7 @@ const TransactionsHistory = () => {
 
             if (error) throw error;
 
-            toast({ title: "Transaction deleted" });
+            toast({ title: t('transactions.delete_confirm') + " ✓" });
 
             // Optimistic Update
             setTransactions(prev => prev.filter(t => t.id !== deleteId));
@@ -158,7 +160,7 @@ const TransactionsHistory = () => {
             setDeleteType(null);
         } catch (err: unknown) {
             const errorMessage = err instanceof Error ? err.message : "Delete failed";
-            toast({ title: "Delete failed", description: errorMessage, variant: "destructive" });
+            toast({ title: t('transactions.delete_title'), description: errorMessage, variant: "destructive" });
         }
     };
 
@@ -171,7 +173,7 @@ const TransactionsHistory = () => {
             <ProtectedRoute>
                 <DashboardLayout>
                     <div className="flex h-[50vh] items-center justify-center text-muted-foreground">
-                        Access Denied. Owner only.
+                        {t('transactions.access_denied')}
                     </div>
                 </DashboardLayout>
             </ProtectedRoute>
@@ -184,20 +186,20 @@ const TransactionsHistory = () => {
                 <div className="space-y-6">
                     <div className="flex items-center justify-between">
                         <div>
-                            <h1 className="font-display text-3xl font-bold mb-2">Transactions History</h1>
-                            <p className="text-muted-foreground">Review sales and completed gaming sessions.</p>
+                            <h1 className="font-display text-3xl font-bold mb-2">{t('transactions.title')}</h1>
+                            <p className="text-muted-foreground">{t('transactions.subtitle')}</p>
                         </div>
-                        <HelpTooltip content="Merged history of product sales and gaming sessions. Most recent 200 items." />
+                        <HelpTooltip content={t('transactions.help')} />
                     </div>
 
                     <Card className="glass-card">
                         <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                             <CardTitle className="flex items-center gap-2">
                                 <FileText className="w-5 h-5 text-primary" />
-                                All Transactions
+                                {t('transactions.all')}
                             </CardTitle>
                             <div className="flex items-center gap-2 bg-muted/50 p-2 rounded-lg text-sm text-muted-foreground">
-                                <span className="font-semibold">{transactions.length}</span> recent records
+                                <span className="font-semibold">{transactions.length}</span> {t('transactions.recent_records')}
                             </div>
                         </CardHeader>
                         <CardContent>
@@ -205,13 +207,13 @@ const TransactionsHistory = () => {
                                 <Table>
                                     <TableHeader>
                                         <TableRow>
-                                            <TableHead>Date</TableHead>
-                                            <TableHead>Type</TableHead>
-                                            <TableHead>Description</TableHead>
-                                            <TableHead>Client</TableHead>
-                                            <TableHead>Staff</TableHead>
-                                            <TableHead>Amount</TableHead>
-                                            <TableHead className="text-right">Actions</TableHead>
+                                            <TableHead>{t('transactions.col_date')}</TableHead>
+                                            <TableHead>{t('transactions.col_type')}</TableHead>
+                                            <TableHead>{t('transactions.col_description')}</TableHead>
+                                            <TableHead>{t('transactions.col_client')}</TableHead>
+                                            <TableHead>{t('transactions.col_staff')}</TableHead>
+                                            <TableHead>{t('transactions.col_amount')}</TableHead>
+                                            <TableHead className="text-right">{t('transactions.col_actions')}</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -224,7 +226,7 @@ const TransactionsHistory = () => {
                                         ) : paginatedTransactions.length === 0 ? (
                                             <TableRow>
                                                 <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
-                                                    No transactions found.
+                                                    {t('transactions.empty')}
                                                 </TableCell>
                                             </TableRow>
                                         ) : (
@@ -242,12 +244,12 @@ const TransactionsHistory = () => {
                                                         {t.type === 'sale' ? (
                                                             <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/20 dark:text-blue-300 dark:border-blue-800">
                                                                 <ShoppingBag className="w-3 h-3 me-1" />
-                                                                Sale
+                                                                {t('transactions.type_sale')}
                                                             </Badge>
                                                         ) : (
                                                             <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-900/20 dark:text-purple-300 dark:border-purple-800">
                                                                 <Gamepad2 className="w-3 h-3 me-1" />
-                                                                Session
+                                                                {t('transactions.type_session')}
                                                             </Badge>
                                                         )}
                                                     </TableCell>
@@ -306,10 +308,10 @@ const TransactionsHistory = () => {
                                     disabled={page === 0 || isLoading}
                                 >
                                     <ArrowLeft className="w-4 h-4 me-2" />
-                                    Previous
+                                    {t('transactions.prev')}
                                 </Button>
                                 <div className="text-sm text-muted-foreground">
-                                    Page {page + 1} of {totalPages || 1}
+                                    {t('transactions.page_of', { page: page + 1, total: totalPages || 1 })}
                                 </div>
                                 <Button
                                     variant="outline"
@@ -317,7 +319,7 @@ const TransactionsHistory = () => {
                                     onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
                                     disabled={page >= totalPages - 1 || isLoading}
                                 >
-                                    Next
+                                    {t('transactions.next')}
                                     <ArrowRight className="w-4 h-4 ms-2" />
                                 </Button>
                             </div>
@@ -328,15 +330,15 @@ const TransactionsHistory = () => {
                     <AlertDialog open={!!deleteId} onOpenChange={(open) => !open && setDeleteId(null)}>
                         <AlertDialogContent>
                             <AlertDialogHeader>
-                                <AlertDialogTitle>Delete Transaction?</AlertDialogTitle>
+                                <AlertDialogTitle>{t('transactions.delete_title')}</AlertDialogTitle>
                                 <AlertDialogDescription>
-                                    This action cannot be undone. This will permanently remove the record from the database.
+                                    {t('transactions.delete_desc')}
                                 </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
                                 <AlertDialogAction onClick={handleDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-                                    Delete
+                                    {t('transactions.delete_confirm')}
                                 </AlertDialogAction>
                             </AlertDialogFooter>
                         </AlertDialogContent>

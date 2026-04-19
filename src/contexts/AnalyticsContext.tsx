@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useMemo, useState, useEffect } from 'react';
+import React, { createContext, useContext, useMemo, useState, useEffect, useCallback } from 'react';
 import { useData } from './DataContext';
 import { supabase, TABLES } from '@/lib/supabase';
 import { Expense, AnalyticsSummary, ExpenseCategory } from '@/types';
@@ -28,7 +28,7 @@ export const AnalyticsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     const [isLoading, setIsLoading] = useState(true);
     const [timeRange, setTimeRange] = useState<'today' | 'weekly' | 'monthly' | 'yearly'>('weekly');
 
-    const loadExpenses = async () => {
+    const loadExpenses = useCallback(async () => {
         try {
             // Use 'any' if 'expenses' isn't in the generated Supabase types
             const { data, error } = await supabase
@@ -41,7 +41,7 @@ export const AnalyticsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         } catch (err) {
             console.error('Error loading expenses for analytics:', err);
         }
-    };
+    }, []);
 
     useEffect(() => {
         loadExpenses().finally(() => setIsLoading(false));
@@ -164,14 +164,14 @@ export const AnalyticsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         };
     }, [sales, sessions, serviceRequests, expenses, timeRange, products]);
 
-    const value = {
+    const value = useMemo(() => ({
         summary,
         expenses,
         isLoading,
         timeRange,
         setTimeRange,
         refreshAnalytics: loadExpenses
-    };
+    }), [summary, expenses, isLoading, timeRange, loadExpenses]);
 
     return (
         <AnalyticsContext.Provider value={value}>

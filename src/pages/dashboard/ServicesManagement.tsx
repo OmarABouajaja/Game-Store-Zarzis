@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "@/hooks/use-toast";
@@ -20,17 +20,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { sendServiceRequestNotification } from "@/services/emailService";
 import { ServiceCatalog, ServiceRequest, ServiceStatus } from "@/types";
 
-interface ServiceFormData {
-  service_id: string;
-  client_name: string;
-  client_phone: string;
-  device_type: string;
-  device_brand: string;
-  device_model: string;
-  issue_description: string;
-  estimated_cost: string;
-  priority: string;
-}
+
 import { Wrench, Plus, Edit, AlertCircle, Trash2 } from "lucide-react";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 
@@ -507,36 +497,36 @@ const ServicesManagement = () => {
             <div className="space-y-4 pt-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label className="text-xs">Name (EN)</Label>
+                  <Label className="text-xs">{t('services.management.service_name_en')}</Label>
                   <Input value={catalogFormData.name} onChange={e => setCatalogFormData({ ...catalogFormData, name: e.target.value })} className="text-base md:text-sm" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-xs">Name (FR)</Label>
+                  <Label className="text-xs">{t('services.management.service_name_fr')}</Label>
                   <Input value={catalogFormData.name_fr} onChange={e => setCatalogFormData({ ...catalogFormData, name_fr: e.target.value })} className="text-base md:text-sm" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label className="text-xs">Base Price (DT)</Label>
+                  <Label className="text-xs">{t('services.management.base_price')}</Label>
                   <Input type="number" step="0.5" value={catalogFormData.price} onChange={e => setCatalogFormData({ ...catalogFormData, price: e.target.value })} />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-xs">Category</Label>
+                  <Label className="text-xs">{t('services.management.category')}</Label>
                   <Select value={catalogFormData.category} onValueChange={v => setCatalogFormData({ ...catalogFormData, category: v })}>
                     <SelectTrigger className="h-10"><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="phone">Phone Repair</SelectItem>
-                      <SelectItem value="console">Console Repair</SelectItem>
-                      <SelectItem value="controller">Controller Repair</SelectItem>
-                      <SelectItem value="pc">PC Repair</SelectItem>
-                      <SelectItem value="accounts">Accounts</SelectItem>
-                      <SelectItem value="sales">Sales</SelectItem>
+                      <SelectItem value="phone">{t('services.cat.phone')}</SelectItem>
+                      <SelectItem value="console">{t('services.cat.console')}</SelectItem>
+                      <SelectItem value="controller">{t('services.cat.controller')}</SelectItem>
+                      <SelectItem value="pc">{t('services.cat.pc')}</SelectItem>
+                      <SelectItem value="accounts">{t('services.cat.accounts')}</SelectItem>
+                      <SelectItem value="sales">{t('services.cat.sales')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
               <div className="space-y-2">
-                <Label className="text-xs">Image URL (Optional)</Label>
+                <Label className="text-xs">{t('services.management.image_url')}</Label>
                 <Input value={catalogFormData.image_url} onChange={e => setCatalogFormData({ ...catalogFormData, image_url: e.target.value })} placeholder="https://..." />
               </div>
               <div className="flex items-center space-x-3 p-3 bg-muted/30 rounded-lg">
@@ -583,7 +573,7 @@ const ServicesManagement = () => {
             </DialogHeader>
             <div className="space-y-4 pt-4">
               <div className="space-y-3">
-                <Label>Service *</Label>
+                <Label>{t('services.management.service_label')}</Label>
                 <Select
                   value={isCreatingNewService ? "_new" : formData.service_id}
                   onValueChange={(v) => {
@@ -596,26 +586,29 @@ const ServicesManagement = () => {
                     }
                   }}
                 >
-                  <SelectTrigger><SelectValue placeholder="Select service" /></SelectTrigger>
+                  <SelectTrigger><SelectValue placeholder={t('services.management.select_service')} /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="_new" className="text-primary font-bold">+ Custom Service</SelectItem>
+                    <SelectItem value="_new" className="text-primary font-bold">{t('services.management.custom_service')}</SelectItem>
                     {servicesCatalog.map((s) => (
                       <SelectItem key={s.id} value={s.id}>
-                        {s.name_fr} {s.is_complex && "(Complex)"}
+                        {s.name_fr} {s.is_complex && `(${t('services.management.complex_service')})`}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
 
                 {isCreatingNewService && (
-                  <div className="p-4 border-2 border-dashed border-primary/20 rounded-xl space-y-3 bg-primary/5">
+                  <div className="p-4 border-2 border-dashed border-primary/40 rounded-xl space-y-3 bg-primary/10 shadow-inner animate-in slide-in-from-top-2 fade-in duration-300">
                     <div className="space-y-2">
-                      <Label className="text-xs">Service Name</Label>
-                      <Input placeholder="e.g. PS5 HDMI" value={newServiceName} onChange={(e) => setNewServiceName(e.target.value)} className="text-base md:text-sm" />
+                      <Label className="text-xs font-bold text-primary">{t('services.management.quick_add')}</Label>
+                      <Input placeholder="e.g. PS5 HDMI Replacement" value={newServiceName} onChange={(e) => setNewServiceName(e.target.value)} className="text-base md:text-sm" />
                     </div>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-3 p-3 bg-background/50 rounded-lg border border-border/50">
                       <Checkbox id="new-complex" checked={isNewServiceComplex} onCheckedChange={(c) => setIsNewServiceComplex(!!c)} />
-                      <Label htmlFor="new-complex" className="text-sm">Is Complex Service?</Label>
+                      <div className="grid gap-0.5 leading-none">
+                        <Label htmlFor="new-complex" className="text-sm cursor-pointer font-medium">{t('services.management.complex_service')}</Label>
+                        <p className="text-[10px] text-muted-foreground">{t('services.management.complex_requires_owner')}</p>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -623,49 +616,49 @@ const ServicesManagement = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>Client Name *</Label>
+                  <Label>{t('services.management.client_name')}</Label>
                   <Input value={formData.client_name} onChange={(e) => setFormData({ ...formData, client_name: e.target.value })} className="text-base md:text-sm" />
                 </div>
                 <div className="space-y-2">
-                  <Label>Phone</Label>
+                  <Label>{t('services.management.phone_label')}</Label>
                   <Input value={formData.client_phone} onChange={(e) => setFormData({ ...formData, client_phone: e.target.value })} className="text-base md:text-sm" />
                 </div>
               </div>
 
               <div className="grid grid-cols-3 gap-3">
                 <div className="space-y-2">
-                  <Label className="text-xs">Device Type</Label>
+                  <Label className="text-xs">{t('services.management.device_type')}</Label>
                   <Input placeholder="PS5..." value={formData.device_type} onChange={(e) => setFormData({ ...formData, device_type: e.target.value })} />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-xs">Brand</Label>
+                  <Label className="text-xs">{t('services.management.device_brand')}</Label>
                   <Input placeholder="Sony..." value={formData.device_brand} onChange={(e) => setFormData({ ...formData, device_brand: e.target.value })} />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-xs">Model</Label>
+                  <Label className="text-xs">{t('services.management.device_model')}</Label>
                   <Input placeholder="Slim..." value={formData.device_model} onChange={(e) => setFormData({ ...formData, device_model: e.target.value })} />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label>Issue Description *</Label>
+                <Label>{t('services.management.issue_label')}</Label>
                 <Textarea value={formData.issue_description} onChange={(e) => setFormData({ ...formData, issue_description: e.target.value })} rows={3} />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>Est. Cost (DT)</Label>
+                  <Label>{t('services.management.est_cost')}</Label>
                   <Input type="number" step="0.5" value={formData.estimated_cost} onChange={(e) => setFormData({ ...formData, estimated_cost: e.target.value })} className="text-base md:text-sm" />
                 </div>
                 <div className="space-y-2">
-                  <Label>Priority</Label>
+                  <Label>{t('services.management.priority')}</Label>
                   <Select value={formData.priority} onValueChange={(v) => setFormData({ ...formData, priority: v })}>
                     <SelectTrigger><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="low">Low</SelectItem>
-                      <SelectItem value="normal">Normal</SelectItem>
-                      <SelectItem value="high">High</SelectItem>
-                      <SelectItem value="urgent">Urgent</SelectItem>
+                      <SelectItem value="low">{t('services.management.priority_low')}</SelectItem>
+                      <SelectItem value="normal">{t('services.management.priority_normal')}</SelectItem>
+                      <SelectItem value="high">{t('services.management.priority_high')}</SelectItem>
+                      <SelectItem value="urgent">{t('services.management.priority_urgent')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

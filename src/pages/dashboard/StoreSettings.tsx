@@ -3,8 +3,7 @@ import { supabase } from "@/lib/supabase";
 import DashboardLayout from "@/components/DashboardLayout";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { useAuth } from "@/contexts/AuthContext";
-import { useStoreSettings, useUpdateStoreSetting } from "@/hooks/useStoreSettings";
-import { usePricing } from "@/hooks/usePricing";
+import { useStoreSettings } from "@/hooks/useStoreSettings";
 import { useData } from "@/contexts/DataContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,14 +11,14 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
-import { Badge } from "@/components/ui/badge";
+
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Clock, DollarSign, Gift, Settings, Save, Calendar, Copy, AlertTriangle, CheckCircle, Zap, Coffee, Sun, Moon, RefreshCw, Calculator, BarChart3, Star, AlertCircle, MessageSquare, Database, Truck, LayoutDashboard, Monitor, CreditCard, Banknote } from "lucide-react";
+import { Clock, DollarSign, Gift, Settings, Save, Calendar, Copy, AlertTriangle, Zap, Sun, Moon, RefreshCw, Star, AlertCircle, MessageSquare, Database, Truck, LayoutDashboard, CreditCard, Banknote } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { toast } from "@/hooks/use-toast";
 import { HelpTooltip } from "@/components/ui/help-tooltip";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import type { StoreSettings as StoreSettingsType, WeeklySchedule } from "@/types";
 
@@ -37,9 +36,7 @@ const StoreSettings = () => {
   const { isOwner } = useAuth();
   const { t } = useLanguage();
   const { data: settings, isLoading } = useStoreSettings();
-  const { data: pricing } = usePricing();
   const { updateSettings } = useData();
-  const updateSettingMutation = useUpdateStoreSetting();
   const defaultWeeklySchedule: WeeklySchedule = {
     monday: { isOpen: true, open: "08:00", close: "02:00", breakStart: "12:00", breakEnd: "13:30", hasBreak: true },
     tuesday: { isOpen: true, open: "08:00", close: "02:00", breakStart: "12:00", breakEnd: "13:30", hasBreak: true },
@@ -93,7 +90,6 @@ const StoreSettings = () => {
   });
 
   const [showSpecialHoursDialog, setShowSpecialHoursDialog] = useState(false);
-  const [selectedPreset, setSelectedPreset] = useState<string>('');
   const [specialHoursForm, setSpecialHoursForm] = useState({
     date: '',
     name: '',
@@ -249,10 +245,10 @@ const StoreSettings = () => {
         },
         default_pricing_ps4: settings.default_pricing_ps4 || '',
         default_pricing_ps5: settings.default_pricing_ps5 || '',
-        payment_methods_config: settings.payment_methods_config || {
-          bank_transfer: { enabled: false, details: '' },
-          d17: { enabled: false, details: '' },
-          direct_card: { enabled: false }
+        payment_methods_config: {
+          bank_transfer: settings.payment_methods_config?.bank_transfer ?? { enabled: false, details: '' },
+          d17: settings.payment_methods_config?.d17 ?? { enabled: false, details: '' },
+          direct_card: settings.payment_methods_config?.direct_card ?? { enabled: false }
         }
       }));
     }
@@ -349,13 +345,7 @@ const StoreSettings = () => {
     return closeTime <= openTime;
   };
 
-  // Format time display for overnight hours
-  const formatTimeDisplay = (open: string, close: string): string => {
-    if (isOvernight(open, close)) {
-      return `${open} - ${close} (${t('common.nextDayAbbr')})`;
-    }
-    return `${open} - ${close}`;
-  };
+
 
   // Quick preset functions
   const applyPreset = (preset: string) => {
@@ -408,7 +398,7 @@ const StoreSettings = () => {
 
   // Check for schedule conflicts
   const hasScheduleConflicts = () => {
-    return Object.entries(localSettings.weekly_schedule).some(([day, schedule]) => {
+    return Object.entries(localSettings.weekly_schedule).some(([_, schedule]) => {
       if (!schedule.isOpen) return false;
       return !validateTimeRange(schedule.open, schedule.close) ||
         (schedule.hasBreak && !validateTimeRange(schedule.breakStart, schedule.breakEnd));

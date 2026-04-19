@@ -131,7 +131,7 @@ VITE_SUPABASE_ANON_KEY=your-anon-key-here
 **Option A: Fresh Install (Recommended)**
 1. Open your project in the [Supabase Dashboard](https://supabase.com).
 2. Go to the **SQL Editor**.
-3. Copy and run the content of: [docs/database_schema.sql](docs/database_schema.sql)
+3. Copy and run the content of: [database/setup/database_schema.sql](database/setup/database_schema.sql)
 
 > [!TIP]
 > This script automatically sets up all 15 tables, RLS policies, and core functions. It also includes **Seed Data** (default consoles, pricing, and settings) so you can start testing immediately.

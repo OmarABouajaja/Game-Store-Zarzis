@@ -12,34 +12,22 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
   Users, Plus, Edit, Trash2, Crown, User, Mail, Shield,
-  Clock, AlertTriangle, CheckCircle, Loader2, Phone,
+  AlertTriangle, Loader2, Phone,
   Zap, ShieldCheck, Send, RefreshCw
 } from "lucide-react";
-import { UserPlus, Key } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { createStaffMember, deleteStaffMember } from "@/services/adminService";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-interface StaffMember {
-  id: string;
-  email: string;
-  role: "owner" | "worker";
-  full_name?: string;
-  phone?: string;
-  created_at: string;
-  last_sign_in?: string;
-  last_active_at?: string; // 🟢 For online/offline status
-  is_invited?: boolean;
-  invitation_sent_at?: string;
-}
+import { useStaffMembers, useUpdateStaffRole, StaffMember } from "@/hooks/useStaff";
 
 const StaffManagement = () => {
   const { user, isOwner, session, refreshRole } = useAuth();
   const { t, language } = useLanguage();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<StaffMember | null>(null);
-  const [staffMembers, setStaffMembers] = useState<StaffMember[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { data: staffMembers = [], isLoading, refetch } = useStaffMembers();
+  const updateStaffRole = useUpdateStaffRole();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -57,73 +45,6 @@ const StaffManagement = () => {
     }
     return password;
   };
-
-  // Fetch staff members
-  const fetchStaffMembers = async () => {
-    try {
-      setIsLoading(true);
-      // Bulk fetch roles
-      const { data: userRoles, error: rolesError } = await supabase
-        .from("user_roles")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      if (rolesError) throw rolesError;
-      if (!userRoles || userRoles.length === 0) {
-        setStaffMembers([]);
-        return;
-      }
-
-      // Bulk fetch profiles
-      const userIds = userRoles.map(r => r.user_id);
-      const { data: profiles, error: profilesError } = await supabase
-        .from("profiles")
-        .select("id, full_name, email, created_at, is_active, phone")
-        .in("id", userIds);
-
-      if (profilesError) console.error("Error fetching profiles:", profilesError);
-
-      const profilesMap = new Map(profiles?.map(p => [p.id, p]) || []);
-
-      const staffData: StaffMember[] = userRoles.map(role => {
-        const profileData = profilesMap.get(role.user_id);
-
-        // Priority logic for Email: Context User > Profile Table
-        const userEmail = (role.user_id === user?.id ? user.email : profileData?.email) || "Email non disponible";
-
-        // Priority logic for Name: Profile Table > Context User Metadata > Fallback
-        const userFullName = profileData?.full_name ||
-          (role.user_id === user?.id ? user.user_metadata?.full_name : null) ||
-          "Nom non disponible";
-
-        return {
-          id: role.user_id,
-          email: userEmail,
-          role: role.role as "owner" | "worker",
-          full_name: userFullName,
-          phone: profileData?.phone,
-          created_at: profileData?.created_at || role.created_at || new Date().toISOString(),
-          is_invited: (!profileData || !profileData.full_name) && role.user_id !== user?.id
-        };
-      });
-
-      setStaffMembers(staffData);
-    } catch (error: unknown) {
-      console.error("Error fetching staff:", error);
-      const message = error instanceof Error ? error.message : "Impossible de charger la liste du personnel.";
-      toast({
-        title: "Erreur",
-        description: message,
-        variant: "destructive"
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchStaffMembers();
-  }, []);
 
   // Only owners can access this page
   if (!isOwner) {
@@ -148,19 +69,7 @@ const StaffManagement = () => {
     try {
       if (editingUser) {
         // Update existing user role
-        const { error } = await supabase
-          .from("user_roles")
-          .update({ role: formData.role })
-          .eq("user_id", editingUser.id);
-
-        if (error) throw error;
-
-        // Optimistically update local state so stats refresh instantly
-        setStaffMembers(prev =>
-          prev.map(m =>
-            m.id === editingUser.id ? { ...m, role: formData.role } : m
-          )
-        );
+        await updateStaffRole.mutateAsync({ userId: editingUser.id, newRole: formData.role });
 
         // If editing the current user's own role, refresh AuthContext immediately
         if (editingUser.id === user?.id) {
@@ -172,14 +81,10 @@ const StaffManagement = () => {
           description: t("staff.role_updated_desc", { email: editingUser.email })
         });
 
-        // Refresh the list from DB to be safe
-        await fetchStaffMembers();
-
       } else {
         const tempPassword = generatePassword();
         const rawUrl = import.meta.env.VITE_BACKEND_URL || 'https://bck.gamestorezarzis.com.tn';
-        const API_URL = rawUrl.startsWith('http') ? rawUrl : `https://${rawUrl}`;
-        const { user_id, email_sent: apiEmailSent } = await createStaffMember({
+        const { email_sent: apiEmailSent } = await createStaffMember({
           email: formData.email,
           password: tempPassword,
           role: formData.role,
@@ -295,7 +200,7 @@ const StaffManagement = () => {
       });
 
       // Refresh the list
-      await fetchStaffMembers();
+      await refetch();
 
     } catch (error: unknown) {
       console.error("Delete staff error:", error);
@@ -357,7 +262,7 @@ const StaffManagement = () => {
                       title: t("staff.sync_success"),
                       description: `${data.synced_count} profils mis à jour.`
                     });
-                    await fetchStaffMembers();
+                    await refetch();
                   } catch (e) {
                     toast({ title: t("staff.sync_error"), description: t("staff.sync_error"), variant: "destructive" });
                   } finally {

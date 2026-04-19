@@ -28,6 +28,7 @@ import {
 import { toast } from "@/hooks/use-toast";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useActiveSessions, useSessionsSubscription } from "@/hooks/useGamingSessions";
+import { useOrdersSubscription } from "@/hooks/useOrders";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { UserGuide } from "@/components/onboarding/UserGuide";
 import Interactive3DBackground from "@/components/Interactive3DBackground";
@@ -80,6 +81,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
   // Activate Realtime Subscription (Debounced)
   useSessionsSubscription();
+  useOrdersSubscription();
 
   // High-level alarm state
   const { data: activeSessions } = useActiveSessions();

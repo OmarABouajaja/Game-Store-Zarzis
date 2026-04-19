@@ -331,7 +331,7 @@ const SalesManagement = () => {
                             onChange={(e) => setNewClientName(e.target.value)}
                           />
                           <Input
-                            placeholder="Phone Number"
+                            placeholder={t('sales.phone_placeholder')}
                             value={newClientPhone}
                             onChange={(e) => setNewClientPhone(e.target.value)}
                           />
@@ -343,7 +343,7 @@ const SalesManagement = () => {
                   {/* Points Input for Points/Mixed Payment */}
                   {(paymentMethod === "points" || paymentMethod === "mixed") && selectedClientForSale && (
                     <div>
-                      <Label>Points to Use</Label>
+                      <Label>{t('sales.points_to_use')}</Label>
                       <Input
                         type="number"
                         value={pointsToUse}
@@ -352,7 +352,7 @@ const SalesManagement = () => {
                         placeholder="Points to deduct"
                       />
                       <p className="text-xs text-muted-foreground mt-1">
-                        Available: {selectedClientForSale?.points} points (1 DT = 1000 points)
+                      {t('sales.available_points', { points: selectedClientForSale?.points })} (1 DT = 1000 points)
                       </p>
                     </div>
                   )}
@@ -360,28 +360,28 @@ const SalesManagement = () => {
                   {/* Payment Summary */}
                   <Card className="glass-card">
                     <CardContent className="p-4">
-                      <h4 className="font-semibold mb-2">Payment Summary</h4>
+                      <h4 className="font-semibold mb-2">{t('sales.payment_summary')}</h4>
                       {(() => {
                         const { total, pointsUsed, cashPaid } = calculateTotal();
                         return (
                           <div className="space-y-1 text-sm">
                             <div className="flex justify-between">
-                              <span>Subtotal:</span>
+                              <span>{t('sales.subtotal')}</span>
                               <span>{(selectedProduct.price * quantity).toFixed(3)} DT</span>
                             </div>
                             {pointsUsed > 0 && (
                               <div className="flex justify-between text-green-600">
-                                <span>Points discount:</span>
+                                <span>{t('sales.points_discount')}</span>
                                 <span>-{(pointsUsed / 1000).toFixed(3)} DT</span>
                               </div>
                             )}
                             <div className="flex justify-between font-bold border-t pt-1">
-                              <span>Total to pay:</span>
+                              <span>{t('sales.total_pay')}</span>
                               <span>{total.toFixed(3)} DT</span>
                             </div>
                             {pointsUsed > 0 && (
                               <div className="flex justify-between text-xs text-muted-foreground">
-                                <span>Points used:</span>
+                                <span>{t('sales.points_used_label')}</span>
                                 <span>{pointsUsed}</span>
                               </div>
                             )}
@@ -417,7 +417,7 @@ const SalesManagement = () => {
                 <div className="glass-card rounded-lg p-4">
                   <h4 className="font-semibold">{selectedProduct.name} x{quantity}</h4>
                   <p className="text-sm text-muted-foreground">
-                    Client: {selectedClientForSale?.name} ({selectedClientForSale?.phone})
+                        {t('sales.client_info', 'Client')}: {selectedClientForSale?.name} ({selectedClientForSale?.phone})
                   </p>
                 </div>
 
@@ -432,7 +432,7 @@ const SalesManagement = () => {
                           onCheckedChange={(checked) => setStaffConfirmed(checked === true)}
                         />
                         <Label htmlFor="staff-confirm" className="text-sm">
-                          Staff confirms points transaction is legitimate
+                          {t('sales.staff_confirm')}
                         </Label>
                       </div>
 
@@ -443,7 +443,7 @@ const SalesManagement = () => {
                           onCheckedChange={(checked) => setClientConfirmed(checked === true)}
                         />
                         <Label htmlFor="client-confirm" className="text-sm">
-                          Client confirms and authorizes points usage
+                          {t('sales.client_confirms')}
                         </Label>
                       </div>
 
@@ -451,15 +451,15 @@ const SalesManagement = () => {
                         <CardContent className="p-3">
                           <div className="text-sm space-y-1">
                             <div className="flex justify-between">
-                              <span>Points to deduct:</span>
+                              <span>{t('sales.points_deduct')}</span>
                               <span className="text-red-600">-{pointsUsed}</span>
                             </div>
                             <div className="flex justify-between">
-                              <span>Cash payment:</span>
+                              <span>{t('sales.cash_payment')}</span>
                               <span>{cashPaid.toFixed(3)} DT</span>
                             </div>
                             <div className="flex justify-between font-bold border-t pt-1">
-                              <span>Client balance after:</span>
+                              <span>{t('sales.client_balance_after')}</span>
                               <span>{((selectedClientForSale?.points || 0) - pointsUsed)} pts</span>
                             </div>
                           </div>
@@ -473,7 +473,7 @@ const SalesManagement = () => {
                         disabled={!staffConfirmed || !clientConfirmed}
                       >
                         <CheckCircle className="w-5 h-5 me-2" />
-                        Confirm & Complete Sale
+                        {t('sales.confirm_complete')}
                       </Button>
                     </div>
                   );

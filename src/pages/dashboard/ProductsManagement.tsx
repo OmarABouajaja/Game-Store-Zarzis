@@ -2,6 +2,10 @@ import { useState } from "react";
 import DashboardLayout from "@/components/DashboardLayout";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { useAuth } from "@/contexts/AuthContext";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { motion, AnimatePresence } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,12 +16,29 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
-import { Package, Plus, Edit, Trash2, DollarSign } from "lucide-react";
+import { Package, Plus, Edit, Trash2, DollarSign, Loader2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { HelpTooltip } from "@/components/ui/help-tooltip";
 import { useProducts, useCreateProduct, useUpdateProduct, useDeleteProduct } from "@/hooks/useProducts";
 import { Product } from "@/types";
+
+const productSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  description: z.string().optional(),
+  price: z.preprocess((val) => Number(val), z.number().min(0, "Price must be >= 0")),
+  stock_quantity: z.preprocess((val) => Number(val), z.number().min(0, "Stock cannot be negative")),
+  category: z.string().optional(),
+  cost_price: z.preprocess((val) => Number(val), z.number().min(0).default(0)),
+  product_type: z.enum(['physical', 'consumable', 'digital']).default('physical'),
+  subcategory: z.string().optional(),
+  is_quick_sale: z.boolean().default(false),
+  image_url: z.string().optional(),
+  digital_content: z.string().optional(),
+  is_digital_delivery: z.boolean().default(false)
+});
+
+type ProductFormValues = z.infer<typeof productSchema>;
 
 const ProductsManagement = () => {
   const { isOwner } = useAuth();
@@ -28,19 +49,25 @@ const ProductsManagement = () => {
   const deleteProduct = useDeleteProduct();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    price: "",
-    stock_quantity: "",
-    category: "",
-    cost_price: "0",
-    product_type: "physical" as 'physical' | 'consumable' | 'digital',
-    subcategory: "",
-    is_quick_sale: false,
-    image_url: "",
-    digital_content: "",
-    is_digital_delivery: false
+
+  const productType = form.watch("product_type");
+
+  const form = useForm<ProductFormValues>({
+    resolver: zodResolver(productSchema),
+    defaultValues: {
+      name: "",
+      description: "",
+      price: 0,
+      stock_quantity: 0,
+      category: "",
+      cost_price: 0,
+      product_type: "physical",
+      subcategory: "",
+      is_quick_sale: false,
+      image_url: "",
+      digital_content: "",
+      is_digital_delivery: false
+    }
   });
 
   // Only owners can access this page
@@ -59,37 +86,27 @@ const ProductsManagement = () => {
     );
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const onSubmit = async (data: ProductFormValues) => {
     try {
-      // Validate inputs
-      const price = parseFloat(formData.price);
-      if (isNaN(price)) throw new Error("Prix invalide");
-
-      const stock = parseInt(formData.stock_quantity);
-      if (isNaN(stock)) throw new Error("Quantité en stock invalide");
-
       const productData = {
-        name: formData.name.trim(),
-        description: formData.description.trim() || null,
-        price: price,
-        stock_quantity: stock,
-        category: formData.category.trim() || "Général",
-        image_url: formData.image_url.trim() || null,
-        product_type: formData.product_type,
-        subcategory: formData.subcategory || null,
-        is_quick_sale: formData.is_quick_sale,
-        digital_content: formData.digital_content.trim() || null,
-        is_digital_delivery: formData.is_digital_delivery,
+        name: data.name.trim(),
+        description: data.description?.trim() || undefined,
+        price: data.price,
+        stock_quantity: data.stock_quantity,
+        category: data.category?.trim() || "Général",
+        image_url: data.image_url?.trim() || undefined,
+        product_type: data.product_type,
+        subcategory: data.subcategory || undefined,
+        is_quick_sale: data.is_quick_sale,
+        digital_content: data.digital_content?.trim() || undefined,
+        is_digital_delivery: data.is_digital_delivery,
         is_active: true,
-        // Required fields for multi-language support
-        name_fr: formData.name.trim(),
-        name_ar: formData.name.trim(),
-        description_fr: formData.description.trim() || null,
-        description_ar: formData.description.trim() || null,
-        points_earned: Math.floor(price),
-        cost_price: parseFloat(formData.cost_price) || 0
+        name_fr: data.name.trim(),
+        name_ar: data.name.trim(),
+        description_fr: data.description?.trim() || undefined,
+        description_ar: data.description?.trim() || undefined,
+        points_earned: Math.floor(data.price),
+        cost_price: data.cost_price || 0
       };
 
       if (editingProduct) {
@@ -99,29 +116,19 @@ const ProductsManagement = () => {
         });
         toast({ title: "✅ Produit mis à jour", description: "Les modifications ont été enregistrées." });
       } else {
-        await createProduct.mutateAsync(productData as Omit<Product, "id" | "created_at">);
+        await createProduct.mutateAsync({
+          ...productData,
+          created_at: new Date().toISOString()
+        } as Omit<Product, "id">);
         toast({ title: "✅ Produit créé", description: "Le nouveau produit a été ajouté au catalogue." });
       }
 
       setIsDialogOpen(false);
       setEditingProduct(null);
-      setFormData({
-        name: "",
-        description: "",
-        price: "",
-        stock_quantity: "",
-        cost_price: "0",
-        category: "",
-        product_type: "physical",
-        subcategory: "",
-        is_quick_sale: false,
-        image_url: "",
-        digital_content: "",
-        is_digital_delivery: false
-      });
+      form.reset();
     } catch (error: unknown) {
       console.error("Error saving product:", error);
-      const message = error instanceof Error ? error.message : "Impossible d'enregistrer le produit. Vérifiez les champs obligatoires.";
+      const message = error instanceof Error ? error.message : "Impossible d'enregistrer le produit.";
       toast({
         title: "❌ Erreur",
         description: message,
@@ -161,7 +168,9 @@ const ProductsManagement = () => {
               <DialogTrigger asChild>
                 <Button onClick={() => {
                   setEditingProduct(null);
-                  setFormData({ name: "", description: "", price: "", stock_quantity: "", cost_price: "0", category: "", product_type: "physical", subcategory: "", is_quick_sale: false, image_url: "", digital_content: "", is_digital_delivery: false });
+                  form.reset({
+                    name: "", description: "", price: 0, stock_quantity: 0, cost_price: 0, category: "", product_type: "physical", subcategory: "", is_quick_sale: false, image_url: "", digital_content: "", is_digital_delivery: false
+                  });
                 }}>
                   <Plus className="w-4 h-4 me-2" />
                   {t('products.add')}
@@ -173,24 +182,23 @@ const ProductsManagement = () => {
                     {editingProduct ? t('products.edit_title') : t('products.add_title')}
                   </DialogTitle>
                 </DialogHeader>
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                   <div>
                     <Label htmlFor="name">{t('products.name')}</Label>
                     <Input
                       id="name"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      {...form.register("name")}
                       placeholder={t('products.name')}
                       required
                       className="text-base md:text-sm"
                     />
+                    {form.formState.errors.name && <p className="text-red-500 text-xs mt-1">{form.formState.errors.name.message}</p>}
                   </div>
                   <div>
                     <Label htmlFor="description">{t('products.description')}</Label>
                     <Textarea
                       id="description"
-                      value={formData.description}
-                      onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                      {...form.register("description")}
                       placeholder={t('products.description_placeholder')}
                       rows={3}
                     />
@@ -202,36 +210,35 @@ const ProductsManagement = () => {
                         id="price"
                         type="number"
                         step="0.001"
-                        value={formData.price}
-                        onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                        {...form.register("price")}
                         placeholder="0.000"
                         required
                         className="text-base md:text-sm"
                       />
+                      {form.formState.errors.price && <p className="text-red-500 text-xs mt-1">{form.formState.errors.price.message}</p>}
                     </div>
                     <div>
-                      <Label htmlFor="cost_price">Prix d'Achat (Cost)</Label>
-                      <Input
-                        id="cost_price"
-                        type="number"
-                        step="0.001"
-                        value={formData.cost_price}
-                        onChange={(e) => setFormData({ ...formData, cost_price: e.target.value })}
-                        placeholder="0.000"
-                        className="text-base md:text-sm"
-                      />
+                      <Label htmlFor="cost_price">{t('products.cost_price_label')}</Label>
+                    <Input
+                      id="cost_price"
+                      type="number"
+                      step="0.001"
+                      {...form.register("cost_price")}
+                      placeholder="0.000"
+                      className="text-base md:text-sm"
+                    />
                     </div>
                     <div>
                       <Label htmlFor="stock">{t('products.stock_label')}</Label>
                       <Input
                         id="stock"
                         type="number"
-                        value={formData.stock_quantity}
-                        onChange={(e) => setFormData({ ...formData, stock_quantity: e.target.value })}
+                        {...form.register("stock_quantity")}
                         placeholder="0"
                         required
                         className="text-base md:text-sm"
                       />
+                      {form.formState.errors.stock_quantity && <p className="text-red-500 text-xs mt-1">{form.formState.errors.stock_quantity.message}</p>}
                     </div>
                   </div>
 
@@ -239,18 +246,18 @@ const ProductsManagement = () => {
                   <div>
                     <Label htmlFor="product_type">{t('products.product_type')}</Label>
                     <Select
-                      value={formData.product_type}
-                      onValueChange={(value: 'physical' | 'consumable' | 'digital') =>
-                        setFormData({
-                          ...formData,
-                          product_type: value,
-                          // Reset fields that don't apply to the new type
-                          subcategory: value === 'consumable' ? formData.subcategory : "",
-                          is_quick_sale: value === 'consumable' ? formData.is_quick_sale : false,
-                          digital_content: value === 'digital' ? formData.digital_content : "",
-                          is_digital_delivery: value === 'digital' ? formData.is_digital_delivery : false
-                        })
-                      }
+                      value={productType}
+                      onValueChange={(value: 'physical' | 'consumable' | 'digital') => {
+                        form.setValue("product_type", value);
+                        if (value !== 'consumable') {
+                          form.setValue("subcategory", "");
+                          form.setValue("is_quick_sale", false);
+                        }
+                        if (value !== 'digital') {
+                          form.setValue("digital_content", "");
+                          form.setValue("is_digital_delivery", false);
+                        }
+                      }}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select type" />
@@ -262,49 +269,60 @@ const ProductsManagement = () => {
                       </SelectContent>
                     </Select>
                     <p className="text-xs text-muted-foreground mt-1">
-                      {formData.product_type === 'consumable'
+                      {productType === 'consumable'
                         ? t('products.type_desc_consumable')
-                        : formData.product_type === 'digital'
+                        : productType === 'digital'
                           ? t('products.type_desc_digital')
                           : t('products.type_desc_physical')}
                     </p>
                   </div>
 
                   {/* Digital Content - Only for digital products */}
-                  {formData.product_type === 'digital' && (
-                    <div className="space-y-4 animate-in fade-in">
-                      <div>
-                        <Label htmlFor="digital_content">Digital Code / Key / Link</Label>
+                  <AnimatePresence>
+                    {productType === 'digital' && (
+                      <motion.div 
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="space-y-4 overflow-hidden"
+                      >
+                        <div>
+                        <Label htmlFor="digital_content">{t('products.digital_code_label')}</Label>
                         <Textarea
                           id="digital_content"
-                          placeholder="Enter game keys, license codes, or download link..."
-                          value={formData.digital_content}
-                          onChange={(e) => setFormData({ ...formData, digital_content: e.target.value })}
+                          placeholder={t('products.digital_code_placeholder')}
+                          {...form.register("digital_content")}
                           rows={2}
                         />
                       </div>
                       <div className="flex items-center justify-between p-3 border rounded-lg bg-primary/5">
                         <div className="flex items-center gap-2">
-                          <Label htmlFor="is_digital_delivery" className="cursor-pointer">Instant Digital Delivery</Label>
+                          <Label htmlFor="is_digital_delivery" className="cursor-pointer">{t('products.instant_delivery')}</Label>
                         </div>
                         <input
                           id="is_digital_delivery"
                           type="checkbox"
-                          checked={formData.is_digital_delivery}
-                          onChange={(e) => setFormData({ ...formData, is_digital_delivery: e.target.checked })}
+                          {...form.register("is_digital_delivery")}
                           className="w-5 h-5 cursor-pointer"
                         />
                       </div>
-                    </div>
+                    </motion.div>
                   )}
+                  </AnimatePresence>
 
                   {/* Subcategory - Only show for consumables */}
-                  {formData.product_type === 'consumable' && (
-                    <div>
-                      <Label htmlFor="subcategory">Subcategory (Café Menu)</Label>
+                  <AnimatePresence>
+                    {productType === 'consumable' && (
+                      <motion.div 
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="overflow-hidden"
+                      >
+                        <Label htmlFor="subcategory">{t('products.subcategory_label')}</Label>
                       <Select
-                        value={formData.subcategory}
-                        onValueChange={(value) => setFormData({ ...formData, subcategory: value })}
+                        value={form.watch("subcategory") || ""}
+                        onValueChange={(value) => form.setValue("subcategory", value)}
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Select category" />
@@ -319,35 +337,41 @@ const ProductsManagement = () => {
                         </SelectContent>
                       </Select>
                       <p className="text-xs text-muted-foreground mt-1">
-                        This determines which tab it appears under in Café Menu
+                        {t('products.subcategory_hint')}
                       </p>
-                    </div>
+                    </motion.div>
                   )}
+                  </AnimatePresence>
 
                   {/* Quick Sale Toggle - Only for consumables */}
-                  {formData.product_type === 'consumable' && (
-                    <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <AnimatePresence>
+                    {productType === 'consumable' && (
+                      <motion.div 
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="flex items-center justify-between p-3 border rounded-lg overflow-hidden"
+                      >
                       <div>
-                        <Label htmlFor="quick_sale" className="cursor-pointer">Show in Quick Sale Menu</Label>
-                        <p className="text-xs text-muted-foreground">Display in Café Menu for fast access</p>
+                        <Label htmlFor="quick_sale" className="cursor-pointer">{t('products.quick_sale_toggle')}</Label>
+                        <p className="text-xs text-muted-foreground">{t('products.quick_sale_desc')}</p>
                       </div>
                       <input
                         id="quick_sale"
                         type="checkbox"
-                        checked={formData.is_quick_sale}
-                        onChange={(e) => setFormData({ ...formData, is_quick_sale: e.target.checked })}
+                        {...form.register("is_quick_sale")}
                         className="w-5 h-5 cursor-pointer"
                       />
-                    </div>
-                  )}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
 
                   {/* Main Category (optional) */}
                   <div>
-                    <Label htmlFor="category">{t('products.category')} (Optional)</Label>
+                    <Label htmlFor="category">{t('products.category_optional')}</Label>
                     <Input
                       id="category"
-                      value={formData.category}
-                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                      {...form.register("category")}
                       placeholder="e.g., Consumables, Gaming Accessories"
                       className="text-base md:text-sm"
                     />
@@ -357,18 +381,24 @@ const ProductsManagement = () => {
                     <Label htmlFor="image_url">{t('products.image_url')}</Label>
                     <Input
                       id="image_url"
-                      value={formData.image_url}
-                      onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                      {...form.register("image_url")}
                       placeholder="https://example.com/image.jpg"
                       className="text-base md:text-sm"
                     />
                   </div>
-                  <div className="flex justify-end gap-2">
-                    <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)} className="h-12 px-6 text-base">
-                      {t('common.cancel', 'Cancel')}
+                  <div className="flex justify-end gap-2 mt-6">
+                    <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)} className="h-12 px-6 text-base" disabled={form.formState.isSubmitting}>
+                      {t('common.cancel')}
                     </Button>
-                    <Button type="submit" className="h-12 px-8 text-lg font-bold">
-                      {editingProduct ? t('products.success_update') : t('products.success_create')}
+                    <Button type="submit" className="h-12 px-8 text-lg font-bold" disabled={form.formState.isSubmitting}>
+                      {form.formState.isSubmitting ? (
+                        <>
+                          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                          {t('products.saving')}
+                        </>
+                      ) : (
+                        editingProduct ? t('products.success_update') : t('products.success_create')
+                      )}
                     </Button>
                   </div>
                 </form>
@@ -434,7 +464,7 @@ const ProductsManagement = () => {
                         )}
                         {product.product_type && product.product_type !== 'physical' && (
                           <Badge variant="outline" className="mt-1 me-1">
-                            {product.product_type === 'consumable' ? '🍔 Consumable' : '💾 Digital'}
+                            {product.product_type === 'consumable' ? t('products.type_consumable_badge') : t('products.type_digital_badge')}
                           </Badge>
                         )}
                         {product.subcategory && (
@@ -454,14 +484,14 @@ const ProductsManagement = () => {
                           className="h-9 w-9"
                           onClick={() => {
                             setEditingProduct(product);
-                            setFormData({
+                            form.reset({
                               name: product.name,
                               description: product.description || "",
-                              price: product.price.toString(),
-                              stock_quantity: product.stock_quantity.toString(),
-                              cost_price: (product.cost_price || 0).toString(),
+                              price: product.price,
+                              stock_quantity: product.stock_quantity,
+                              cost_price: product.cost_price || 0,
                               category: product.category || "",
-                              product_type: product.product_type || "physical",
+                              product_type: (product.product_type as 'physical'|'consumable'|'digital') || "physical",
                               subcategory: product.subcategory || "",
                               is_quick_sale: product.is_quick_sale || false,
                               image_url: product.image_url || "",

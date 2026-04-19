@@ -152,7 +152,7 @@ const TransactionsHistory = () => {
             toast({ title: t('transactions.delete_confirm') + " ✓" });
 
             // Optimistic Update
-            setTransactions(prev => prev.filter(t => t.id !== deleteId));
+            setTransactions(prev => prev.filter(tx => tx.id !== deleteId));
 
             setDeleteId(null);
             setDeleteType(null);
@@ -230,18 +230,18 @@ const TransactionsHistory = () => {
                                                 </TableCell>
                                             </TableRow>
                                         ) : (
-                                            paginatedTransactions.map((t) => (
-                                                <TableRow key={`${t.type}-${t.id}`}>
+                                            paginatedTransactions.map((tx) => (
+                                                <TableRow key={`${tx.type}-${tx.id}`}>
                                                     <TableCell className="font-medium whitespace-nowrap">
                                                         <div className="flex flex-col">
-                                                            <span>{format(new Date(t.date), 'MMM d, yyyy')}</span>
+                                                            <span>{format(new Date(tx.date), 'MMM d, yyyy')}</span>
                                                             <span className="text-xs text-muted-foreground">
-                                                                {format(new Date(t.date), 'HH:mm')}
+                                                                {format(new Date(tx.date), 'HH:mm')}
                                                             </span>
                                                         </div>
                                                     </TableCell>
                                                     <TableCell>
-                                                        {t.type === 'sale' ? (
+                                                        {tx.type === 'sale' ? (
                                                             <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/20 dark:text-blue-300 dark:border-blue-800">
                                                                 <ShoppingBag className="w-3 h-3 me-1" />
                                                                 {t('transactions.type_sale')}
@@ -255,15 +255,15 @@ const TransactionsHistory = () => {
                                                     </TableCell>
                                                     <TableCell>
                                                         <div>
-                                                            <p className="font-medium">{t.description}</p>
-                                                            <p className="text-xs text-muted-foreground">{t.details}</p>
+                                                            <p className="font-medium">{tx.description}</p>
+                                                            <p className="text-xs text-muted-foreground">{tx.details}</p>
                                                         </div>
                                                     </TableCell>
                                                     <TableCell>
-                                                        {t.clientName !== '-' ? (
+                                                        {tx.clientName !== '-' ? (
                                                             <div className="flex items-center gap-1">
                                                                 <User className="w-3 h-3 text-muted-foreground" />
-                                                                <span>{t.clientName}</span>
+                                                                <span>{tx.clientName}</span>
                                                             </div>
                                                         ) : (
                                                             <span className="text-muted-foreground text-xs">-</span>
@@ -271,12 +271,12 @@ const TransactionsHistory = () => {
                                                     </TableCell>
                                                     <TableCell>
                                                         <span className="text-xs px-2 py-1 rounded bg-secondary/10 text-secondary border border-secondary/20">
-                                                            {t.staffName}
+                                                            {tx.staffName}
                                                         </span>
                                                     </TableCell>
                                                     <TableCell>
                                                         <span className="font-bold text-primary">
-                                                            {t.amount.toFixed(3)} DT
+                                                            {tx.amount.toFixed(3)} DT
                                                         </span>
                                                     </TableCell>
                                                     <TableCell className="text-right">
@@ -285,8 +285,8 @@ const TransactionsHistory = () => {
                                                             size="icon"
                                                             className="text-destructive hover:text-destructive hover:bg-destructive/10"
                                                             onClick={() => {
-                                                                setDeleteId(t.id);
-                                                                setDeleteType(t.type);
+                                                                setDeleteId(tx.id);
+                                                                setDeleteType(tx.type);
                                                             }}
                                                         >
                                                             <Trash2 className="w-4 h-4" />

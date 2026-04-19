@@ -50,7 +50,6 @@ const ProductsManagement = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
-  const productType = form.watch("product_type");
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productSchema),
@@ -69,6 +68,8 @@ const ProductsManagement = () => {
       is_digital_delivery: false
     }
   });
+
+  const productType = form.watch("product_type");
 
   // Only owners can access this page
   if (!isOwner) {

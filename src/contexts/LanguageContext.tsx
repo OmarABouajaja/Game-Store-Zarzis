@@ -1009,15 +1009,15 @@ export const translations: Translations = {
   "products.type_consumable_badge": { fr: "🍔 Consommable", en: "🍔 Consumable", ar: "🍔 مستهلك" },
   "products.type_digital_badge": { fr: "💾 Numérique", en: "💾 Digital", ar: "💾 رقمي" },
   "products.digital_code_label": { fr: "Code Numérique / Clé / Lien", en: "Digital Code / Key / Link", ar: "الكود الرقمي / المفتاح / الرابط" },
-  "products.digital_code_placeholder": { fr: "Entrez códigos de jeux...", en: "Enter game keys, license codes, or download link...", ar: "أدخل أكواد الألعاب أو الترخيص أو رابط التحميل..." },
-  "products.instant_delivery": { fr: "Livraison Numérique Instantanée", en: "Instant Digital Delivery", ar: "تسليم رقمي فوري" },
+  "products.digital_code_placeholder": { fr: "Entrez les codes de jeux...", en: "Enter game keys, license codes, or download link...", ar: "أدخل أكواد الألعاب أو الترخيص أو رابط التحميل..." },
+    // Removed duplicate products.instant_delivery
   "products.quick_sale_toggle": { fr: "Afficher dans Menu Vente Rapide", en: "Show in Quick Sale Menu", ar: "عرض في قائمة البيع السريع" },
-  "products.quick_sale_desc": { fr: "Afficher dans le Menu Café pour accès rapide", en: "Display in Café Menu for fast access", ar: "عرض في قائمة المقهى للوصول السريع" },
+    // Removed duplicate products.quick_sale_desc
   "products.subcategory_hint": { fr: "Détermine l'onglet dans le Menu Café", en: "This determines which tab it appears under in Café Menu", ar: "يحدد التبويب الذي يظهر تحته في قائمة المقهى" },
   "products.subcategory_label": { fr: "Sous-catégorie (Menu Café)", en: "Subcategory (Café Menu)", ar: "الفئة الفرعية (قائمة المقهى)" },
   "products.category_optional": { fr: "Catégorie (Optionnel)", en: "Category (Optional)", ar: "الفئة (اختياري)" },
   "products.cost_price_label": { fr: "Prix d'Achat (Coût)", en: "Purchase Price (Cost)", ar: "سعر الشراء (التكلفة)" },
-  "products.saving": { fr: "Enregistrement...", en: "Saving...", ar: "جاري الحفظ..." },
+    // Removed duplicate products.saving
 
   // Statuses
   "status.all": { fr: "Tout", en: "All", ar: "الكل" },

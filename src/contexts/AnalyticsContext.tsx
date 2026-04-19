@@ -23,7 +23,7 @@ export const useAnalytics = () => {
 };
 
 export const AnalyticsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const { sales, sessions, serviceRequests } = useData();
+    const { sales, sessions, serviceRequests, products = [] } = useData();
     const [expenses, setExpenses] = useState<Expense[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [timeRange, setTimeRange] = useState<'today' | 'weekly' | 'monthly' | 'yearly'>('weekly');
@@ -118,8 +118,18 @@ export const AnalyticsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         const totalExp = dailyExp + monthlyExp + yearlyExp;
 
         // Profitability
-        const grossProfit = totalRev; // Simplified for now, can add COGS if tracked
-        const netProfit = totalRev - totalExp;
+        // Calculate COGS (Cost of Goods Sold) using products array
+        const cogs = filteredSales.reduce((sum, s) => {
+            const saleAny = s as any;
+            if (!saleAny.product_id) return sum;
+            const product = products.find(p => p.id === saleAny.product_id);
+            const costParam = Number(product?.cost_price || 0);
+            const qty = Number(saleAny.quantity || 1);
+            return sum + (costParam * qty);
+        }, 0);
+
+        const grossProfit = totalRev - cogs;
+        const netProfit = grossProfit - totalExp;
         const margin = totalRev > 0 ? (netProfit / totalRev) * 100 : 0;
 
         return {
@@ -141,7 +151,7 @@ export const AnalyticsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
                 margin: margin
             }
         };
-    }, [sales, sessions, serviceRequests, expenses, timeRange]);
+    }, [sales, sessions, serviceRequests, expenses, timeRange, products]);
 
     const value = {
         summary,

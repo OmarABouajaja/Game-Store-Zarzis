@@ -390,8 +390,8 @@ Game Store Zarzis - Intelligence Business
                             {(todayStats?.total_revenue || 0).toFixed(3)} DT
                           </p>
                           <div className="flex items-center mt-1">
-                            <ArrowUpRight className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 me-1" />
-                            <span className="text-[10px] sm:text-xs text-green-500">+8.2%</span>
+                            <ArrowUpRight className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 me-1 opacity-50" />
+                            <span className="text-[10px] sm:text-xs text-muted-foreground">{t("sales.today")}</span>
                           </div>
                         </div>
                         <div className="p-2 sm:p-3 bg-green-100 dark:bg-green-500/20 rounded-full flex-shrink-0">

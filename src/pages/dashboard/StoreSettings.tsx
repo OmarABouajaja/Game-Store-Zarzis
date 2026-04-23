@@ -86,7 +86,17 @@ const StoreSettings = () => {
     notify_low_stock: true,
     notify_daily_summary: false,
     enable_service_section: true,
-    enable_service_prices: true
+    enable_service_prices: true,
+    contact_info: {
+      phone: '',
+      whatsapp: '',
+      email: '',
+      address: '',
+      locationLink: '',
+      facebook: '',
+      instagram: '',
+      tiktok: ''
+    }
   });
 
   const [showSpecialHoursDialog, setShowSpecialHoursDialog] = useState(false);
@@ -249,6 +259,16 @@ const StoreSettings = () => {
           bank_transfer: settings.payment_methods_config?.bank_transfer ?? { enabled: false, details: '' },
           d17: settings.payment_methods_config?.d17 ?? { enabled: false, details: '' },
           direct_card: settings.payment_methods_config?.direct_card ?? { enabled: false }
+        },
+        contact_info: {
+          phone: settings.contact_info?.phone ?? '',
+          whatsapp: settings.contact_info?.whatsapp ?? '',
+          email: settings.contact_info?.email ?? '',
+          address: settings.contact_info?.address ?? '',
+          locationLink: settings.contact_info?.locationLink ?? '',
+          facebook: settings.contact_info?.facebook ?? '',
+          instagram: settings.contact_info?.instagram ?? '',
+          tiktok: settings.contact_info?.tiktok ?? ''
         }
       }));
     }
@@ -292,7 +312,8 @@ const StoreSettings = () => {
         default_pricing_ps5: localSettings.default_pricing_ps5,
         payment_methods_config: localSettings.payment_methods_config,
         enable_service_section: localSettings.enable_service_section,
-        enable_service_prices: localSettings.enable_service_prices
+        enable_service_prices: localSettings.enable_service_prices,
+        contact_info: localSettings.contact_info
       };
 
       // Add optional settings if they exist
@@ -554,7 +575,105 @@ const StoreSettings = () => {
                 <Database className="w-4 h-4" />
                 <span className="truncate">Data & Backup</span>
               </TabsTrigger>
+              <TabsTrigger value="contact" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2 px-2 sm:px-3 text-xs sm:text-sm">
+                <MessageSquare className="w-4 h-4" />
+                <span className="truncate">{t('settings.tabs.contact') || 'Contact'}</span>
+              </TabsTrigger>
             </TabsList>
+
+            <TabsContent value="contact" className="space-y-4 sm:space-y-6">
+              <Card className="glass-card">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <MessageSquare className="w-5 h-5 text-primary" />
+                    {t('settings.contact.title') || 'Contact Information'}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="contact-phone">{t('settings.contact.phone') || 'Phone'}</Label>
+                      <Input
+                        id="contact-phone"
+                        value={localSettings.contact_info?.phone || ''}
+                        onChange={(e) => updateSetting('contact_info', { ...localSettings.contact_info, phone: e.target.value })}
+                        placeholder="+216 29 290 065"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="contact-whatsapp">{t('settings.contact.whatsapp') || 'WhatsApp'}</Label>
+                      <Input
+                        id="contact-whatsapp"
+                        value={localSettings.contact_info?.whatsapp || ''}
+                        onChange={(e) => updateSetting('contact_info', { ...localSettings.contact_info, whatsapp: e.target.value })}
+                        placeholder="+21629290065"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="contact-email">{t('settings.contact.email') || 'Email'}</Label>
+                      <Input
+                        id="contact-email"
+                        type="email"
+                        value={localSettings.contact_info?.email || ''}
+                        onChange={(e) => updateSetting('contact_info', { ...localSettings.contact_info, email: e.target.value })}
+                        placeholder="game.store.zarzis@gmail.com"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="contact-address">{t('settings.contact.address') || 'Address'}</Label>
+                      <Input
+                        id="contact-address"
+                        value={localSettings.contact_info?.address || ''}
+                        onChange={(e) => updateSetting('contact_info', { ...localSettings.contact_info, address: e.target.value })}
+                        placeholder="Zarzis, Tunisia"
+                      />
+                    </div>
+                    <div className="space-y-2 md:col-span-2">
+                      <Label htmlFor="contact-location">{t('settings.contact.locationLink') || 'Google Maps Link'}</Label>
+                      <Input
+                        id="contact-location"
+                        value={localSettings.contact_info?.locationLink || ''}
+                        onChange={(e) => updateSetting('contact_info', { ...localSettings.contact_info, locationLink: e.target.value })}
+                        placeholder="https://maps.app.goo.gl/..."
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="pt-4 border-t border-border mt-4">
+                    <h3 className="font-semibold text-lg mb-4">Social Media Links</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="contact-facebook">{t('settings.contact.facebook') || 'Facebook'}</Label>
+                        <Input
+                          id="contact-facebook"
+                          value={localSettings.contact_info?.facebook || ''}
+                          onChange={(e) => updateSetting('contact_info', { ...localSettings.contact_info, facebook: e.target.value })}
+                          placeholder="https://facebook.com/..."
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="contact-instagram">{t('settings.contact.instagram') || 'Instagram'}</Label>
+                        <Input
+                          id="contact-instagram"
+                          value={localSettings.contact_info?.instagram || ''}
+                          onChange={(e) => updateSetting('contact_info', { ...localSettings.contact_info, instagram: e.target.value })}
+                          placeholder="https://instagram.com/..."
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="contact-tiktok">{t('settings.contact.tiktok') || 'TikTok'}</Label>
+                        <Input
+                          id="contact-tiktok"
+                          value={localSettings.contact_info?.tiktok || ''}
+                          onChange={(e) => updateSetting('contact_info', { ...localSettings.contact_info, tiktok: e.target.value })}
+                          placeholder="https://tiktok.com/..."
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
 
             <TabsContent value="hours" className="space-y-4 sm:space-y-6">
 

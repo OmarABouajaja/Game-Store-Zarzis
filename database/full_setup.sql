@@ -414,7 +414,8 @@ INSERT INTO public.store_settings (key, value) VALUES
   ('theme_primary', '"185 100% 50%"'),
   ('help_tooltips_enabled', 'true'),
   ('points_system_enabled', 'true'),
-  ('free_games_enabled', 'true')
+  ('free_games_enabled', 'true'),
+  ('contact_info', '{"phone": "+216 29 290 065", "whatsapp": "+21629290065", "email": "game.store.zarzis@gmail.com", "address": "Zarzis, Tunisia", "locationLink": "https://maps.app.goo.gl/ztEYdhmckRsQeyh57", "facebook": "", "instagram": "https://www.instagram.com/game.store.zarzis?igsh=ZjUzeG02YjlwMnBn", "tiktok": "https://www.tiktok.com/@game.store.zarzis?_r=1&_t=ZS-925SLkmPqV6"}')
 ON CONFLICT (key) DO NOTHING;
 
 

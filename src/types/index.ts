@@ -176,6 +176,16 @@ export interface StoreSettings {
     d17?: { enabled: boolean; details: string };
     direct_card?: { enabled: boolean };
   };
+  contact_info?: {
+    phone?: string;
+    whatsapp?: string;
+    email?: string;
+    address?: string;
+    locationLink?: string;
+    facebook?: string;
+    instagram?: string;
+    tiktok?: string;
+  };
 
   updated_at: string;
 }

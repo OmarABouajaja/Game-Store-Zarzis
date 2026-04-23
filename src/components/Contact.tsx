@@ -2,9 +2,23 @@ import { useState, memo, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { MapPin, Phone, Clock, Mail, Instagram, Facebook, MessageCircle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useData } from "@/contexts/DataContext";
 
 const Contact = () => {
   const { t } = useLanguage();
+  const { settings } = useData();
+  
+  const contactInfo = settings?.contact_info || {};
+  const phone = contactInfo.phone || "+216 29 290 065";
+  const whatsappPhone = contactInfo.whatsapp || "+21629290065";
+  const cleanWhatsapp = whatsappPhone.replace(/\D/g, '');
+  const email = contactInfo.email || "game.store.zarzis@gmail.com";
+  const address = contactInfo.address || t("contact.location.value");
+  const locationLink = contactInfo.locationLink || "https://maps.app.goo.gl/ztEYdhmckRsQeyh57";
+  const facebook = contactInfo.facebook || "";
+  const instagram = contactInfo.instagram || "https://www.instagram.com/game.store.zarzis?igsh=ZjUzeG02YjlwMnBn";
+  const tiktok = contactInfo.tiktok || "https://www.tiktok.com/@game.store.zarzis?_r=1&_t=ZS-925SLkmPqV6";
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,8 +30,8 @@ const Contact = () => {
     e.preventDefault();
     const message = `*${t("contact.form.title")}*\n\n*${t("contact.form.name")}:* ${formData.name}\n*${t("contact.form.email")}:* ${formData.email}\n*${t("contact.form.subject")}:* ${formData.subject}\n\n*${t("contact.form.message")}:*\n${formData.message}`;
     const encodedMessage = encodeURIComponent(message);
-    window.open(`https://wa.me/21629290065?text=${encodedMessage}`, "_blank");
-  }, [formData, t]);
+    window.open(`https://wa.me/${cleanWhatsapp}?text=${encodedMessage}`, "_blank");
+  }, [formData, t, cleanWhatsapp]);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({
@@ -56,7 +70,7 @@ const Contact = () => {
           <div className="space-y-2.5 sm:space-y-3 md:space-y-4">
             {/* Address - Clickable Google Maps Link */}
             <a
-              href="https://maps.app.goo.gl/ztEYdhmckRsQeyh57"
+              href={locationLink}
               target="_blank"
               rel="noopener noreferrer"
               className="glass-card rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 flex items-start gap-2.5 sm:gap-3 border border-border/50 hover:border-primary/60 hover:bg-primary/5 hover:shadow-[0_8px_24px_hsl(var(--primary)/0.15)] transition-all duration-300 cursor-pointer group active:scale-[0.98] touch-manipulation"
@@ -66,7 +80,7 @@ const Contact = () => {
               </div>
               <div className="flex-1 min-w-0">
                 <h4 className="font-display font-bold text-xs sm:text-sm md:text-base mb-0.5 sm:mb-1 text-foreground group-hover:text-primary transition-colors">{t("contact.location")}</h4>
-                <p className="text-muted-foreground text-xs sm:text-sm md:text-base group-hover:text-foreground transition-colors">{t("contact.location.value")}</p>
+                <p className="text-muted-foreground text-xs sm:text-sm md:text-base group-hover:text-foreground transition-colors">{address}</p>
               </div>
               <div className="opacity-0 group-hover:opacity-100 transition-opacity">
                 <svg className="w-4 h-4 sm:w-5 sm:h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -88,7 +102,7 @@ const Contact = () => {
 
             {/* Phone - Clickable tel: link */}
             <a
-              href="tel:+21629290065"
+              href={`tel:${phone}`}
               className="glass-card rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 flex items-start gap-2.5 sm:gap-3 border border-border/50 hover:border-accent/60 hover:bg-accent/5 hover:shadow-[0_8px_24px_hsl(var(--accent)/0.15)] transition-all duration-300 cursor-pointer group active:scale-[0.98] touch-manipulation"
             >
               <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-accent/10 group-hover:bg-accent/20 flex items-center justify-center flex-shrink-0 transition-colors">
@@ -96,7 +110,7 @@ const Contact = () => {
               </div>
               <div className="flex-1 min-w-0">
                 <h4 className="font-display font-bold text-xs sm:text-sm md:text-base mb-0.5 sm:mb-1 text-foreground group-hover:text-accent transition-colors">{t("contact.phone")}</h4>
-                <p className="text-muted-foreground text-xs sm:text-sm md:text-base group-hover:text-foreground transition-colors">{t("contact.phone.value")}</p>
+                <p className="text-muted-foreground text-xs sm:text-sm md:text-base group-hover:text-foreground transition-colors">{phone}</p>
               </div>
               <div className="opacity-0 group-hover:opacity-100 transition-opacity">
                 <svg className="w-4 h-4 sm:w-5 sm:h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -107,7 +121,7 @@ const Contact = () => {
 
             {/* Email - Clickable mailto: link */}
             <a
-              href="mailto:game.store.zarzis@gmail.com"
+              href={`mailto:${email}`}
               className="glass-card rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 flex items-start gap-2.5 sm:gap-3 border border-border/50 hover:border-primary/60 hover:bg-primary/5 hover:shadow-[0_8px_24px_hsl(var(--primary)/0.15)] transition-all duration-300 cursor-pointer group active:scale-[0.98] touch-manipulation"
             >
               <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-primary/10 group-hover:bg-primary/20 flex items-center justify-center flex-shrink-0 transition-colors">
@@ -115,7 +129,7 @@ const Contact = () => {
               </div>
               <div className="flex-1 min-w-0">
                 <h4 className="font-display font-bold text-xs sm:text-sm md:text-base mb-0.5 sm:mb-1 text-foreground group-hover:text-primary transition-colors">{t("contact.email")}</h4>
-                <p className="text-muted-foreground text-xs sm:text-sm md:text-base break-all group-hover:text-foreground transition-colors">{t("contact.email.value")}</p>
+                <p className="text-muted-foreground text-xs sm:text-sm md:text-base break-all group-hover:text-foreground transition-colors">{email}</p>
               </div>
               <div className="opacity-0 group-hover:opacity-100 transition-opacity">
                 <svg className="w-4 h-4 sm:w-5 sm:h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -126,37 +140,56 @@ const Contact = () => {
 
             <div className="flex items-center gap-3 sm:gap-4 pt-2 md:pt-4 flex-wrap">
               <span className="text-muted-foreground text-xs md:text-sm">{t("contact.follow")}</span>
-              <a
-                href="https://www.instagram.com/game.store.zarzis?igsh=ZjUzeG02YjlwMnBn"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 md:w-10 md:h-10 rounded-lg bg-gradient-to-br from-purple-600/20 via-pink-600/20 to-orange-500/20 flex items-center justify-center hover:from-purple-600/30 hover:via-pink-600/30 hover:to-orange-500/30 transition-all duration-300 border border-purple-500/30 hover:border-purple-400/50 hover:shadow-[0_0_15px_hsl(280_100%_60%/0.4)]"
-                title="Instagram"
-              >
-                <Instagram className="w-4 h-4 md:w-5 md:h-5 text-pink-400" />
-              </a>
+              
+              {facebook && (
+                <a
+                  href={facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 md:w-10 md:h-10 rounded-lg bg-blue-600/20 flex items-center justify-center hover:bg-blue-600/30 transition-all duration-300 border border-blue-500/30 hover:border-blue-400/50 hover:shadow-[0_0_15px_rgba(59,130,246,0.4)]"
+                  title="Facebook"
+                >
+                  <Facebook className="w-4 h-4 md:w-5 md:h-5 text-blue-400" />
+                </a>
+              )}
 
+              {instagram && (
+                <a
+                  href={instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 md:w-10 md:h-10 rounded-lg bg-gradient-to-br from-purple-600/20 via-pink-600/20 to-orange-500/20 flex items-center justify-center hover:from-purple-600/30 hover:via-pink-600/30 hover:to-orange-500/30 transition-all duration-300 border border-purple-500/30 hover:border-purple-400/50 hover:shadow-[0_0_15px_hsl(280_100%_60%/0.4)]"
+                  title="Instagram"
+                >
+                  <Instagram className="w-4 h-4 md:w-5 md:h-5 text-pink-400" />
+                </a>
+              )}
 
-              <a
-                href="https://www.tiktok.com/@game.store.zarzis?_r=1&_t=ZS-925SLkmPqV6"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 md:w-10 md:h-10 rounded-lg bg-black/40 flex items-center justify-center hover:bg-black/60 transition-all duration-300 border border-gray-700/50 hover:border-gray-600/70 hover:shadow-[0_0_15px_rgba(0,0,0,0.5)]"
-                title="TikTok"
-              >
-                <svg className="w-4 h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
-                </svg>
-              </a>
-              <a
-                href="https://wa.me/21629290065"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 md:w-10 md:h-10 rounded-lg bg-green-500/20 flex items-center justify-center hover:bg-green-500/30 transition-all duration-300 border border-green-500/30 hover:border-green-400/50 hover:shadow-[0_0_15px_hsl(142_71%_45%/0.4)]"
-                title={`${t("contact.phone")} : +216 29 290 065`}
-              >
-                <MessageCircle className="w-4 h-4 md:w-5 md:h-5 text-green-400" />
-              </a>
+              {tiktok && (
+                <a
+                  href={tiktok}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 md:w-10 md:h-10 rounded-lg bg-black/40 flex items-center justify-center hover:bg-black/60 transition-all duration-300 border border-gray-700/50 hover:border-gray-600/70 hover:shadow-[0_0_15px_rgba(0,0,0,0.5)]"
+                  title="TikTok"
+                >
+                  <svg className="w-4 h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
+                  </svg>
+                </a>
+              )}
+              
+              {whatsappPhone && (
+                <a
+                  href={`https://wa.me/${cleanWhatsapp}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 md:w-10 md:h-10 rounded-lg bg-green-500/20 flex items-center justify-center hover:bg-green-500/30 transition-all duration-300 border border-green-500/30 hover:border-green-400/50 hover:shadow-[0_0_15px_hsl(142_71%_45%/0.4)]"
+                  title={`${t("contact.phone")} : ${whatsappPhone}`}
+                >
+                  <MessageCircle className="w-4 h-4 md:w-5 md:h-5 text-green-400" />
+                </a>
+              )}
             </div>
           </div>
 

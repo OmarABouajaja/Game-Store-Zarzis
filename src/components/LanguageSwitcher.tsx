@@ -36,7 +36,12 @@ const LanguageSwitcher = ({ collapsed }: LanguageSwitcherProps) => {
             <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground group-hover:text-primary transition-colors stroke-1.5" />
           </button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent side="right" align="end" className="min-w-[120px] p-2 gap-1 shadow-xl border-border/50 bg-background/95 backdrop-blur-md rounded-xl">
+        <DropdownMenuContent 
+          side={document.documentElement.dir === 'rtl' ? "left" : "right"} 
+          align="end" 
+          sideOffset={15}
+          className="min-w-[120px] p-2 gap-1 shadow-xl border-border/50 bg-background/95 backdrop-blur-md rounded-xl"
+        >
           {languages.map((lang) => (
             <DropdownMenuItem
               key={lang.code}

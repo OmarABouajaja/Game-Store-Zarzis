@@ -767,6 +767,19 @@ export const translations: Translations = {
   "settings.display.tooltips.title": { fr: "Activer les info-bulles d'aide", en: "Enable Help Tooltips", ar: "تفعيل تلميحات المساعدة" },
   "settings.display.tooltips.desc": { fr: "Afficher des icônes de point d'interrogation (?) utiles avec des explications dans tout le tableau de bord.", en: "Show helpful question mark icons (?) with explanations throughout the dashboard.", ar: "إظهار أيقونات علامة الاستفهام (؟) المفيدة مع شروحات في جميع أنحاء لوحة التحكم." },
 
+  // Contact Settings
+  "settings.tabs.contact": { fr: "Contact", en: "Contact", ar: "تواصل" },
+  "settings.contact.title": { fr: "Informations de Contact", en: "Contact Information", ar: "معلومات الاتصال" },
+  "settings.contact.subtitle": { fr: "Gérez les informations de contact publiques affichées sur le site", en: "Manage the public contact information displayed on the website", ar: "إدارة معلومات الاتصال العامة المعروضة على الموقع" },
+  "settings.contact.phone": { fr: "Téléphone", en: "Phone", ar: "الهاتف" },
+  "settings.contact.whatsapp": { fr: "WhatsApp", en: "WhatsApp", ar: "واتساب" },
+  "settings.contact.email": { fr: "Email", en: "Email", ar: "البريد الإلكتروني" },
+  "settings.contact.address": { fr: "Adresse", en: "Address", ar: "العنوان" },
+  "settings.contact.locationLink": { fr: "Lien Google Maps", en: "Google Maps Link", ar: "رابط خرائط جوجل" },
+  "settings.contact.facebook": { fr: "Lien Facebook", en: "Facebook Link", ar: "رابط فيسبوك" },
+  "settings.contact.instagram": { fr: "Lien Instagram", en: "Instagram Link", ar: "رابط إنستغرام" },
+  "settings.contact.tiktok": { fr: "Lien TikTok", en: "TikTok Link", ar: "رابط تيك توك" },
+
   // Password Management
   "password.change_title": { fr: "Changer le mot de passe", en: "Change Password", ar: "تغيير كلمة المرور" },
   "password.new_password": { fr: "Nouveau mot de passe", en: "New Password", ar: "كلمة مرور جديدة" },

@@ -85,6 +85,7 @@ const StoreSettings = () => {
     notify_new_order: true,
     notify_low_stock: true,
     notify_daily_summary: false,
+    enable_shop_section: true,
     enable_service_section: true,
     enable_service_prices: true,
     contact_info: {
@@ -239,6 +240,7 @@ const StoreSettings = () => {
         tariff_display_mode: settings.tariff_display_mode ?? 'cards',
         data_limit_mb: settings.data_limit_mb ?? 450,
         daily_summary_time: settings.daily_summary_time ?? "22:00",
+        enable_shop_section: settings.enable_shop_section ?? true,
         enable_service_section: settings.enable_service_section ?? true,
         enable_service_prices: settings.enable_service_prices ?? true,
         special_hours: Array.isArray(settings.special_hours) ? (settings.special_hours as SpecialHour[]) : [],
@@ -311,6 +313,7 @@ const StoreSettings = () => {
         default_pricing_ps4: localSettings.default_pricing_ps4,
         default_pricing_ps5: localSettings.default_pricing_ps5,
         payment_methods_config: localSettings.payment_methods_config,
+        enable_shop_section: localSettings.enable_shop_section,
         enable_service_section: localSettings.enable_service_section,
         enable_service_prices: localSettings.enable_service_prices,
         contact_info: localSettings.contact_info
@@ -1555,6 +1558,19 @@ const StoreSettings = () => {
                     <Switch
                       checked={localSettings.help_tooltips_enabled}
                       onCheckedChange={(checked) => updateSetting('help_tooltips_enabled', checked)}
+                      className="data-[state=checked]:bg-primary data-[state=unchecked]:bg-slate-200 dark:data-[state=unchecked]:bg-slate-700 border-2 border-transparent data-[state=checked]:border-primary/20 hover:scale-105 transition-all duration-300 shadow-sm"
+                    />
+                  </div>
+                  <div className="border-t pt-6 flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label className="text-base">Enable Boutique Section</Label>
+                      <p className="text-sm text-muted-foreground">
+                        Show or hide the "Notre Boutique" section on the public homepage.
+                      </p>
+                    </div>
+                    <Switch
+                      checked={localSettings.enable_shop_section ?? true}
+                      onCheckedChange={(checked) => updateSetting('enable_shop_section', checked)}
                       className="data-[state=checked]:bg-primary data-[state=unchecked]:bg-slate-200 dark:data-[state=unchecked]:bg-slate-700 border-2 border-transparent data-[state=checked]:border-primary/20 hover:scale-105 transition-all duration-300 shadow-sm"
                     />
                   </div>

@@ -1,7 +1,8 @@
 import { useEffect, useState, useMemo, useCallback, type ElementType } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Gamepad2, Home, Wrench, Gamepad2 as Pad, Info, PhoneCall, CalendarClock, Menu, X, BookOpen, User, ShoppingCart, Settings, LayoutDashboard } from "lucide-react";
+import { Home, Wrench, Gamepad2 as Pad, Info, PhoneCall, CalendarClock, Menu, X, User, ShoppingCart, LayoutDashboard } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useData } from "@/contexts/DataContext";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
 import LanguageSwitcher from "./LanguageSwitcher";
@@ -57,7 +58,6 @@ type SectionId = "home" | "services" | "lounge" | "products" | "about" | "contac
 const SECTION_IDS: SectionId[] = ["home", "services", "lounge", "products", "about", "contact"];
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<SectionId>("home");
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -78,17 +78,31 @@ const Navbar = () => {
     return false;
   });
   const { t, dir } = useLanguage();
+  const { settings } = useData();
   const isRTL = dir === 'rtl';
   const { cartCount } = useCart();
 
-  const navLinks: { name: string; href: string; icon: ElementType; id: string }[] = useMemo(() => [
-    { name: t("nav.home"), href: "#home", icon: Home, id: "home" },
-    { name: t("nav.shop"), href: "#products", icon: ShoppingCart, id: "products" },
-    { name: t("nav.services"), href: "#services", icon: Wrench, id: "services" },
-    { name: t("nav.gaming"), href: "#lounge", icon: Pad, id: "lounge" },
-    { name: t("nav.about"), href: "#about", icon: Info, id: "about" },
-    { name: t("nav.contact"), href: "#contact", icon: PhoneCall, id: "contact" },
-  ], [t]);
+  const navLinks: { name: string; href: string; icon: ElementType; id: string }[] = useMemo(() => {
+    const links = [
+      { name: t("nav.home"), href: "#home", icon: Home, id: "home" }
+    ];
+    
+    if (settings?.enable_shop_section !== false) {
+      links.push({ name: t("nav.shop"), href: "#products", icon: ShoppingCart, id: "products" });
+    }
+    
+    if (settings?.enable_service_section !== false) {
+      links.push({ name: t("nav.services"), href: "#services", icon: Wrench, id: "services" });
+    }
+    
+    links.push(
+      { name: t("nav.gaming"), href: "#lounge", icon: Pad, id: "lounge" },
+      { name: t("nav.about"), href: "#about", icon: Info, id: "about" },
+      { name: t("nav.contact"), href: "#contact", icon: PhoneCall, id: "contact" }
+    );
+    
+    return links;
+  }, [t, settings]);
 
   useEffect(() => {
     let ticking = false;
@@ -158,17 +172,6 @@ const Navbar = () => {
 
   const toggleExpanded = useCallback(() => {
     setExpanded(prev => !prev);
-  }, []);
-
-  const handleFocus = useCallback(() => {
-    if (window.innerWidth >= 1024) {
-      setExpanded(true);
-    }
-  }, []);
-
-  const handleBlur = useCallback(() => {
-    // Don't collapse on blur immediately - let mouse leave handle it
-    // This prevents flickering when clicking inside
   }, []);
 
   // Mobile bottom navigation (phone only)

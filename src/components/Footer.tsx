@@ -1,11 +1,12 @@
-import { Gamepad2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useData } from "@/contexts/DataContext";
 import { memo } from "react";
 import { CreatorCredit } from "@/components/CreatorCredit";
 
 const Footer = () => {
   const { t } = useLanguage();
+  const { settings } = useData();
 
   return (
     <footer className="py-8 md:py-12 pb-24 md:pb-12 border-t border-border/50 bg-card/60 backdrop-blur-sm">
@@ -31,9 +32,16 @@ const Footer = () => {
 
           {/* Navigation Links */}
           <div className="flex items-center gap-4 md:gap-8 flex-wrap justify-center">
-            <a href="#services" className="text-muted-foreground hover:text-primary transition-colors text-xs md:text-sm hover:underline">
-              {t("nav.services")}
-            </a>
+            {settings?.enable_shop_section !== false && (
+              <a href="#products" className="text-muted-foreground hover:text-primary transition-colors text-xs md:text-sm hover:underline">
+                {t("nav.shop")}
+              </a>
+            )}
+            {settings?.enable_service_section !== false && (
+              <a href="#services" className="text-muted-foreground hover:text-primary transition-colors text-xs md:text-sm hover:underline">
+                {t("nav.services")}
+              </a>
+            )}
             <a href="#lounge" className="text-muted-foreground hover:text-primary transition-colors text-xs md:text-sm hover:underline">
               {t("nav.gaming")}
             </a>

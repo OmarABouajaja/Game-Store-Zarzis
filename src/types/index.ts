@@ -169,6 +169,7 @@ export interface StoreSettings {
   notify_new_order?: boolean;
   notify_low_stock?: boolean;
   notify_daily_summary?: boolean;
+  enable_shop_section?: boolean;
   enable_service_section?: boolean;
   enable_service_prices?: boolean;
   payment_methods_config?: {

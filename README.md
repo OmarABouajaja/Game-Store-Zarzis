@@ -187,7 +187,7 @@ This project is deployed using:
 | Service | Purpose | URL |
 |---------|---------|-----|
 | **Cloudflare Pages** | Frontend Hosting | [gamestorezarzis.com.tn](https://www.gamestorezarzis.com.tn/) |
-| **Render** | Backend API (Python) | [bck.gamestorezarzis.com.tn](https://bck.gamestorezarzis.com.tn/) |
+| **Cloudflare Workers** | Backend API (TypeScript/Hono) | [bck.gamestorezarzis.com.tn](https://bck.gamestorezarzis.com.tn/) |
 | **Supabase** | Database + Auth | PostgreSQL + Realtime |
 | **Resend** | Email Service | Transactional emails |
 

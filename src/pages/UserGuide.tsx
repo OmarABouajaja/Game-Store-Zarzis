@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Book, Shield, Monitor, Gamepad2, Users, DollarSign, Settings, Bell, ShoppingBag, Truck, Receipt } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Book, Shield, Monitor, Gamepad2, Users, ShoppingBag, Truck, Receipt, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 // User Guide Content
 const guideContent = {
     fr: {
-        title: "Guide Utilisateur Complet",
+        title: "Guide Utilisateur",
         sections: {
             dashboard: "Tableau de Bord",
             sessions: "Sessions",
@@ -27,7 +27,7 @@ const guideContent = {
                 },
                 {
                     title: "Changement de Langue",
-                    text: "Utilisez le sélecteur dans la barre de navigation pour basculer entre Français, Anglais et Arabe. L'interface s'adapte automatiquement (LTR/RTL)."
+                    text: "Utilisez le sélecteur dans la barre de navigation pour basculer entre Français, Anglais et Arabe. L'interface s'adapte automatiquement."
                 }
             ],
             sessions: [
@@ -41,7 +41,7 @@ const guideContent = {
                 },
                 {
                     title: "Jeu Gratuit",
-                    text: "Après un certain nombre de parties (ex: 5), une partie gratuite est automatiquement déduite du total."
+                    text: "Après un certain nombre de parties, une partie gratuite est automatiquement déduite du total."
                 }
             ],
             clients: [
@@ -67,7 +67,7 @@ const guideContent = {
             expenses: [
                 {
                     title: "Suivi des Charges",
-                    text: "Enregistrez vos dépenses dans l'onglet 'Dépenses'. Distinguez les charges quotidiennes (ex: nettoyage) des charges mensuelles (ex: loyer, électricité)."
+                    text: "Enregistrez vos dépenses dans l'onglet 'Dépenses'. Distinguez les charges quotidiennes des charges mensuelles."
                 },
                 {
                     title: "Calcul Marge",
@@ -93,7 +93,7 @@ const guideContent = {
         }
     },
     en: {
-        title: "Complete User Guide",
+        title: "User Guide",
         sections: {
             dashboard: "Dashboard",
             sessions: "Sessions",
@@ -111,7 +111,7 @@ const guideContent = {
                 },
                 {
                     title: "Changing Language",
-                    text: "Use the selector in the navbar to switch between French, English, and Arabic. The interface adapts automatically (LTR/RTL)."
+                    text: "Use the selector in the navbar to switch between French, English, and Arabic. The interface adapts automatically."
                 }
             ],
             sessions: [
@@ -135,7 +135,7 @@ const guideContent = {
                 },
                 {
                     title: "Loyalty Points",
-                    text: "Every dinar spent earns points (configurable). Clients can redeem these points for free sessions."
+                    text: "Every dinar spent earns points. Clients can redeem these points for free sessions."
                 }
             ],
             products: [
@@ -145,13 +145,13 @@ const guideContent = {
                 },
                 {
                     title: "Low Stock Alerts",
-                    text: "If a product reaches critical level (< 5 units), an alert appears on the Dashboard."
+                    text: "If a product reaches critical level, an alert appears on the Dashboard."
                 }
             ],
             expenses: [
                 {
                     title: "Expense Tracking",
-                    text: "Record expenses in the 'Expenses' tab. Distinguish daily costs (e.g., cleaning) from monthly ones (e.g., rent, utilities)."
+                    text: "Record expenses in the 'Expenses' tab. Distinguish daily costs from monthly ones."
                 },
                 {
                     title: "Margin Calculation",
@@ -177,7 +177,7 @@ const guideContent = {
         }
     },
     ar: {
-        title: "دليل المستخدم الشامل",
+        title: "دليل المستخدم",
         sections: {
             dashboard: "لوحة التحكم",
             sessions: "الجلسات",
@@ -191,11 +191,11 @@ const guideContent = {
             dashboard: [
                 {
                     title: "نظرة عامة",
-                    text: "لوحة التحكم هي مركز القيادة الخاص بك. تعرض المؤشرات الرئيسية في الوقت الفعلي (الإيرادات، الجلسات النشطة، تنبيهات المخزون)."
+                    text: "لوحة التحكم هي مركز القيادة الخاص بك. تعرض المؤشرات الرئيسية في الوقت الفعلي."
                 },
                 {
                     title: "تغيير اللغة",
-                    text: "استخدم المحدد في شريط التنقل للتبديل بين الفرنسية، الإنجليزية والعربية. تتكيف الواجهة تلقائيًا (يمين لليسار)."
+                    text: "استخدم المحدد في شريط التنقل للتبديل بين اللغات. تتكيف الواجهة تلقائيًا."
                 }
             ],
             sessions: [
@@ -205,11 +205,11 @@ const guideContent = {
                 },
                 {
                     title: "إنهاء الجلسة",
-                    text: "انقر فوق 'إنهاء'. يقوم النظام بحساب الإجمالي (الوقت + الاستهلاكات). يمكنك الاختيار بين عدد الألعاب الفعلي أو المقترح."
+                    text: "انقر فوق 'إنهاء'. يقوم النظام بحساب الإجمالي (الوقت + الاستهلاكات)."
                 },
                 {
                     title: "لعبة مجانية",
-                    text: "بعد عدد X من الألعاب (قابل للتكوين)، يتم خصم 'لعبة مجانية' تلقائيًا من المجموع."
+                    text: "بعد عدد X من الألعاب، يتم خصم 'لعبة مجانية' تلقائيًا من المجموع."
                 }
             ],
             clients: [
@@ -229,13 +229,13 @@ const guideContent = {
                 },
                 {
                     title: "تنبيهات المخزون المنخفض",
-                    text: "إذا وصل المنتج إلى مستوى حرج (< 5 وحدات)، يظهر تنبيه على لوحة التحكم."
+                    text: "إذا وصل المنتج إلى مستوى حرج، يظهر تنبيه على لوحة التحكم."
                 }
             ],
             expenses: [
                 {
                     title: "تتبع المصاريف",
-                    text: "سجل مصاريفك في تبويب 'المصاريف'. ميز بين المصاريف اليومية (مثل التنظيف) والشهرية (مثل الإيجار والكهرباء)."
+                    text: "سجل مصاريفك في تبويب 'المصاريف'. ميز بين المصاريف اليومية والشهرية."
                 },
                 {
                     title: "حساب الربح",
@@ -249,13 +249,13 @@ const guideContent = {
                 },
                 {
                     title: "التوصيل",
-                    text: "إدارة التوصيل المحلي أو عبر البريد السريع. تضاف رسوم التوصيل إلى المجموع."
+                    text: "إدارة التوصيل المحلي. تضاف رسوم التوصيل إلى المجموع."
                 }
             ],
             security: [
                 {
                     title: "تصريح محطة العمل",
-                    text: "للأمان، قم بتعيين هذا الكمبيوتر كـ 'محطة مصرح بها' في الإعدادات. هذا يفعل تسجيل حضور الموظفين تلقائيًا."
+                    text: "قم بتعيين هذا الكمبيوتر كـ 'محطة مصرح بها' في الإعدادات لتفعيل تسجيل حضور الموظفين تلقائيًا."
                 }
             ]
         }
@@ -263,51 +263,136 @@ const guideContent = {
 };
 
 const UserGuide = () => {
-    const { language, dir } = useLanguage();
+    const { language } = useLanguage();
     const content = guideContent[language] || guideContent.fr;
-    const isRTL = dir === 'rtl';
+    const [activeTab, setActiveTab] = useState("dashboard");
+
+    const tabs = [
+        { id: "dashboard", icon: Monitor, label: content.sections.dashboard },
+        { id: "sessions", icon: Gamepad2, label: content.sections.sessions },
+        { id: "clients", icon: Users, label: content.sections.clients },
+        { id: "products", icon: ShoppingBag, label: content.sections.products },
+        { id: "expenses", icon: Receipt, label: content.sections.expenses },
+        { id: "orders", icon: Truck, label: content.sections.orders },
+        { id: "security", icon: Shield, label: content.sections.security },
+    ];
 
     return (
-        <div className="min-h-screen bg-background pb-20">
+        <div className="min-h-screen bg-background pb-20 selection:bg-primary/30 font-sans">
             <Navbar />
-
-            <div className="max-w-6xl mx-auto px-4 py-8 pt-24">
-                <div className="flex items-center gap-3 mb-8">
-                    <Book className="w-8 h-8 text-primary" />
-                    <h1 className="text-3xl font-bold font-display">{content.title}</h1>
+            
+            {/* Hero Section */}
+            <div className="relative pt-24 pb-12 overflow-hidden border-b border-white/5">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-accent/10" />
+                <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay pointer-events-none" />
+                <div className="max-w-6xl mx-auto px-4 relative z-10">
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="flex flex-col items-center text-center gap-4"
+                    >
+                        <div className="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center border border-primary/30 shadow-[0_0_30px_hsl(var(--primary)/0.3)] mb-2">
+                            <Book className="w-8 h-8 text-primary" />
+                        </div>
+                        <h1 className="text-4xl md:text-5xl font-bold font-display tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70">
+                            {content.title}
+                        </h1>
+                        <p className="text-muted-foreground max-w-2xl text-lg">
+                            {language === 'fr' ? "Découvrez comment utiliser le système de gestion pour optimiser votre espace gaming." : 
+                             language === 'en' ? "Learn how to use the management system to optimize your gaming lounge." : 
+                             "تعرف على كيفية استخدام نظام الإدارة لتحسين مساحة الألعاب الخاصة بك."}
+                        </p>
+                    </motion.div>
                 </div>
+            </div>
 
-                <Tabs defaultValue="dashboard" className="w-full">
-                    <TabsList className="flex flex-wrap h-auto p-1 bg-muted/50 mb-6 w-full justify-start gap-2">
-                        <TabsTrigger value="dashboard" className="gap-2"><Monitor className="w-4 h-4" /> {content.sections.dashboard}</TabsTrigger>
-                        <TabsTrigger value="sessions" className="gap-2"><Gamepad2 className="w-4 h-4" /> {content.sections.sessions}</TabsTrigger>
-                        <TabsTrigger value="clients" className="gap-2"><Users className="w-4 h-4" /> {content.sections.clients}</TabsTrigger>
-                        <TabsTrigger value="products" className="gap-2"><ShoppingBag className="w-4 h-4" /> {content.sections.products}</TabsTrigger>
-                        <TabsTrigger value="expenses" className="gap-2"><Receipt className="w-4 h-4" /> {content.sections.expenses}</TabsTrigger>
-                        <TabsTrigger value="orders" className="gap-2"><Truck className="w-4 h-4" /> {content.sections.orders}</TabsTrigger>
-                        <TabsTrigger value="security" className="gap-2"><Shield className="w-4 h-4" /> {content.sections.security}</TabsTrigger>
-                    </TabsList>
+            <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
+                <div className="flex flex-col lg:flex-row gap-8 items-start">
+                    
+                    {/* Navigation Sidebar */}
+                    <div className="w-full lg:w-72 flex-shrink-0 lg:sticky lg:top-24 z-10">
+                        {/* Mobile Scrollable horizontal list, Desktop vertical list */}
+                        <div className="flex lg:flex-col gap-2 overflow-x-auto pb-4 lg:pb-0 scrollbar-none snap-x" style={{ scrollbarWidth: 'none' }}>
+                            {tabs.map((tab) => {
+                                const isActive = activeTab === tab.id;
+                                const Icon = tab.icon;
+                                return (
+                                    <button
+                                        key={tab.id}
+                                        onClick={() => setActiveTab(tab.id)}
+                                        className={cn(
+                                            "flex items-center gap-3 px-4 py-3.5 rounded-xl font-medium transition-all duration-300 whitespace-nowrap snap-start text-sm md:text-base",
+                                            isActive 
+                                                ? "bg-primary/10 text-primary shadow-[0_0_20px_hsl(var(--primary)/0.15)] border border-primary/30 scale-[1.02]" 
+                                                : "bg-card/30 text-muted-foreground hover:bg-card/80 hover:text-white border border-transparent hover:border-white/5"
+                                        )}
+                                    >
+                                        <Icon className={cn("w-5 h-5", isActive ? "text-primary drop-shadow-[0_0_8px_rgba(var(--primary),0.5)]" : "text-muted-foreground opacity-70")} />
+                                        <span>{tab.label}</span>
+                                        {isActive && <ChevronRight className="w-4 h-4 ms-auto hidden lg:block opacity-50" />}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
 
-                    <ScrollArea className="h-[600px] rounded-md border p-4 bg-card/50 backdrop-blur-sm">
-                        {Object.keys(content.content).map((key) => (
-                            <TabsContent key={key} value={key} className="mt-0 space-y-4">
-                                {content.content[key as keyof typeof content.content].map((item: any, idx: number) => (
-                                    <Card key={idx} className="glass-card">
-                                        <CardHeader>
-                                            <CardTitle className="text-lg text-primary flex items-center gap-2">
-                                                <div className="w-2 h-2 rounded-full bg-primary" />
-                                                {item.title}
-                                            </CardTitle>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <p className="text-muted-foreground">{item.text}</p>
-                                        </CardContent>
-                                    </Card>
-                                ))}
-                            </TabsContent>
-                        ))}
-                    </ScrollArea>
-                </Tabs>
+                    {/* Content Area */}
+                    <div className="flex-1 min-w-0 w-full">
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={activeTab}
+                                initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
+                                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                                exit={{ opacity: 0, y: -10, filter: "blur(4px)" }}
+                                transition={{ duration: 0.3 }}
+                                className="space-y-6"
+                            >
+                                <div className="mb-8">
+                                    <h2 className="text-2xl md:text-3xl font-bold font-display flex items-center gap-3">
+                                        <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20 shadow-inner">
+                                            {(() => {
+                                                const activeIcon = tabs.find(t => t.id === activeTab)?.icon || Book;
+                                                const Icon = activeIcon;
+                                                return <Icon className="w-6 h-6 text-primary" />;
+                                            })()}
+                                        </div>
+                                        {tabs.find(t => t.id === activeTab)?.label}
+                                    </h2>
+                                    <div className="h-1 w-24 bg-gradient-to-r from-primary/80 to-transparent mt-5 rounded-full" />
+                                </div>
+
+                                <div className="grid gap-6">
+                                    {content.content[activeTab as keyof typeof content.content]?.map((item: any, idx: number) => (
+                                        <motion.div
+                                            key={idx}
+                                            initial={{ opacity: 0, scale: 0.98 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            transition={{ delay: idx * 0.1, duration: 0.4 }}
+                                        >
+                                            <Card className="glass-card overflow-hidden group border-white/5 hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 bg-gradient-to-br from-card/40 to-background/40">
+                                                {/* Animated gradient border top */}
+                                                <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-700" />
+                                                <CardHeader className="pb-3">
+                                                    <CardTitle className="text-lg md:text-xl text-white flex items-center gap-3">
+                                                        <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10 text-primary font-bold text-sm border border-primary/20 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
+                                                            {idx + 1}
+                                                        </div>
+                                                        {item.title}
+                                                    </CardTitle>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <p className="text-muted-foreground leading-relaxed text-sm md:text-base ps-11">
+                                                        {item.text}
+                                                    </p>
+                                                </CardContent>
+                                            </Card>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            </motion.div>
+                        </AnimatePresence>
+                    </div>
+                </div>
             </div>
         </div>
     );

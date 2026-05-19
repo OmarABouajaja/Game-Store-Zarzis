@@ -26,12 +26,50 @@ const Contact = () => {
     message: "",
   });
 
-  const handleSubmit = useCallback((e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const message = `*${t("contact.form.title")}*\n\n*${t("contact.form.name")}:* ${formData.name}\n*${t("contact.form.email")}:* ${formData.email}\n*${t("contact.form.subject")}:* ${formData.subject}\n\n*${t("contact.form.message")}:*\n${formData.message}`;
-    const encodedMessage = encodeURIComponent(message);
-    window.open(`https://wa.me/${cleanWhatsapp}?text=${encodedMessage}`, "_blank");
-  }, [formData, t, cleanWhatsapp]);
+    setIsSubmitting(true);
+    
+    try {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://bck.gamestorezarzis.com.tn';
+      
+      const payload = {
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+        message: formData.message
+      };
+
+      // Call Cloudflare Worker API
+      const res = await fetch(`${backendUrl}/email/contact-form`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to send contact email");
+      }
+      
+      // WhatsApp Fallback (Option A)
+      const message = `*${t("contact.form.title")}*\n\n*${t("contact.form.name")}:* ${formData.name}\n*${t("contact.form.email")}:* ${formData.email}\n*${t("contact.form.subject")}:* ${formData.subject}\n\n*${t("contact.form.message")}:*\n${formData.message}`;
+      const encodedMessage = encodeURIComponent(message);
+      window.open(`https://wa.me/${cleanWhatsapp}?text=${encodedMessage}`, "_blank");
+      
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch (error) {
+      console.error("Error sending contact email:", error);
+      
+      // WhatsApp Fallback if API fails
+      const message = `*${t("contact.form.title")}*\n\n*${t("contact.form.name")}:* ${formData.name}\n*${t("contact.form.email")}:* ${formData.email}\n*${t("contact.form.subject")}:* ${formData.subject}\n\n*${t("contact.form.message")}:*\n${formData.message}`;
+      const encodedMessage = encodeURIComponent(message);
+      window.open(`https://wa.me/${cleanWhatsapp}?text=${encodedMessage}`, "_blank");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({
@@ -251,10 +289,17 @@ const Contact = () => {
               </div>
               <button
                 type="submit"
+                disabled={isSubmitting}
                 className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm sm:text-base font-semibold h-10 sm:h-11 px-6 sm:px-7 bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90 shadow-[0_0_16px_hsl(var(--primary)/0.4)] transition-all duration-300 w-full touch-manipulation min-h-[40px] active:scale-[0.98]"
               >
-                <MessageCircle className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
-                {t("contact.form.send")}
+                {isSubmitting ? (
+                  <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                ) : (
+                  <>
+                    <MessageCircle className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+                    {t("contact.form.send")}
+                  </>
+                )}
               </button>
             </form>
           </div>

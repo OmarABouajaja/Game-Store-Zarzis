@@ -172,6 +172,7 @@ export interface StoreSettings {
   enable_shop_section?: boolean;
   enable_service_section?: boolean;
   enable_service_prices?: boolean;
+  enable_client_auth?: boolean;
   payment_methods_config?: {
     bank_transfer?: { enabled: boolean; details: string };
     d17?: { enabled: boolean; details: string };

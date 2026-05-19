@@ -88,6 +88,7 @@ const StoreSettings = () => {
     enable_shop_section: true,
     enable_service_section: true,
     enable_service_prices: true,
+    enable_client_auth: true,
     contact_info: {
       phone: '',
       whatsapp: '',
@@ -243,6 +244,7 @@ const StoreSettings = () => {
         enable_shop_section: settings.enable_shop_section ?? true,
         enable_service_section: settings.enable_service_section ?? true,
         enable_service_prices: settings.enable_service_prices ?? true,
+        enable_client_auth: settings.enable_client_auth ?? true,
         special_hours: Array.isArray(settings.special_hours) ? (settings.special_hours as SpecialHour[]) : [],
         theme_primary: settings.theme_primary ?? '185 100% 50%',
         theme_secondary: settings.theme_secondary ?? '320 100% 60%',
@@ -316,6 +318,7 @@ const StoreSettings = () => {
         enable_shop_section: localSettings.enable_shop_section,
         enable_service_section: localSettings.enable_service_section,
         enable_service_prices: localSettings.enable_service_prices,
+        enable_client_auth: localSettings.enable_client_auth,
         contact_info: localSettings.contact_info
       };
 
@@ -1598,6 +1601,20 @@ const StoreSettings = () => {
                     <Switch
                       checked={localSettings.enable_service_prices ?? true}
                       onCheckedChange={(checked) => updateSetting('enable_service_prices', checked)}
+                      className="data-[state=checked]:bg-primary data-[state=unchecked]:bg-slate-200 dark:data-[state=unchecked]:bg-slate-700 border-2 border-transparent data-[state=checked]:border-primary/20 hover:scale-105 transition-all duration-300 shadow-sm"
+                    />
+                  </div>
+
+                  <div className="border-t pt-6 flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label className="text-base">Enable Client Portal</Label>
+                      <p className="text-sm text-muted-foreground">
+                        Show or hide the client features, including login/dashboard and homepage stats.
+                      </p>
+                    </div>
+                    <Switch
+                      checked={localSettings.enable_client_auth ?? true}
+                      onCheckedChange={(checked) => updateSetting('enable_client_auth', checked)}
                       className="data-[state=checked]:bg-primary data-[state=unchecked]:bg-slate-200 dark:data-[state=unchecked]:bg-slate-700 border-2 border-transparent data-[state=checked]:border-primary/20 hover:scale-105 transition-all duration-300 shadow-sm"
                     />
                   </div>

@@ -5,12 +5,14 @@ import { memo, useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useStoreSettings } from "@/hooks/useStoreSettings";
+import { ServiceBookingModal } from "@/components/ServiceBookingModal";
 
 const Services = () => {
   const { t, language } = useLanguage();
   const { data: storeSettings } = useStoreSettings();
   const { services: dynamicServices } = useData();
   const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [selectedService, setSelectedService] = useState<{name: string, category: string} | null>(null);
 
   const categories = [
     { id: "all", label: t("services.filter.all"), icon: Filter },
@@ -156,12 +158,19 @@ const Services = () => {
                       </div>
                     )}
 
-                    <a href="#contact" className="relative group/btn overflow-hidden rounded-xl">
+                    <div className="relative group/btn overflow-hidden rounded-xl">
                       <div className="absolute inset-0 bg-primary opacity-20 group-hover/btn:opacity-30 transition-opacity" />
-                      <Button variant="ghost" className="relative z-10 font-bold text-xs sm:text-sm px-5 py-2 h-auto text-primary border border-primary/30 group-hover/btn:border-primary transition-all">
+                      <Button 
+                        variant="ghost" 
+                        onClick={() => setSelectedService({
+                          name: language === 'ar' ? (service.name_ar || service.name) : (language === 'fr' ? (service.name_fr || service.name) : service.name),
+                          category: service.category || "Général"
+                        })}
+                        className="relative z-10 font-bold text-xs sm:text-sm px-5 py-2 h-auto text-primary border border-primary/30 group-hover/btn:border-primary transition-all"
+                      >
                         {t("services.book_now")}
                       </Button>
-                    </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -169,6 +178,15 @@ const Services = () => {
           ))}
         </div>
       </div>
+      
+      {selectedService && (
+        <ServiceBookingModal
+          isOpen={!!selectedService}
+          onClose={() => setSelectedService(null)}
+          serviceName={selectedService.name}
+          serviceCategory={selectedService.category}
+        />
+      )}
     </section >
   );
 };

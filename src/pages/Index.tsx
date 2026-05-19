@@ -73,7 +73,7 @@ const Index = () => {
         <main id="main-content">
         <Navbar />
         <Hero />
-        <ClientHomeStats />
+        {storeSettings?.enable_client_auth !== false && <ClientHomeStats />}
         <Suspense fallback={null}>
           <ProductsShowcase />
         </Suspense>

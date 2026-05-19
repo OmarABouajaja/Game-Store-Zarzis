@@ -211,6 +211,7 @@ const Navbar = () => {
 
             {/* Added Cart Link for Mobile */}
             {(() => {
+              if (settings?.enable_shop_section === false) return null;
               const isCartActive = location.pathname === "/checkout";
               return (
                 <Link
@@ -241,6 +242,7 @@ const Navbar = () => {
         <div className={`fixed top-2 z-40 flex flex-col gap-1.5 items-end bg-background/80 backdrop-blur-md rounded-xl p-1.5 border border-border/30 shadow-lg ${isRTL ? 'start-2' : 'end-2'}`}>
           {/* Login Button Mobile */}
           {(() => {
+            if (settings?.enable_client_auth === false && !isStaff && !isOwner) return null;
             const isLoggedIn = isStaff || isOwner || !!localStorage.getItem('client_user');
             return (
               <Link
@@ -372,6 +374,7 @@ const Navbar = () => {
 
           {/* Cart Link */}
           {(() => {
+            if (settings?.enable_shop_section === false) return null;
             const isCartActive = location.pathname === "/checkout";
             return (
               <Link
@@ -427,6 +430,7 @@ const Navbar = () => {
             <div className="flex flex-col gap-2 pt-1.5 sm:pt-2 border-t border-border/50">
               {/* Login Button Desktop */}
               {(() => {
+                if (settings?.enable_client_auth === false && !isStaff && !isOwner) return null;
                 const isLoggedIn = isStaff || isOwner || !!localStorage.getItem('client_user');
                 return (
                   <Link

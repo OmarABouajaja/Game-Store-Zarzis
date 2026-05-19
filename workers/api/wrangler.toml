@@ -1,0 +1,38 @@
+name = "game-store-zarzis-api"
+main = "src/index.ts"
+compatibility_date = "2025-05-15"
+compatibility_flags = ["nodejs_compat"]
+
+# Custom domain — point bck.gamestorezarzis.com.tn here
+# After deploying, add a Custom Domain in Cloudflare Dashboard:
+#   Workers & Pages → game-store-zarzis-api → Settings → Domains & Routes
+#   Add: bck.gamestorezarzis.com.tn
+
+# Production environment variables (non-secret)
+[vars]
+ENVIRONMENT = "production"
+FROM_EMAIL = "onboarding@resend.dev"
+FROM_NAME = "Game Store Zarzis"
+FRONTEND_URL = "https://www.gamestorezarzis.com.tn"
+STORE_EMAIL = "game.store.zarzis@gmail.com"
+
+# Secrets — set via: wrangler secret put <NAME>
+# Required secrets:
+#   SUPABASE_URL
+#   SUPABASE_SERVICE_KEY
+#   RESEND_API_KEY
+#   SMS_API_KEY (optional)
+#   SMS_PROVIDER_URL (optional)
+
+# Rate limiting via Cloudflare Dashboard is recommended.
+# The Worker also implements in-memory per-request checks as a safety net.
+
+# Staging environment for testing before going live
+[env.staging]
+name = "game-store-zarzis-api-staging"
+[env.staging.vars]
+ENVIRONMENT = "staging"
+FROM_EMAIL = "onboarding@resend.dev"
+FROM_NAME = "Game Store Zarzis (Staging)"
+FRONTEND_URL = "https://www.gamestorezarzis.com.tn"
+STORE_EMAIL = "game.store.zarzis@gmail.com"
